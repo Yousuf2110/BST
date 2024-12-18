@@ -26,7 +26,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
 
-function CreateAccount() {
+function PinRequest() {
   const [formData, setFormData] = useState({
     username: "",
     pinToken: "",
@@ -69,10 +69,10 @@ function CreateAccount() {
         >
           <MDBox textAlign="center" mb={3}>
             <MDTypography variant="h4" fontWeight="bold" color="textPrimary" gutterBottom>
-              Create Account
+              PIN Request
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              Join us and get started!
+              A Quick PIN for Safer Access
             </MDTypography>
           </MDBox>
 
@@ -81,7 +81,7 @@ function CreateAccount() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Username"
+                  label="Account #"
                   name="username"
                   variant="outlined"
                   value={formData.username}
@@ -94,8 +94,8 @@ function CreateAccount() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Pin/Token"
-                  name="pinToken"
+                  label="Trx ID"
+                  name="trxId"
                   variant="outlined"
                   value={formData.pinToken}
                   onChange={handleChange}
@@ -107,72 +107,15 @@ function CreateAccount() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Email Address"
-                  name="email"
-                  type="email"
+                  label="Amount"
+                  name="amount"
+                  type="number"
                   variant="outlined"
                   value={formData.email}
                   onChange={handleChange}
                   InputProps={{
                     startAdornment: <EmailIcon sx={{ mr: 1 }} />,
                   }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Phone Number"
-                  name="number"
-                  type="number"
-                  variant="outlined"
-                  value={formData.number}
-                  onChange={handleChange}
-                  InputProps={{
-                    startAdornment: <PhoneIcon sx={{ mr: 1 }} />,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Under User ID"
-                  name="underUserId"
-                  variant="outlined"
-                  value={formData.underUserId}
-                  onChange={handleChange}
-                  InputProps={{
-                    startAdornment: <PersonIcon sx={{ mr: 1 }} />,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl fullWidth sx={{ height: "70px" }}>
-                  <InputLabel>Direction</InputLabel>
-                  <Select
-                    name="direction"
-                    value={formData.direction}
-                    onChange={handleChange}
-                    sx={{
-                      height: "40px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <MenuItem value="right">Right</MenuItem>
-                    <MenuItem value="left">Left</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={formData.termsAccepted}
-                      onChange={handleCheckboxChange}
-                      name="termsAccepted"
-                    />
-                  }
-                  label="I accept the Terms and Conditions"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -204,4 +147,4 @@ function CreateAccount() {
   );
 }
 
-export default CreateAccount;
+export default PinRequest;

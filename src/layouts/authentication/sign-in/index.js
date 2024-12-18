@@ -13,8 +13,6 @@ import bgImage from "assets/images/logo.png";
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
-
   return (
     <BasicLayout>
       <Card>
@@ -42,7 +40,7 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput type="username" label="User Name" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" label="Password" fullWidth />
