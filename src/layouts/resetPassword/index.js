@@ -60,7 +60,9 @@ function ResetPassword() {
               Reset Password
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              Recover Your Account with a New Password
+              اہم نوٹ : یاد رکھیں جس اکاؤنٹ کا پاسورڈ ریسیٹ کرنا ہے اس ہی اکاؤنٹ نمبر سے 30 روپے
+              کمپنی کے نمبر پر بھیج کر ریکوسٹ لگائیں جعلی ریکوسٹ لگانے پر آپ کی پاسورڈ ریسیٹ کی سروس
+              معطل ہو جائے گی
             </MDTypography>
           </MDBox>
 
@@ -69,7 +71,7 @@ function ResetPassword() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Old Password"
+                  label="Email"
                   name="oldPassword"
                   variant="outlined"
                   value={formData.oldPassword}
@@ -83,7 +85,7 @@ function ResetPassword() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="New Password"
+                  label="Trx Id"
                   name="newPassword"
                   variant="outlined"
                   value={formData.newPassword}
@@ -97,9 +99,10 @@ function ResetPassword() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Confirm Password"
-                  name="confirmPassword"
+                  label="Register account number "
+                  name="Trx Id"
                   variant="outlined"
+                  placeholder="جس اکاؤنٹ نمبر سے پیمنٹ بھیجی ہے وہ لکھیں"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   InputProps={{
@@ -125,7 +128,7 @@ function ResetPassword() {
                       },
                     }}
                   >
-                    Reset Password
+                    Request Password Reset
                   </Button>
                 </MDBox>
               </Grid>

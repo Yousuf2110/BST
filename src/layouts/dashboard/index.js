@@ -12,62 +12,38 @@ function Dashboard() {
     <DashboardLayout>
       <MDBox py={3}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Current Income"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
-                }}
-              />
+              <ComplexStatisticsCard icon="leaderboard" title="Current Income" count="2,300" />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="success"
                 icon="store"
                 title="Reward Income"
                 count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="primary"
                 icon="person_add"
                 title="Total Income"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
+                count="91"
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="dark"
                 icon="person_add"
                 title="Available Pins"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
+                count="391"
               />
             </MDBox>
           </Grid>

@@ -2,13 +2,11 @@ import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import ViewTree from "layouts/viewTree";
 import ResetPassword from "layouts/resetPassword";
-import RTL from "layouts/rtl";
 import PinRequest from "layouts/pinRequest";
 import ChangePassword from "layouts/changePassword";
-import Notifications from "layouts/notifications";
+import ProductList from "layouts/productList";
 import RewardList from "layouts/rewardList";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
@@ -28,7 +26,7 @@ const routes = [
     type: "collapse",
     name: "Withdraw History",
     key: "withdraw-history",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">wallet</Icon>,
     route: "/tables",
     component: <Tables />,
   },
@@ -46,7 +44,7 @@ const routes = [
     type: "collapse",
     name: "Reward List",
     key: "reward-list",
-    icon: <Icon fontSize="small">notifications</Icon>,
+    icon: <Icon fontSize="small">list</Icon>,
     route: "/notifications",
     component: <RewardList />,
   },
@@ -57,7 +55,7 @@ const routes = [
     key: "product-list",
     icon: <Icon fontSize="small">inventory</Icon>,
     route: "/product-list",
-    component: <Notifications />,
+    component: <ProductList />,
   },
   // Create Account
   {
@@ -92,7 +90,7 @@ const routes = [
     name: "Change Password",
     key: "change-password",
     icon: <Icon fontSize="small">lock</Icon>,
-    route: "/authentication/sign-up",
+    route: "/sign-up",
     component: <ChangePassword />,
   },
   {

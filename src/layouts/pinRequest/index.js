@@ -42,10 +42,6 @@ function PinRequest() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCheckboxChange = (e) => {
-    setFormData({ ...formData, termsAccepted: e.target.checked });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.termsAccepted) {
@@ -72,7 +68,8 @@ function PinRequest() {
               PIN Request
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              A Quick PIN for Safer Access
+              اد رکھیں جعلی ٹرانزیکشن آئ ڈی یا جعلی پن ریکوسٹ لگانے سے آپ کا اکاؤنٹ بلاک ہوسکتا ہے
+              تسلی سے درست معلومات درج کریں تاکہ دشواری کا سامنا نہ کرنا پڑے
             </MDTypography>
           </MDBox>
 
@@ -84,6 +81,7 @@ function PinRequest() {
                   label="Account #"
                   name="username"
                   variant="outlined"
+                  placeholder="اُس میں لکھ دیں کہ پیمنٹ والے اکاؤنٹ کا نمبر درج کریں۔"
                   value={formData.username}
                   onChange={handleChange}
                   InputProps={{
@@ -97,6 +95,7 @@ function PinRequest() {
                   label="Trx ID"
                   name="trxId"
                   variant="outlined"
+                  placeholder="یہاں اپنی ٹرانزیکشن آئی ڈی ڈالیں۔"
                   value={formData.pinToken}
                   onChange={handleChange}
                   InputProps={{
@@ -111,6 +110,7 @@ function PinRequest() {
                   name="amount"
                   type="number"
                   variant="outlined"
+                  placeholder="یہاں پن کی قیمت لکھیں۔"
                   value={formData.email}
                   onChange={handleChange}
                   InputProps={{
@@ -135,7 +135,7 @@ function PinRequest() {
                       },
                     }}
                   >
-                    Create Account
+                    Request Pin
                   </Button>
                 </MDBox>
               </Grid>

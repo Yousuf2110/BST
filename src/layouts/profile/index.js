@@ -8,9 +8,8 @@ import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -72,7 +71,8 @@ function CreateAccount() {
               Create Account
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              Join us and get started!
+              تمام ڈیٹا تسلی سے لکھ کر چیک کریں اور پھر &quot;اکاؤنٹ کریئیٹ&quot; پر کلک کریں، بعد
+              میں کمپنی ذمہ دار نہیں ہوگی۔
             </MDTypography>
           </MDBox>
 
@@ -84,6 +84,7 @@ function CreateAccount() {
                   label="Username"
                   name="username"
                   variant="outlined"
+                  placeholder="یہاں نام لکھیں"
                   value={formData.username}
                   onChange={handleChange}
                   InputProps={{
@@ -97,6 +98,7 @@ function CreateAccount() {
                   label="Pin/Token"
                   name="pinToken"
                   variant="outlined"
+                  placeholder="یہاں نئے صارف کا پن کوڈ لکھیں"
                   value={formData.pinToken}
                   onChange={handleChange}
                   InputProps={{
@@ -107,10 +109,11 @@ function CreateAccount() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Email Address"
+                  label="New user Gmail"
                   name="email"
                   type="email"
                   variant="outlined"
+                  placeholder="یہاں نئے صارف کی جی میل لکھیں"
                   value={formData.email}
                   onChange={handleChange}
                   InputProps={{
@@ -121,10 +124,11 @@ function CreateAccount() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Phone Number"
+                  label="Account Number"
                   name="number"
                   type="number"
                   variant="outlined"
+                  placeholder="نئے کلائنٹ کا ایزی پیسہ یا جیز کیش نمبر درج کریں۔"
                   value={formData.number}
                   onChange={handleChange}
                   InputProps={{
@@ -138,6 +142,7 @@ function CreateAccount() {
                   label="Under User ID"
                   name="underUserId"
                   variant="outlined"
+                  placeholder="جس کے نیچے اکاؤنٹ لگانا ہے، اس کی جی میل لکھیں"
                   value={formData.underUserId}
                   onChange={handleChange}
                   InputProps={{
@@ -146,22 +151,17 @@ function CreateAccount() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth sx={{ height: "70px" }}>
-                  <InputLabel>Direction</InputLabel>
-                  <Select
+                <MDBox textAlign="left">
+                  <RadioGroup
                     name="direction"
                     value={formData.direction}
                     onChange={handleChange}
-                    sx={{
-                      height: "40px",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
+                    row
                   >
-                    <MenuItem value="right">Right</MenuItem>
-                    <MenuItem value="left">Left</MenuItem>
-                  </Select>
-                </FormControl>
+                    <FormControlLabel value="right" control={<Radio />} label="Right" />
+                    <FormControlLabel value="left" control={<Radio />} label="Left" />
+                  </RadioGroup>
+                </MDBox>
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

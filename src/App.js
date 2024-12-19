@@ -50,7 +50,7 @@ import routes from "routes";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
 // Images
-import brandWhite from "assets/images/logo-ct.png";
+import brandWhite from "assets/images/logo2.jpeg";
 import brandDark from "assets/images/logo-ct-dark.png";
 
 export default function App() {
@@ -155,7 +155,17 @@ export default function App() {
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Material Dashboard 2"
+              brandName={
+                <>
+                  Sales Pro Network
+                  <br />
+                  Yousuf
+                  <br />
+                  03042483426
+                  <br />
+                  yousuf@gmail.com
+                </>
+              }
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -179,11 +189,22 @@ export default function App() {
           <Sidenav
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="Material Dashboard 2"
+            brandName={
+              <>
+                Sales Pro Network
+                <br />
+                Yousuf
+                <br />
+                03042483426
+                <br />
+                yousuf@gmail.com
+              </>
+            }
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
+
           <Configurator />
           {configsButton}
         </>
