@@ -38,12 +38,12 @@ function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          width="8rem"
+          width="4rem"
           height="4rem"
           mt={-3}
           sx={{ height: "110px" }}
         >
-          <Icon fontSize="large" color="inherit">
+          <Icon fontSize="medium" color="inherit">
             {icon}
           </Icon>
         </MDBox>

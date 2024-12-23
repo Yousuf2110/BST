@@ -50,87 +50,95 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "Sr#", accessor: "author", width: "45%", align: "left" },
-      { Header: "Pin Code", accessor: "function", align: "left" },
-      { Header: "Date", accessor: "employed", align: "center" },
-      { Header: "Trx Id", accessor: "action", align: "center" },
+      { Header: "Team", accessor: "Team", align: "left" },
+      { Header: "Rank", accessor: "Rank", align: "center" },
+      { Header: "Reward", accessor: "Reward", align: "center" },
+      { Header: "Status", accessor: "Status", align: "center" },
     ],
 
     rows: [
       {
-        author: <Author name="1" email="" />,
-        function: <Job title="1234567" description="" />,
-        status: (
+        Team: <Job description="30/30" />,
+        Rank: <Job description="1 Star" />,
+        Reward: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            E-Files
+          </MDTypography>
+        ),
+        Status: (
           <MDBox ml={-1}>
-            <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
+            <MDBadge badgeContent="Active" color="success" variant="gradient" size="sm" />
           </MDBox>
-        ),
-        employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            23/04/18
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            457689345
-          </MDTypography>
         ),
       },
       {
-        author: <Author name="2" email="" />,
-        function: <Job title="1234567" description="" />,
-        status: (
+        Team: <Job description="100/100" />,
+        Rank: <Job description="2 Star" />,
+        Reward: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            Trainer certifcat
+          </MDTypography>
+        ),
+        Status: (
           <MDBox ml={-1}>
-            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+            <MDBadge badgeContent="Achieved" color="dark" variant="gradient" size="sm" />
           </MDBox>
-        ),
-        employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            11/01/19
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            457689345
-          </MDTypography>
         ),
       },
       {
-        author: <Author name="3" email="" />,
-        function: <Job title="1234567" description="" />,
-        status: (
+        Team: <Job description="200/200" />,
+        Rank: <Job description="3 Star" />,
+        Reward: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            5000
+          </MDTypography>
+        ),
+        Status: (
           <MDBox ml={-1}>
-            <MDBadge badgeContent="online" color="success" variant="gradient" size="sm" />
+            <MDBadge badgeContent="Upcoming" color="success" variant="gradient" size="sm" />
           </MDBox>
-        ),
-        employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            19/09/17
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            457689345
-          </MDTypography>
         ),
       },
       {
-        author: <Author name="4" email="" />,
-        function: <Job title="1234567" description="" />,
-        status: (
+        Team: <Job description="500/500" />,
+        Rank: <Job description="4 Star" />,
+        Reward: (
+          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+            20000
+          </MDTypography>
+        ),
+        Status: (
           <MDBox ml={-1}>
-            <MDBadge badgeContent="offline" color="dark" variant="gradient" size="sm" />
+            <MDBadge badgeContent="Non-Active" color="success" variant="gradient" size="sm" />
           </MDBox>
         ),
-        employed: (
+      },
+      {
+        Team: <Job description="1100/1100" />,
+        Rank: <Job description="5 Star" />,
+        Reward: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            04/10/21
+            30000
           </MDTypography>
         ),
-        action: (
+        Status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Non-Active" color="dark" variant="gradient" size="sm" />
+          </MDBox>
+        ),
+      },
+      {
+        Team: <Job description="2700/2700" />,
+        Rank: <Job description="6 Star" />,
+        Reward: (
           <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            457689345
+            55000
           </MDTypography>
+        ),
+        Status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent="Non-Active" color="dark" variant="gradient" size="sm" />
+          </MDBox>
         ),
       },
     ],

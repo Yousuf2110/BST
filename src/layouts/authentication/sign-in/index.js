@@ -8,12 +8,15 @@ import MDButton from "components/MDButton";
 
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 
-import logo from "assets/images/logo.png";
-import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import bgImage from "assets/images/logo.png";
 
 function Basic() {
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+
   return (
-    <BasicLayout image={bgImage}>
+    <BasicLayout>
       <Card>
         <MDBox
           variant="gradient"
@@ -28,7 +31,7 @@ function Basic() {
         >
           <MDBox
             component="img"
-            src={logo}
+            src={bgImage}
             alt="background"
             borderRadius="lg"
             width="60%"
@@ -39,14 +42,14 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="username" label="User Name" fullWidth />
+              <MDInput type="email" label="Email" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" label="Password" fullWidth />
             </MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth>
-                Login
+                sign in
               </MDButton>
             </MDBox>
           </MDBox>

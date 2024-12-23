@@ -50,7 +50,7 @@ import routes from "routes";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
 // Images
-import brandWhite from "assets/images/logo2.jpeg";
+import brandWhite from "assets/images/logo-2.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 
 export default function App() {
@@ -157,13 +157,11 @@ export default function App() {
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName={
                 <>
-                  Sales Pro Network
+                  SPN
                   <br />
-                  Yousuf
+                  dony96538@gmail.com
                   <br />
-                  03042483426
-                  <br />
-                  yousuf@gmail.com
+                  030483426
                 </>
               }
               routes={routes}
@@ -191,13 +189,11 @@ export default function App() {
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName={
               <>
-                Sales Pro Network
+                SPN
                 <br />
-                Yousuf
+                dony96538@gmail.com
                 <br />
-                03042483426
-                <br />
-                yousuf@gmail.com
+                030483426
               </>
             }
             routes={routes}

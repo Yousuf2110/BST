@@ -3,11 +3,7 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
-
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
-
   return (
     <DashboardLayout>
       <MDBox py={3}>
@@ -48,7 +44,6 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox mt={4.5}></MDBox>
       </MDBox>
     </DashboardLayout>
   );
