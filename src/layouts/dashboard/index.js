@@ -4,6 +4,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 function Dashboard() {
+  const token = localStorage.getItem("authToken");
+
   return (
     <DashboardLayout>
       <MDBox py={3}>

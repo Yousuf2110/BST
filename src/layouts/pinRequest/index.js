@@ -24,7 +24,6 @@ import PhoneIcon from "@mui/icons-material/Phone";
 
 // Layout and Footer
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import Footer from "examples/Footer";
 
 function PinRequest() {
   const [formData, setFormData] = useState({

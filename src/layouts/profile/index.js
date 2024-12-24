@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -7,7 +10,6 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import MenuItem from "@mui/material/MenuItem";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 
@@ -23,7 +25,6 @@ import PhoneIcon from "@mui/icons-material/Phone";
 
 // Layout and Footer
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import Footer from "examples/Footer";
 
 function CreateAccount() {
   const [formData, setFormData] = useState({
@@ -45,17 +46,57 @@ function CreateAccount() {
     setFormData({ ...formData, termsAccepted: e.target.checked });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.termsAccepted) {
-      alert("Please accept the terms and conditions.");
+      toast.error("Please accept the terms and conditions.");
       return;
     }
-    console.log("Form Submitted:", formData);
+
+    const payload = {
+      token: "12345678",
+      name: formData.username,
+      email: formData.email,
+      mobile: formData.number,
+      sponsor: formData.underUserId,
+      position: formData.direction,
+    };
+
+    try {
+      // API call to create account
+      const response = await axios.post(
+        "https://ecosphere-pakistan-backend.co-m.pk/api/register",
+        payload,
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
+
+      // Check if API response is successful
+      if (response.data) {
+        toast.success("Account created successfully!");
+        setFormData({
+          username: "",
+          pinToken: "",
+          email: "",
+          number: "",
+          underUserId: "",
+          direction: "right",
+          termsAccepted: false,
+        });
+      } else {
+        toast.error(response.data.message || "Failed to create the account.");
+      }
+    } catch (error) {
+      // Error handling
+      toast.error("Error connecting to the server. Please try again.");
+    }
   };
 
   return (
     <DashboardLayout>
+      <ToastContainer />
       <MDBox display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Card
           sx={{

@@ -1,22 +1,70 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Card from "@mui/material/Card";
-
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 
-import bgImage from "assets/images/logo.png";
+import logo from "assets/images/logo-2.png";
+import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 function Basic() {
-  const [rememberMe, setRememberMe] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://ecosphere-pakistan-backend.co-m.pk/api/login",
+        {
+          email: username,
+          password: password,
+        },
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      );
+
+      if (response.status === 200) {
+        const token = response.data.token; // Assuming the API response includes a token
+        if (token) {
+          localStorage.setItem("authToken", token); // Store token in localStorage
+        }
+
+        toast.success("Login Successful! Redirecting to dashboard...", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+
+        setTimeout(() => {
+          navigate("/dashboard"); // Navigate to the dashboard
+        }, 2000);
+      } else {
+        toast.error("Login failed. Unexpected response from server.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (err) {
+      toast.error("Login failed. Please check your credentials.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      console.error(err);
+    }
+  };
 
   return (
-    <BasicLayout>
+    <BasicLayout image={bgImage}>
+      <ToastContainer /> {/* Toast Container for displaying notifications */}
       <Card>
         <MDBox
           variant="gradient"
@@ -31,7 +79,7 @@ function Basic() {
         >
           <MDBox
             component="img"
-            src={bgImage}
+            src={logo}
             alt="background"
             borderRadius="lg"
             width="60%"
@@ -40,19 +88,31 @@ function Basic() {
           />
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
+          <form onSubmit={handleLogin}>
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput
+                type="text"
+                label="User Name"
+                fullWidth
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
+              <MDInput
+                type="password"
+                label="Password"
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
-                sign in
+              <MDButton variant="gradient" color="info" fullWidth type="submit">
+                Login
               </MDButton>
             </MDBox>
-          </MDBox>
+          </form>
         </MDBox>
       </Card>
     </BasicLayout>
