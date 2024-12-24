@@ -51,6 +51,7 @@ import RewardList from "layouts/rewardList";
 import PinRequest from "layouts/pinRequest";
 import ViewPin from "layouts/viewPin";
 import ResetPassword from "layouts/resetPassword";
+import ChangePassword from "layouts/changePassword";
 
 const routes = [
   {
@@ -141,6 +142,14 @@ const routes = [
     icon: <Icon fontSize="small">lock</Icon>,
     route: "/reset-password",
     component: <ResetPassword />,
+  },
+  {
+    type: "collapse",
+    name: "Change Password",
+    key: "Reset-password",
+    icon: <Icon fontSize="small">lock</Icon>,
+    route: "/change-password",
+    component: <ChangePassword />,
   },
 ];
 

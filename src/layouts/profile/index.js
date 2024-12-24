@@ -73,7 +73,6 @@ function CreateAccount() {
         }
       );
 
-      // Check if API response is successful
       if (response.data) {
         toast.success("Account created successfully!");
         setFormData({

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -11,13 +14,15 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // Material-UI icons
-import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 
 // Layout and Footer
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import { useNavigate } from "react-router-dom";
 
 function ChangePassword() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("authToken");
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -25,26 +30,56 @@ function ChangePassword() {
     termsAccepted: false,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCheckboxChange = (e) => {
-    setFormData({ ...formData, termsAccepted: e.target.checked });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.termsAccepted) {
-      alert("Please accept the terms and conditions.");
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      toast.error("New Password and Confirm Password do not match.");
       return;
     }
-    console.log("Form Submitted:", formData);
+
+    try {
+      setIsLoading(true);
+      const payload = new URLSearchParams();
+      payload.append("old_password", formData.oldPassword);
+      payload.append("new_password", formData.newPassword);
+
+      const response = await axios.post(
+        "https://ecosphere-pakistan-backend.co-m.pk/api/change-password",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        toast.success("Password changed successfully!");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
+      } else {
+        toast.error(response.data.message || "Something went wrong!");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to change the password.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <DashboardLayout>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <MDBox display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Card
           sx={{
@@ -114,6 +149,7 @@ function ChangePassword() {
                     type="submit"
                     variant="contained"
                     fullWidth
+                    disabled={isLoading}
                     sx={{
                       background: "linear-gradient(90deg, #ff512f, #dd2476)",
                       color: "#fff",
@@ -125,7 +161,7 @@ function ChangePassword() {
                       },
                     }}
                   >
-                    Reset Password
+                    {isLoading ? "Submitting..." : "Reset Password"}
                   </Button>
                 </MDBox>
               </Grid>
