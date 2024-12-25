@@ -15,6 +15,8 @@ import MDTypography from "components/MDTypography";
 
 // Material-UI icons
 import LockIcon from "@mui/icons-material/Lock";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 // Layout and Footer
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -31,10 +33,22 @@ function ChangePassword() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmPassword: false,
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handlePasswordVisibilityToggle = (field) => {
+    setShowPassword((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -95,7 +109,7 @@ function ChangePassword() {
               Change Password
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              Recover Your Account with a New Password
+              اپنا اکاؤنٹ نئے پاس ورڈ کے ساتھ بحال کریں۔
             </MDTypography>
           </MDBox>
 
@@ -105,14 +119,27 @@ function ChangePassword() {
                 <TextField
                   fullWidth
                   label="Old Password"
+                  placeholder="یہاں پرانا پاس ورڈ لکھیں۔"
                   name="oldPassword"
                   variant="outlined"
                   value={formData.oldPassword}
                   onChange={handleChange}
+                  type={showPassword.oldPassword ? "text" : "password"}
                   InputProps={{
-                    startAdornment: <LockIcon sx={{ mr: 1 }} />,
+                    startAdornment: <LockIcon sx={{ mr: 1, color: "black" }} />,
+                    endAdornment: (
+                      <span
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handlePasswordVisibilityToggle("oldPassword")}
+                      >
+                        {showPassword.oldPassword ? (
+                          <Visibility sx={{ color: "black" }} />
+                        ) : (
+                          <VisibilityOff sx={{ color: "black" }} />
+                        )}
+                      </span>
+                    ),
                   }}
-                  type="password"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -121,12 +148,25 @@ function ChangePassword() {
                   label="New Password"
                   name="newPassword"
                   variant="outlined"
+                  placeholder="یہاں نیا پاس ورڈ لکھیں۔"
                   value={formData.newPassword}
                   onChange={handleChange}
+                  type={showPassword.newPassword ? "text" : "password"}
                   InputProps={{
-                    startAdornment: <LockIcon sx={{ mr: 1 }} />,
+                    startAdornment: <LockIcon sx={{ mr: 1, color: "black" }} />,
+                    endAdornment: (
+                      <span
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handlePasswordVisibilityToggle("newPassword")}
+                      >
+                        {showPassword.newPassword ? (
+                          <Visibility sx={{ color: "black" }} />
+                        ) : (
+                          <VisibilityOff sx={{ color: "black" }} />
+                        )}
+                      </span>
+                    ),
                   }}
-                  type="password"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -134,13 +174,26 @@ function ChangePassword() {
                   fullWidth
                   label="Confirm Password"
                   name="confirmPassword"
+                  placeholder="پاس ورڈ کی تصدیق کریں۔"
                   variant="outlined"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  type={showPassword.confirmPassword ? "text" : "password"}
                   InputProps={{
-                    startAdornment: <LockIcon sx={{ mr: 1 }} />,
+                    startAdornment: <LockIcon sx={{ mr: 1, color: "black" }} />,
+                    endAdornment: (
+                      <span
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handlePasswordVisibilityToggle("confirmPassword")}
+                      >
+                        {showPassword.confirmPassword ? (
+                          <Visibility sx={{ color: "black" }} />
+                        ) : (
+                          <VisibilityOff sx={{ color: "black" }} />
+                        )}
+                      </span>
+                    ),
                   }}
-                  type="password"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -161,7 +214,7 @@ function ChangePassword() {
                       },
                     }}
                   >
-                    {isLoading ? "Submitting..." : "Reset Password"}
+                    {isLoading ? "Submitting..." : "Change Password"}
                   </Button>
                 </MDBox>
               </Grid>
