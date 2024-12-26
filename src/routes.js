@@ -37,21 +37,17 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import RewardList from "layouts/rewardList";
 import PinRequest from "layouts/pinRequest";
 import ViewPin from "layouts/viewPin";
 import ResetPassword from "layouts/resetPassword";
 import ChangePassword from "layouts/changePassword";
+import WithdrawHistory from "layouts/withdrawHistory";
 
 const routes = [
   {
@@ -68,8 +64,8 @@ const routes = [
     name: "Withdraw History",
     key: "withdraw-history",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
-    component: <Tables />,
+    route: "/Withdraw-history",
+    component: <WithdrawHistory />,
   },
   // My Tree
   {
@@ -87,7 +83,7 @@ const routes = [
     key: "reward-list",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/reward-list",
-    component: <RewardList />,
+    component: <WithdrawHistory />,
   },
   // Product List
   {
@@ -108,15 +104,6 @@ const routes = [
     component: <Profile />,
   },
   // Buy Pin Code
-  {
-    type: "collapse",
-    name: "Buy Pin Code",
-    key: "buy-pin-code",
-    icon: <Icon fontSize="small">shopping_cart</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
-  },
-
   {
     type: "collapse",
     name: "Buy Pin Code",
