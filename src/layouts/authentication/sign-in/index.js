@@ -34,7 +34,7 @@ function Basic() {
       );
 
       if (response.status === 200) {
-        const token = response.data.token; // Assuming the API response includes a token
+        const token = response.data.token;
         if (token) {
           localStorage.setItem("authToken", token); // Store token in localStorage
         }
@@ -43,10 +43,7 @@ function Basic() {
           position: "top-right",
           autoClose: 2000,
         });
-
-        setTimeout(() => {
-          navigate("/dashboard"); // Navigate to the dashboard
-        }, 2000);
+        navigate("/dashboard");
       } else {
         toast.error("Login failed. Unexpected response from server.", {
           position: "top-right",
@@ -64,7 +61,7 @@ function Basic() {
 
   return (
     <BasicLayout image={bgImage}>
-      <ToastContainer /> {/* Toast Container for displaying notifications */}
+      <ToastContainer />
       <Card>
         <MDBox
           variant="gradient"

@@ -157,7 +157,7 @@ export default function App() {
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName={
                 <>
-                  SPN
+                  Qazi M Yousuf
                   <br />
                   dony96538@gmail.com
                   <br />
@@ -189,7 +189,7 @@ export default function App() {
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName={
               <>
-                SPN
+                Qazi M Yousuf
                 <br />
                 dony96538@gmail.com
                 <br />

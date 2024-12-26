@@ -12,6 +12,8 @@ function ViewPin() {
   const [rows, setRows] = useState([]);
   const token = localStorage.getItem("authToken");
 
+  console.log("token", token);
+
   const columns = [
     { Header: "Id", accessor: "id", align: "center" },
     { Header: "Account #", accessor: "accountNumber", align: "left" },

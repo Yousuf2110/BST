@@ -12,6 +12,10 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -34,6 +38,7 @@ function CreateAccount() {
     number: "",
     underUserId: "",
     direction: "right",
+    paymentMethod: "",
     termsAccepted: false,
   });
 
@@ -61,10 +66,10 @@ function CreateAccount() {
       mobile: formData.number,
       sponsor: formData.underUserId,
       position: formData.direction,
+      paymentMethod: formData.paymentMethod,
     };
 
     try {
-      // API call to create account
       const response = await axios.post(
         "https://ecosphere-pakistan-backend.co-m.pk/api/register",
         payload,
@@ -82,13 +87,13 @@ function CreateAccount() {
           number: "",
           underUserId: "",
           direction: "right",
+          paymentMethod: "",
           termsAccepted: false,
         });
       } else {
         toast.error(response.data.message || "Failed to create the account.");
       }
     } catch (error) {
-      // Error handling
       toast.error("Error connecting to the server. Please try again.");
     }
   };
@@ -176,6 +181,36 @@ function CreateAccount() {
                   }}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <FormControl
+                  fullWidth
+                  variant="outlined"
+                  sx={{
+                    "& .MuiInputLabel-root": { color: "gray" },
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: 2,
+                    },
+                  }}
+                >
+                  <InputLabel id="payment-method-label" sx={{ fontWeight: "bold" }}>
+                    Payment Method
+                  </InputLabel>
+                  <Select
+                    labelId="payment-method-label"
+                    name="paymentMethod"
+                    value={formData.paymentMethod || ""}
+                    onChange={handleChange}
+                    label="Payment Method"
+                    sx={{
+                      height: "30px",
+                    }}
+                  >
+                    <MenuItem value="jazzcash">JazzCash</MenuItem>
+                    <MenuItem value="easypaisa">EasyPaisa</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   fullWidth

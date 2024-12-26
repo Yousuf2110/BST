@@ -40,6 +40,7 @@ import Dashboard from "layouts/dashboard";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
+import SignIn from "layouts/authentication/sign-in";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -109,6 +110,15 @@ const routes = [
     name: "Buy Pin Code",
     key: "buy-pin-code",
     icon: <Icon fontSize="small">shopping_cart</Icon>,
+    route: "/authentication/sign-in",
+    component: <SignIn />,
+  },
+
+  {
+    type: "collapse",
+    name: "Buy Pin Code",
+    key: "buy-pin-code",
+    icon: <Icon fontSize="small">shopping_cart</Icon>,
     route: "/buy-pin",
     component: <PinRequest />,
   },
@@ -133,7 +143,7 @@ const routes = [
   {
     type: "collapse",
     name: "Change Password",
-    key: "Reset-password",
+    key: "Change-password",
     icon: <Icon fontSize="small">lock</Icon>,
     route: "/change-password",
     component: <ChangePassword />,
