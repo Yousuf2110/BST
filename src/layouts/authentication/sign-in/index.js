@@ -36,25 +36,17 @@ function Basic() {
       if (response.status === 200) {
         const token = response.data.token;
         if (token) {
-          localStorage.setItem("authToken", token); // Store token in localStorage
+          localStorage.setItem("authToken", token);
         }
-
-        toast.success("Login Successful! Redirecting to dashboard...", {
-          position: "top-right",
-          autoClose: 2000,
-        });
-        navigate("/dashboard");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
+        toast.success("Login Successful! Redirecting to dashboard...");
       } else {
-        toast.error("Login failed. Unexpected response from server.", {
-          position: "top-right",
-          autoClose: 3000,
-        });
+        toast.error("Login failed. Unexpected response from server.");
       }
     } catch (err) {
-      toast.error("Login failed. Please check your credentials.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
+      toast.error("Login failed. Please check your credentials.");
       console.error(err);
     }
   };

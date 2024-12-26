@@ -28,6 +28,7 @@ function ViewPin() {
     axios
       .get("https://ecosphere-pakistan-backend.co-m.pk/api/user-pins", {
         headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
         },
       })

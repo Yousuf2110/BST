@@ -29,10 +29,6 @@ function ResetPassword() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCheckboxChange = (e) => {
-    setFormData({ ...formData, termsAccepted: e.target.checked });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.termsAccepted) {
