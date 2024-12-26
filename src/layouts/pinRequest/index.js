@@ -1,57 +1,84 @@
 import React, { useState } from "react";
-
-// @mui material components
+import { ToastContainer, toast } from "react-toastify";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-
-// Material Dashboard 2 React components
+import PersonIcon from "@mui/icons-material/Person";
+import LockIcon from "@mui/icons-material/Lock";
+import EmailIcon from "@mui/icons-material/Email";
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
-// Material-UI icons
-import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
-import PersonIcon from "@mui/icons-material/Person";
-import PhoneIcon from "@mui/icons-material/Phone";
-
-// Layout and Footer
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function PinRequest() {
+  const token = localStorage.getItem("authToken");
   const [formData, setFormData] = useState({
-    username: "",
-    pinToken: "",
-    email: "",
-    number: "",
-    underUserId: "",
-    direction: "right",
-    termsAccepted: false,
+    accountNumber: "",
+    trxId: "",
+    amount: "",
+    paymentScreenshot: "",
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, files } = e.target;
+
+    if (name === "paymentScreenshot" && files && files[0]) {
+      setFormData({ ...formData, [name]: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.termsAccepted) {
-      alert("Please accept the terms and conditions.");
+
+    const { accountNumber, trxId, amount, paymentScreenshot } = formData;
+
+    if (!accountNumber || !trxId || !amount || !paymentScreenshot) {
+      toast.error("All fields are required. Please fill in all details.");
       return;
     }
-    console.log("Form Submitted:", formData);
+
+    const formPayload = new FormData();
+    formPayload.append("account_number", accountNumber);
+    formPayload.append("transaction_id", trxId);
+    formPayload.append("amount", amount);
+    formPayload.append("payment_screenshot", paymentScreenshot);
+
+    try {
+      const response = await axios.post(
+        "https://ecosphere-pakistan-backend.co-m.pk/api/pin-request",
+        formPayload,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        toast.success("PIN Request Successful!");
+        setFormData({
+          accountNumber: "",
+          trxId: "",
+          amount: "",
+          paymentScreenshot: "",
+        });
+      } else {
+        toast.error(response.data.message || "Something went wrong.");
+      }
+    } catch (error) {
+      toast.error("Network error: " + error.message);
+    }
   };
 
   return (
     <DashboardLayout>
+      <ToastContainer />
       <MDBox display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Card
           sx={{
@@ -78,10 +105,11 @@ function PinRequest() {
                 <TextField
                   fullWidth
                   label="Account #"
-                  name="username"
+                  name="accountNumber"
+                  type="number"
                   variant="outlined"
                   placeholder="اُس میں لکھ دیں کہ پیمنٹ والے اکاؤنٹ کا نمبر درج کریں۔"
-                  value={formData.username}
+                  value={formData.accountNumber}
                   onChange={handleChange}
                   InputProps={{
                     startAdornment: <PersonIcon sx={{ mr: 1 }} />,
@@ -93,9 +121,10 @@ function PinRequest() {
                   fullWidth
                   label="Trx ID"
                   name="trxId"
+                  type="text"
                   variant="outlined"
                   placeholder="یہاں اپنی ٹرانزیکشن آئی ڈی ڈالیں۔"
-                  value={formData.pinToken}
+                  value={formData.trxId}
                   onChange={handleChange}
                   InputProps={{
                     startAdornment: <LockIcon sx={{ mr: 1 }} />,
@@ -110,11 +139,21 @@ function PinRequest() {
                   type="number"
                   variant="outlined"
                   placeholder="یہاں پن کی قیمت لکھیں۔"
-                  value={formData.email}
+                  value={formData.amount}
                   onChange={handleChange}
                   InputProps={{
                     startAdornment: <EmailIcon sx={{ mr: 1 }} />,
                   }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Payment Screenshot"
+                  name="paymentScreenshot"
+                  type="file"
+                  variant="outlined"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
