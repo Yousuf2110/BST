@@ -134,14 +134,6 @@ const routes = [
   // Change Password
   {
     type: "collapse",
-    name: "Reset Password",
-    key: "Reset-password",
-    icon: <Icon fontSize="small">lock</Icon>,
-    route: "/reset-password",
-    component: <ResetPassword />,
-  },
-  {
-    type: "collapse",
     name: "Change Password",
     key: "Change-password",
     icon: <Icon fontSize="small">lock</Icon>,
