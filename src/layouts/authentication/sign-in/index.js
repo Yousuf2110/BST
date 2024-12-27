@@ -21,6 +21,11 @@ function Basic() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!username || !password) {
+      toast.error("Please enter both email and password.");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "https://ecosphere-pakistan-backend.co-m.pk/api/login",
@@ -38,16 +43,29 @@ function Basic() {
         if (token) {
           localStorage.setItem("authToken", token);
         }
+        toast.success("Login Successful! Redirecting to dashboard...");
         setTimeout(() => {
           navigate("/dashboard");
         }, 2000);
-        toast.success("Login Successful! Redirecting to dashboard...");
       } else {
-        toast.error("Login failed. Unexpected response from server.");
+        toast.error(response.data.message || "Login failed. Unexpected response from server.");
       }
     } catch (err) {
-      toast.error("Login failed. Please check your credentials.");
+      if (err.response) {
+        if (err.response.status === 400) {
+          toast.error("Invalid email or password.");
+        } else if (err.response.status === 500) {
+          toast.error("Internal Server Error. Please try again later.");
+        } else {
+          toast.error(err.response.data.message || "An error occurred. Please try again.");
+        }
+      } else if (err.request) {
+        toast.error("No response from server. Please check your internet connection.");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
       console.error(err);
+      toast.error(err);
     }
   };
 

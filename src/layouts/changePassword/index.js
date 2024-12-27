@@ -3,22 +3,18 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// @mui material components
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// Material-UI icons
 import LockIcon from "@mui/icons-material/Lock";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-// Layout and Footer
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +25,6 @@ function ChangePassword() {
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
-    termsAccepted: false,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +48,11 @@ function ChangePassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formData.oldPassword || !formData.newPassword || !formData.confirmPassword) {
+      toast.error("All fields are required.");
+      return;
+    }
 
     if (formData.newPassword !== formData.confirmPassword) {
       toast.error("New Password and Confirm Password do not match.");
