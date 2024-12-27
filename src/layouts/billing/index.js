@@ -27,13 +27,13 @@ function TreeView() {
     { email: "Mujtaba671@gmail.com", color: "purple" },
   ];
 
-  const bottomNodes = [...Array(5)].map(() => ({
+  const bottomNodes = [...Array(4)].map(() => ({
     email: "Mujtaba669@gmail.com".replace(/@/, " @ "),
     color: "brown",
   }));
 
-  const leftCount = 1; // Only one left-side middle node
-  const rightCount = 1 + bottomNodes.length; // Right-side middle node + bottom nodes
+  const leftCount = 1;
+  const rightCount = 1 + bottomNodes.length;
 
   return (
     <Box sx={{ textAlign: "center", padding: "20px" }}>

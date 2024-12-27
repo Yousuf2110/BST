@@ -38,7 +38,8 @@ function CreateAccount() {
     number: "",
     underUserId: "",
     direction: "right",
-    paymentMethod: "",
+    bank: "",
+    accountTitle: "",
     termsAccepted: false,
   });
 
@@ -60,13 +61,14 @@ function CreateAccount() {
     }
 
     const payload = {
-      token: "12345678",
+      token: formData?.pinToken,
       name: formData.username,
       email: formData.email,
       mobile: formData.number,
       sponsor: formData.underUserId,
       position: formData.direction,
-      paymentMethod: formData.paymentMethod,
+      bank: formData.bank,
+      account_title: formData.accountTitle,
     };
 
     try {
@@ -87,7 +89,8 @@ function CreateAccount() {
           number: "",
           underUserId: "",
           direction: "right",
-          paymentMethod: "",
+          bank: "",
+          accountTitle: "",
           termsAccepted: false,
         });
       } else {
@@ -197,8 +200,8 @@ function CreateAccount() {
                   </InputLabel>
                   <Select
                     labelId="payment-method-label"
-                    name="paymentMethod"
-                    value={formData.paymentMethod || ""}
+                    name="bank"
+                    value={formData.bank || ""}
                     onChange={handleChange}
                     label="Payment Method"
                     sx={{
@@ -210,7 +213,20 @@ function CreateAccount() {
                   </Select>
                 </FormControl>
               </Grid>
-
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Account Title"
+                  name="accountTitle"
+                  variant="outlined"
+                  placeholder="یہاں اپنے اکاؤنٹ کا نام لکھیں۔"
+                  value={formData.accountTitle}
+                  onChange={handleChange}
+                  InputProps={{
+                    startAdornment: <PersonIcon sx={{ mr: 1 }} />,
+                  }}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -250,6 +266,7 @@ function CreateAccount() {
                   label="I accept the Terms and Conditions"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <MDBox textAlign="center" mt={2}>
                   <Button
