@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -12,6 +12,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function PinRequest() {
   const token = localStorage.getItem("authToken");
@@ -21,6 +22,36 @@ function PinRequest() {
     amount: "",
     paymentScreenshot: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState({
+    account_number: "",
+    account_title: "",
+    bank_name: "",
+  });
+
+  useEffect(() => {
+    const fetchPaymentMethod = async () => {
+      try {
+        const response = await axios.get(
+          "https://ecosphere-pakistan-backend.co-m.pk/api/payment-method",
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data) {
+          setPaymentMethod(response?.data?.payment_method);
+        } else {
+          toast.error("Failed to fetch payment method details.");
+        }
+      } catch (error) {
+        toast.error("Error fetching payment method: " + error.message);
+      }
+    };
+
+    fetchPaymentMethod();
+  }, [token]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -54,7 +85,7 @@ function PinRequest() {
         formPayload,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/x-www-form-urlencoded",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -79,7 +110,64 @@ function PinRequest() {
   return (
     <DashboardLayout>
       <ToastContainer />
-      <MDBox display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
+      <DashboardNavbar />
+      <MDBox
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="100vh"
+        gap={2}
+      >
+        <MDBox
+          sx={{
+            textAlign: "center",
+            mb: 4,
+            padding: 2,
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <MDTypography
+            variant="h4"
+            fontWeight="bold"
+            color="textPrimary"
+            sx={{
+              mb: 1,
+              fontSize: "1.8rem",
+              color: "#333",
+            }}
+          >
+            Request a PIN for Your Account
+          </MDTypography>
+          <MDTypography
+            variant="body2"
+            color="textSecondary"
+            sx={{
+              mb: 1,
+              fontSize: "1rem",
+              color: "#666",
+            }}
+          >
+            اپنی پن خریدنے کی ادائیگی یہاں اس نمبر پر بھیجنی ہے۔
+          </MDTypography>
+          <MDTypography
+            variant="body2"
+            color="textSecondary"
+            sx={{
+              fontSize: "1rem",
+              color: "#444",
+              lineHeight: 1.6,
+            }}
+          >
+            <strong>Account Title:</strong> {paymentMethod.account_title} <br />
+            <strong>Bank:</strong> {paymentMethod.bank_name} <br />
+            <strong>Account Number:</strong> {paymentMethod.account_number}
+          </MDTypography>
+        </MDBox>
+
         <Card
           sx={{
             maxWidth: 500,
@@ -90,7 +178,7 @@ function PinRequest() {
           }}
         >
           <MDBox textAlign="center" mb={3}>
-            <MDTypography variant="h4" fontWeight="bold" color="textPrimary" gutterBottom>
+            <MDTypography variant="h5" fontWeight="bold" color="textPrimary" gutterBottom>
               PIN Request
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
@@ -108,7 +196,6 @@ function PinRequest() {
                   name="accountNumber"
                   type="number"
                   variant="outlined"
-                  placeholder="اُس میں لکھ دیں کہ پیمنٹ والے اکاؤنٹ کا نمبر درج کریں۔"
                   value={formData.accountNumber}
                   onChange={handleChange}
                   InputProps={{
@@ -123,7 +210,6 @@ function PinRequest() {
                   name="trxId"
                   type="text"
                   variant="outlined"
-                  placeholder="یہاں اپنی ٹرانزیکشن آئی ڈی ڈالیں۔"
                   value={formData.trxId}
                   onChange={handleChange}
                   InputProps={{
@@ -138,7 +224,6 @@ function PinRequest() {
                   name="amount"
                   type="number"
                   variant="outlined"
-                  placeholder="یہاں پن کی قیمت لکھیں۔"
                   value={formData.amount}
                   onChange={handleChange}
                   InputProps={{

@@ -46,7 +46,6 @@ import SignIn from "layouts/authentication/sign-in";
 import Icon from "@mui/material/Icon";
 import PinRequest from "layouts/pinRequest";
 import ViewPin from "layouts/viewPin";
-import ResetPassword from "layouts/resetPassword";
 import ChangePassword from "layouts/changePassword";
 import WithdrawHistory from "layouts/withdrawHistory";
 
@@ -105,14 +104,14 @@ const routes = [
     component: <Profile />,
   },
   // Buy Pin Code
-  {
-    type: "collapse",
-    name: "Buy Pin Code",
-    key: "buy-pin-code",
-    icon: <Icon fontSize="small">shopping_cart</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Buy Pin Code",
+  //   key: "sign-in",
+  //   icon: <Icon fontSize="small">shopping_cart</Icon>,
+  //   route: "/authentication/sign-in",
+  //   component: <SignIn />,
+  // },
 
   {
     type: "collapse",

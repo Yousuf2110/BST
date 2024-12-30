@@ -46,6 +46,7 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from "context";
+import { useAuth } from "context/AuthContext";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -53,6 +54,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
 
   let textColor = "white";
 
@@ -141,7 +143,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return returnValue;
   });
 
-  return (
+  return isAuthenticated ? (
     <SidenavRoot
       {...rest}
       variant="permanent"
@@ -183,7 +185,10 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       <List>{renderRoutes}</List>
       <MDBox p={2} mt="auto">
         <MDButton
-          onClick={() => navigate("/authentication/sign-in")}
+          onClick={() => {
+            logout();
+            navigate("/authentication/sign-in");
+          }}
           variant="gradient"
           color={sidenavColor}
           fullWidth
@@ -192,7 +197,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         </MDButton>
       </MDBox>
     </SidenavRoot>
-  );
+  ) : null;
 }
 
 // Setting default values for the props of Sidenav
