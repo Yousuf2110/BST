@@ -44,8 +44,6 @@ function WithDrawHistory() {
           }
         );
 
-        console.log("xx-response", response);
-
         const mappedRows = response.data?.withdraws.map((item) => ({
           id: item.id || "N/A",
           user_email: item.user_email || "N/A",
