@@ -17,6 +17,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useNavigate } from "react-router-dom";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function ChangePassword() {
   const navigate = useNavigate();
@@ -93,6 +94,7 @@ function ChangePassword() {
 
   return (
     <DashboardLayout>
+      <DashboardNavbar />
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <MDBox display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Card

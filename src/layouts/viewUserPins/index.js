@@ -10,24 +10,21 @@ import DataTable from "examples/Tables/DataTable";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 
-function ViewPin() {
+function ViewUserPins() {
   const [rows, setRows] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const token = localStorage.getItem("authToken");
 
   const columns = [
     { Header: "Id", accessor: "id", align: "center" },
-    { Header: "Account #", accessor: "accountNumber", align: "left" },
-    { Header: "Trx Id", accessor: "transactionId", align: "left" },
-    { Header: "User Email", accessor: "userEmail", align: "center" },
-    { Header: "Amount", accessor: "amount", align: "center" },
-    { Header: "Screenshot", accessor: "screenshot", align: "center" },
+    { Header: "User Email", accessor: "userEmail", align: "left" },
+    { Header: "Pin", accessor: "pin", align: "left" },
     { Header: "Status", accessor: "status", align: "center" },
   ];
 
   useEffect(() => {
     axios
-      .get("https://ecosphere-pakistan-backend.co-m.pk/api/user-pins", {
+      .get("https://ecosphere-pakistan-backend.co-m.pk/api/view-pins", {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
@@ -36,45 +33,30 @@ function ViewPin() {
       .then((response) => {
         const fetchedData = response.data.pins;
 
-        const formattedRows = fetchedData.map((item) => ({
-          id: item.id,
-          accountNumber: item.account_number,
-          transactionId: item.transaction_id,
-          userEmail: item.user_email,
-          amount: item.amount,
-          screenshot: (
-            <img
-              src={item.screenshot_url}
-              alt="screenshot"
-              style={{ width: "100px", height: "auto", cursor: "pointer" }}
-              onClick={() => setSelectedImage(item.screenshot_url)}
-            />
-          ),
-          status: (
-            <span
-              style={{
-                color:
-                  item.status.toLowerCase() === "approve"
-                    ? "green"
-                    : item.status.toLowerCase() === "reject"
-                    ? "red"
-                    : item.status.toLowerCase() === "pending"
-                    ? "orange"
-                    : "black",
-                fontWeight: "bold",
-                textTransform: "capitalize",
-              }}
-            >
-              {item.status}
-            </span>
-          ),
-        }));
+        const formattedRows = fetchedData
+          .filter((item) => item.status.toLowerCase() !== "used") // Exclude used pins
+          .map((item) => ({
+            id: item.id,
+            userEmail: item.user_email || "N/A", // Handle missing data
+            pin: item.pin || "N/A", // Handle missing data
+            status: (
+              <span
+                style={{
+                  color: "gray",
+                  fontWeight: "bold",
+                  textTransform: "capitalize",
+                }}
+              >
+                {item.status}
+              </span>
+            ),
+          }));
         setRows(formattedRows);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [token]);
 
   return (
     <DashboardLayout>
@@ -137,4 +119,4 @@ function ViewPin() {
   );
 }
 
-export default ViewPin;
+export default ViewUserPins;

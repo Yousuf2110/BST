@@ -48,6 +48,7 @@ import PinRequest from "layouts/pinRequest";
 import ViewPin from "layouts/viewPin";
 import ChangePassword from "layouts/changePassword";
 import WithdrawHistory from "layouts/withdrawHistory";
+import ViewUserPins from "layouts/viewUserPins";
 
 const routes = [
   {
@@ -68,23 +69,23 @@ const routes = [
     component: <WithdrawHistory />,
   },
   // My Tree
-  {
-    type: "collapse",
-    name: "My Tree",
-    key: "my-tree",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/my-tree",
-    component: <Billing />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "My Tree",
+  //   key: "my-tree",
+  //   icon: <Icon fontSize="small">receipt_long</Icon>,
+  //   route: "/my-tree",
+  //   component: <Billing />,
+  // },
   // Reward List
-  {
-    type: "collapse",
-    name: "Reward List",
-    key: "reward-list",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/reward-list",
-    component: <WithdrawHistory />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Reward List",
+  //   key: "reward-list",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/reward-list",
+  //   component: <WithdrawHistory />,
+  // },
   // Product List
   {
     type: "collapse",
@@ -124,11 +125,19 @@ const routes = [
   // View Pin Code
   {
     type: "collapse",
-    name: "View Pin Code",
-    key: "view-pin-code",
+    name: "Requested Pins List",
+    key: "requested-pin-list",
     icon: <Icon fontSize="small">visibility</Icon>,
-    route: "/view-pin",
+    route: "/requested-pin-list",
     component: <ViewPin />,
+  },
+  {
+    type: "collapse",
+    name: "View User Pin",
+    key: "view-user-pin",
+    icon: <Icon fontSize="small">visibility</Icon>,
+    route: "/view-user-pin",
+    component: <ViewUserPins />,
   },
   // Change Password
   {

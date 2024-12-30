@@ -2,10 +2,12 @@ import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function ProductList() {
   return (
     <DashboardLayout>
+      <DashboardNavbar />
       <MDBox mt={6} mb={3}>
         <Grid container spacing={3} justifyContent="center">
           <Grid item xs={12} lg={8}>

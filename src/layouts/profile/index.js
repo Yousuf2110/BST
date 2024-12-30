@@ -29,6 +29,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 
 // Layout and Footer
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function CreateAccount() {
   const [formData, setFormData] = useState({
@@ -103,6 +104,7 @@ function CreateAccount() {
 
   return (
     <DashboardLayout>
+      <DashboardNavbar />
       <ToastContainer />
       <MDBox display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Card
