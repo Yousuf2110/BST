@@ -77,14 +77,14 @@ const routes = [
     component: <Billing />,
   },
   // Reward List
-  {
-    type: "collapse",
-    name: "Reward List",
-    key: "reward-list",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/reward-list",
-    component: <WithdrawHistory />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Reward List",
+  //   key: "reward-list",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/reward-list",
+  //   component: <WithdrawHistory />,
+  // },
   // Product List
   {
     type: "collapse",
@@ -111,21 +111,12 @@ const routes = [
     route: "/buy-pin",
     component: <PinRequest />,
   },
-  // View Pin Code
   {
     type: "collapse",
-    name: "Requested Pins List",
-    key: "requested-pin-list",
+    name: "View Pin Code",
+    key: "view-pin-code",
     icon: <Icon fontSize="small">visibility</Icon>,
-    route: "/requested-pin-list",
-    component: <ViewPin />,
-  },
-  {
-    type: "collapse",
-    name: "View User Pin",
-    key: "view-user-pin",
-    icon: <Icon fontSize="small">visibility</Icon>,
-    route: "/view-user-pin",
+    route: "/view-pin-code",
     component: <ViewUserPins />,
   },
   // Change Password

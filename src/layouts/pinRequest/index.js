@@ -13,8 +13,12 @@ import MDTypography from "components/MDTypography";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import DataTable from "examples/Tables/DataTable";
+import { CircularProgress } from "@mui/material";
 
 function PinRequest() {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("authToken");
   const [formData, setFormData] = useState({
     accountNumber: "",
@@ -27,6 +31,27 @@ function PinRequest() {
     account_title: "",
     bank_name: "",
   });
+
+  const columns = [
+    { Header: "Id", accessor: "id", align: "center" },
+    { Header: "Account #", accessor: "accountNumber", align: "left" },
+    { Header: "Trx Id", accessor: "transactionId", align: "left" },
+    { Header: "User Email", accessor: "userEmail", align: "center" },
+    { Header: "Amount", accessor: "amount", align: "center" },
+    {
+      Header: "Screenshot",
+      accessor: "screenshot",
+      align: "center",
+      Cell: ({ row }) => (
+        <img
+          src={row.original.screenshot}
+          alt="Screenshot"
+          style={{ maxWidth: "100px", height: "auto" }}
+        />
+      ),
+    },
+    { Header: "Status", accessor: "status", align: "center" },
+  ];
 
   useEffect(() => {
     const fetchPaymentMethod = async () => {
@@ -53,9 +78,63 @@ function PinRequest() {
     fetchPaymentMethod();
   }, [token]);
 
+  useEffect(() => {
+    const fetchPins = async () => {
+      try {
+        const response = await axios.get(
+          "https://ecosphere-pakistan-backend.co-m.pk/api/user-pins",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const fetchedData = response.data.pins;
+        const formattedRows = fetchedData.map((item) => ({
+          id: item.id,
+          accountNumber: item.account_number,
+          transactionId: item.transaction_id,
+          userEmail: item.user_email,
+          amount: item.amount,
+          screenshot: (
+            <img
+              src={item.screenshot_url}
+              alt="screenshot"
+              style={{ width: "100px", height: "auto", cursor: "pointer" }}
+              onClick={() => setSelectedImage(item.screenshot_url)}
+            />
+          ),
+          status: (
+            <span
+              style={{
+                color:
+                  item.status.toLowerCase() === "approve"
+                    ? "green"
+                    : item.status.toLowerCase() === "reject"
+                    ? "red"
+                    : item.status.toLowerCase() === "pending"
+                    ? "orange"
+                    : "black",
+                fontWeight: "bold",
+                textTransform: "capitalize",
+              }}
+            >
+              {item.status}
+            </span>
+          ),
+        }));
+        setRows(formattedRows);
+      } catch (error) {
+        toast.error("Error fetching PIN requests: " + error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPins();
+  }, [token]);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
     if (name === "paymentScreenshot" && files && files[0]) {
       setFormData({ ...formData, [name]: files[0] });
     } else {
@@ -67,9 +146,8 @@ function PinRequest() {
     e.preventDefault();
 
     const { accountNumber, trxId, amount, paymentScreenshot } = formData;
-
     if (!accountNumber || !trxId || !amount || !paymentScreenshot) {
-      toast.error("All fields are required. Please fill in all details.");
+      toast.error("All fields are required.");
       return;
     }
 
@@ -85,25 +163,23 @@ function PinRequest() {
         formPayload,
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       if (response.data) {
-        toast.success("PIN Request Successful!");
+        toast.success("PIN request submitted successfully!");
         setFormData({
           accountNumber: "",
           trxId: "",
           amount: "",
           paymentScreenshot: "",
         });
-      } else {
-        toast.error(response.data.message || "Something went wrong.");
       }
     } catch (error) {
-      toast.error("Network error: " + error.message);
+      toast.error("Error submitting request: " + error.message);
     }
   };
 
@@ -265,6 +341,22 @@ function PinRequest() {
             </Grid>
           </form>
         </Card>
+      </MDBox>
+      <br />
+      <br />
+      <br />
+      <MDBox>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <DataTable
+            table={{ columns, rows }}
+            isSorted={true}
+            entriesPerPage={false}
+            showTotalEntries={false}
+            noEndBorder
+          />
+        )}
       </MDBox>
     </DashboardLayout>
   );

@@ -131,20 +131,6 @@ function CreateAccount() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Username"
-                  name="username"
-                  variant="outlined"
-                  placeholder="یہاں نام لکھیں"
-                  value={formData.username}
-                  onChange={handleChange}
-                  InputProps={{
-                    startAdornment: <PersonIcon sx={{ mr: 1 }} />,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
                   label="Pin/Token"
                   name="pinToken"
                   variant="outlined"
@@ -156,6 +142,21 @@ function CreateAccount() {
                   }}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Username"
+                  name="username"
+                  variant="outlined"
+                  placeholder="یہاں نام لکھیں"
+                  value={formData.username}
+                  onChange={handleChange}
+                  InputProps={{
+                    startAdornment: <PersonIcon sx={{ mr: 1 }} />,
+                  }}
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   fullWidth
