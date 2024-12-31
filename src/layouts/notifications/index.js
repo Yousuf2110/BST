@@ -24,10 +24,12 @@ import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function ComingSoon() {
   return (
     <DashboardLayout>
+      <DashboardNavbar />
       <MDBox display="flex" alignItems="center" justifyContent="center" height="100vh">
         <Card
           sx={{

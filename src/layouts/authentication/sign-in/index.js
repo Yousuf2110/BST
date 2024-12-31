@@ -41,10 +41,10 @@ function Basic() {
           login(token);
         }
         localStorage.setItem("userData", JSON.stringify(response.data));
-        toast.success("Login Successful! Redirecting to dashboard...");
+        toast.success("Login Successful!");
         setTimeout(() => {
           navigate("/dashboard");
-        }, 2000);
+        }, 1000);
       } else {
         toast.error(response.data.message || "Login failed. Unexpected response from server.");
       }

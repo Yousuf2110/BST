@@ -7,6 +7,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function WithDrawHistory() {
   const token = localStorage.getItem("authToken");
@@ -21,6 +22,8 @@ function WithDrawHistory() {
     ],
     rows: [],
   });
+  const [loading, setLoading] = useState(true);
+  const [noData, setNoData] = useState(false);
 
   const formatDate = (dateString) => {
     try {
@@ -34,6 +37,7 @@ function WithDrawHistory() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           "https://ecosphere-pakistan-backend.co-m.pk/api/user-withdraws",
           {
@@ -61,7 +65,9 @@ function WithDrawHistory() {
           updated_at: formatDate(item.updated_at),
         }));
 
-        console.log("xx-mappedRows", mappedRows);
+        if (mappedRows.length === 0) {
+          setNoData(true);
+        }
 
         setTableData((prevState) => ({
           ...prevState,
@@ -69,9 +75,11 @@ function WithDrawHistory() {
         }));
       } catch (error) {
         console.error("Error fetching withdrawals:", error);
+        setNoData(true);
+      } finally {
+        setLoading(false);
       }
     };
-
     fetchData();
   }, [token]);
 
@@ -97,13 +105,25 @@ function WithDrawHistory() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                <DataTable
-                  table={tableData}
-                  isSorted={true}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
+                {loading ? (
+                  <Grid container justifyContent="center">
+                    <CircularProgress />
+                  </Grid>
+                ) : noData ? (
+                  <Grid container justifyContent="center">
+                    <MDTypography variant="h6" color="textSecondary">
+                      No data available
+                    </MDTypography>{" "}
+                  </Grid>
+                ) : (
+                  <DataTable
+                    table={tableData}
+                    isSorted={true}
+                    entriesPerPage={false}
+                    showTotalEntries={false}
+                    noEndBorder
+                  />
+                )}
               </MDBox>
             </Card>
           </Grid>

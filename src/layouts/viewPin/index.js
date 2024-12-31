@@ -9,10 +9,12 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function ViewPin() {
   const [rows, setRows] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("authToken");
 
   const columns = [
@@ -35,7 +37,6 @@ function ViewPin() {
       })
       .then((response) => {
         const fetchedData = response.data.pins;
-
         const formattedRows = fetchedData.map((item) => ({
           id: item.id,
           accountNumber: item.account_number,
@@ -71,8 +72,11 @@ function ViewPin() {
         }));
         setRows(formattedRows);
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
+      .catch(() => {
+        setRows([]);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -97,14 +101,22 @@ function ViewPin() {
                   Pins List
                 </MDTypography>
               </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={{ columns, rows }}
-                  isSorted={true}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
+              <MDBox pt={3} display="flex" justifyContent="center" alignItems="center">
+                {loading ? (
+                  <CircularProgress />
+                ) : rows.length === 0 ? (
+                  <MDTypography variant="h6" color="text">
+                    No Data Available
+                  </MDTypography>
+                ) : (
+                  <DataTable
+                    table={{ columns, rows }}
+                    isSorted={true}
+                    entriesPerPage={false}
+                    showTotalEntries={false}
+                    noEndBorder
+                  />
+                )}
               </MDBox>
             </Card>
           </Grid>

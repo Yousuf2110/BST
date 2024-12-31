@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import MDTypography from "components/MDTypography";
 
 function Dashboard() {
   const [data, setData] = useState({
@@ -50,7 +52,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon="leaderboard"
                 title="Current Income"
-                count={`Rs ${data.current_income}/-`}
+                count={`Rs ${data?.current_income || "---"}/-`}
               />
             </MDBox>
           </Grid>
@@ -60,7 +62,7 @@ function Dashboard() {
                 color="success"
                 icon={<EmojiEventsIcon />}
                 title="Reward Income"
-                count={`Rs ${data.reward_income}/-`}
+                count={`Rs ${data?.reward_income || "---"}/-`}
               />
             </MDBox>
           </Grid>
@@ -70,7 +72,7 @@ function Dashboard() {
                 color="primary"
                 icon={<MonetizationOnIcon />}
                 title="Total Income"
-                count={`Rs ${data.total_income}/-`}
+                count={`Rs ${data?.total_income || "---"}/-`}
               />
             </MDBox>
           </Grid>
@@ -80,7 +82,7 @@ function Dashboard() {
                 color="dark"
                 icon="confirmation_number"
                 title="Available Pins"
-                count={data.available_pins}
+                count={data?.available_pins || "---"}
               />
             </MDBox>
           </Grid>

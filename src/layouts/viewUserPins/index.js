@@ -9,9 +9,11 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function ViewUserPins() {
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const token = localStorage.getItem("authToken");
 
@@ -34,11 +36,11 @@ function ViewUserPins() {
         const fetchedData = response.data.pins;
 
         const formattedRows = fetchedData
-          .filter((item) => item.status.toLowerCase() !== "used") // Exclude used pins
+          .filter((item) => item.status.toLowerCase() !== "used")
           .map((item) => ({
             id: item.id,
-            userEmail: item.user_email || "N/A", // Handle missing data
-            pin: item.pin || "N/A", // Handle missing data
+            userEmail: item.user_email || "N/A",
+            pin: item.pin || "N/A",
             status: (
               <span
                 style={{
@@ -55,7 +57,8 @@ function ViewUserPins() {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-      });
+      })
+      .finally(() => setLoading(false));
   }, [token]);
 
   return (
@@ -80,13 +83,25 @@ function ViewUserPins() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                <DataTable
-                  table={{ columns, rows }}
-                  isSorted={true}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
+                {loading ? (
+                  <MDBox display="flex" justifyContent="center" alignItems="center" p={3}>
+                    <CircularProgress />
+                  </MDBox>
+                ) : rows.length > 0 ? (
+                  <DataTable
+                    table={{ columns, rows }}
+                    isSorted={true}
+                    entriesPerPage={false}
+                    showTotalEntries={false}
+                    noEndBorder
+                  />
+                ) : (
+                  <MDBox display="flex" justifyContent="center" alignItems="center" p={3}>
+                    <MDTypography variant="h6" color="textSecondary">
+                      No data available
+                    </MDTypography>
+                  </MDBox>
+                )}
               </MDBox>
             </Card>
           </Grid>

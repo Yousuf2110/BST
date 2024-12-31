@@ -40,7 +40,6 @@ import Dashboard from "layouts/dashboard";
 import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -69,23 +68,23 @@ const routes = [
     component: <WithdrawHistory />,
   },
   // My Tree
-  // {
-  //   type: "collapse",
-  //   name: "My Tree",
-  //   key: "my-tree",
-  //   icon: <Icon fontSize="small">receipt_long</Icon>,
-  //   route: "/my-tree",
-  //   component: <Billing />,
-  // },
+  {
+    type: "collapse",
+    name: "My Tree",
+    key: "my-tree",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/my-tree",
+    component: <Billing />,
+  },
   // Reward List
-  // {
-  //   type: "collapse",
-  //   name: "Reward List",
-  //   key: "reward-list",
-  //   icon: <Icon fontSize="small">notifications</Icon>,
-  //   route: "/reward-list",
-  //   component: <WithdrawHistory />,
-  // },
+  {
+    type: "collapse",
+    name: "Reward List",
+    key: "reward-list",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/reward-list",
+    component: <WithdrawHistory />,
+  },
   // Product List
   {
     type: "collapse",
@@ -104,16 +103,6 @@ const routes = [
     route: "/create-account",
     component: <Profile />,
   },
-  // Buy Pin Code
-  // {
-  //   type: "collapse",
-  //   name: "Buy Pin Code",
-  //   key: "sign-in",
-  //   icon: <Icon fontSize="small">shopping_cart</Icon>,
-  //   route: "/authentication/sign-in",
-  //   component: <SignIn />,
-  // },
-
   {
     type: "collapse",
     name: "Buy Pin Code",
