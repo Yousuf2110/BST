@@ -48,6 +48,7 @@ import ViewPin from "layouts/viewPin";
 import ChangePassword from "layouts/changePassword";
 import WithdrawHistory from "layouts/withdrawHistory";
 import ViewUserPins from "layouts/viewUserPins";
+import RewardList from "layouts/rewardList";
 
 const routes = [
   {
@@ -77,14 +78,14 @@ const routes = [
     component: <Billing />,
   },
   // Reward List
-  // {
-  //   type: "collapse",
-  //   name: "Reward List",
-  //   key: "reward-list",
-  //   icon: <Icon fontSize="small">notifications</Icon>,
-  //   route: "/reward-list",
-  //   component: <WithdrawHistory />,
-  // },
+  {
+    type: "collapse",
+    name: "Reward List",
+    key: "reward-list",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/reward-list",
+    component: <RewardList />,
+  },
   // Product List
   {
     type: "collapse",

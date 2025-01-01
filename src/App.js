@@ -38,8 +38,6 @@ export default function App() {
   const { pathname } = useLocation();
 
   const userData = localStorage.getItem("userData");
-  const token = localStorage.getItem("authToken");
-
   const user = userData ? JSON.parse(userData) : null;
 
   useMemo(() => {

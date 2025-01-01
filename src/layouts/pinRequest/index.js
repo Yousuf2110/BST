@@ -258,7 +258,7 @@ function PinRequest() {
               PIN Request
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              اد رکھیں جعلی ٹرانزیکشن آئ ڈی یا جعلی پن ریکوسٹ لگانے سے آپ کا اکاؤنٹ بلاک ہوسکتا ہے
+              یاد رکھیں جعلی ٹرانزیکشن آئ ڈی یا جعلی پن ریکوسٹ لگانے سے آپ کا اکاؤنٹ بلاک ہوسکتا ہے
               تسلی سے درست معلومات درج کریں تاکہ دشواری کا سامنا نہ کرنا پڑے
             </MDTypography>
           </MDBox>

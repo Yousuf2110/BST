@@ -15,7 +15,7 @@ function WithDrawHistory() {
     columns: [
       { Header: "ID", accessor: "id", align: "left" },
       { Header: "Email", accessor: "user_email", align: "center" },
-      { Header: "Amount ($)", accessor: "amount", align: "center" },
+      { Header: "Amount", accessor: "amount", align: "center" },
       { Header: "Status", accessor: "status", align: "center" },
       { Header: "Created At", accessor: "created_at", align: "center" },
       { Header: "Updated At", accessor: "updated_at", align: "center" },

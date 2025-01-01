@@ -146,7 +146,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   fontSize: "6.5rem",
                 }}
               >
-                {miniSidenav ? "account_circle" : "account_circle"}
+                {miniSidenav ? "menu_open" : "menu"}
               </Icon>
             </IconButton>
 
