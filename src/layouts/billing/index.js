@@ -3,7 +3,6 @@ import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button"; // Added for back button
 import axios from "axios";
 
 // Material Dashboard 2 React components
@@ -15,9 +14,7 @@ function TreeView() {
   const [count, setCount] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
   const token = localStorage.getItem("authToken");
-  const [leadId, setLeadId] = useState(null);
 
   useEffect(() => {
     const fetchTreeData = async () => {
@@ -31,7 +28,6 @@ function TreeView() {
 
         setTreeData(response.data.tree);
         setCount(response.data);
-        setCurrentUser(response.data.tree.user); // Set the initial main user
       } catch (err) {
         setError("Failed to load tree data. Please try again.");
         console.error("Error fetching tree data:", err);
@@ -42,17 +38,6 @@ function TreeView() {
 
     fetchTreeData();
   }, [token]);
-
-  const handleUserClick = (user) => {
-    setCurrentUser(user);
-    if (user?.email) {
-      setLeadId(user.email);
-    }
-  };
-
-  const handleBackClick = () => {
-    setCurrentUser(treeData?.user); // Go back to the root user
-  };
 
   if (loading) {
     return <Typography>Loading...</Typography>;
@@ -67,13 +52,8 @@ function TreeView() {
   }
 
   const renderNode = (node, color) => {
-    const isMainUser = node?.id === treeData?.user?.id;
-    console.log("xx-node", node);
     return (
-      <Box
-        onClick={() => !isMainUser && handleUserClick(node)}
-        sx={{ cursor: isMainUser ? "not-allowed" : "pointer", textAlign: "center" }}
-      >
+      <Box sx={{ textAlign: "center" }}>
         <Avatar
           sx={{
             margin: "0 auto",
@@ -89,40 +69,30 @@ function TreeView() {
           variant="body2"
           sx={{ marginTop: "10px", fontSize: { xs: "0.75rem", sm: "1rem" } }}
         >
-          {leadId}
+          {node?.email || "No Email"}
         </Typography>
       </Box>
     );
   };
 
-  const { user, left, right } = currentUser ? currentUser : treeData; // Use currentUser or fallback to the main user
+  const { user, left, right } = treeData;
 
   return (
     <Box sx={{ textAlign: "center", padding: "20px" }}>
-      {currentUser && currentUser !== treeData?.user && (
-        <Button
-          variant="outlined"
-          color="primary"
-          sx={{ marginBottom: "20px", color: "#000" }}
-          onClick={handleBackClick}
-        >
-          Back
-        </Button>
-      )}
-
-      <Grid container justifyContent="center">
-        <Grid item xs={12}>
-          {renderNode(user, "blue")}
-        </Grid>
-      </Grid>
+      {/* Main User */}
+      <Typography variant="h6" sx={{ marginBottom: "20px" }}>
+        Main User
+      </Typography>
+      {user ? renderNode(user, "blue") : <Typography>No Main User</Typography>}
 
       <Typography
         variant="body1"
         sx={{ marginTop: "20px", fontSize: { xs: "0.8rem", sm: "1rem" } }}
       >
-        Left Users: {count.left_count || 0} | Right Users: {count.right_count || 0}
+        Left Users: {count.left_count || 0} | Right Users: {1 || 0}
       </Typography>
 
+      {/* Left and Right Users */}
       <Grid container spacing={4} justifyContent="center" sx={{ marginTop: "40px" }}>
         <Grid item xs={6} sm={4} md={3} textAlign="center">
           {left ? renderNode(left.user, "purple") : <Typography>No Left User</Typography>}

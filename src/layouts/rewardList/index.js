@@ -73,6 +73,7 @@ const RewardList = () => {
       { team: "12000/12000", rank: "8 Star", reward: "270000", status: getRowStatus("8 Star") },
       { team: "23000/23000", rank: "9 Star", reward: "550000", status: getRowStatus("9 Star") },
       { team: "37000/37000", rank: "10 Star", reward: "1250000", status: getRowStatus("10 Star") },
+      { team: "59000/50000", rank: "11 Star", reward: "1600000", status: getRowStatus("11 Star") },
     ],
   };
 
@@ -125,6 +126,12 @@ const RewardList = () => {
                       return value;
                     },
                   }))}
+                  // Add styles for making sure the table fits the screen
+                  sx={{
+                    overflowX: "auto", // Allows horizontal scrolling
+                    tableLayout: "auto", // Adjust table columns width
+                    minWidth: 1200, // Ensures the table is wide enough to fit 11 rows
+                  }}
                 />
               </MDBox>
             </Card>

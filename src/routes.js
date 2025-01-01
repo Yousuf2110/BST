@@ -65,7 +65,7 @@ const routes = [
     name: "Withdraw History",
     key: "withdraw-history",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/Withdraw-history",
+    route: "/withdraw-history",
     component: <WithdrawHistory />,
   },
   // My Tree
@@ -109,7 +109,7 @@ const routes = [
     name: "Buy Pin Code",
     key: "buy-pin-code",
     icon: <Icon fontSize="small">shopping_cart</Icon>,
-    route: "/buy-pin",
+    route: "/buy-pin-code",
     component: <PinRequest />,
   },
   {
@@ -124,7 +124,7 @@ const routes = [
   {
     type: "collapse",
     name: "Change Password",
-    key: "Change-password",
+    key: "change-password",
     icon: <Icon fontSize="small">lock</Icon>,
     route: "/change-password",
     component: <ChangePassword />,

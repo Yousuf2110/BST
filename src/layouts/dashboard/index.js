@@ -52,7 +52,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon="leaderboard"
                 title="Current Income"
-                count={`Rs ${data?.current_income || "---"}/-`}
+                count={`${data?.current_income || "0"}`}
               />
             </MDBox>
           </Grid>
@@ -62,7 +62,7 @@ function Dashboard() {
                 color="success"
                 icon={<EmojiEventsIcon />}
                 title="Reward Income"
-                count={`Rs ${data?.reward_income || "---"}/-`}
+                count={`${data?.reward_income || "0"}`}
               />
             </MDBox>
           </Grid>
@@ -72,7 +72,7 @@ function Dashboard() {
                 color="primary"
                 icon={<MonetizationOnIcon />}
                 title="Total Income"
-                count={`Rs ${data?.total_income || "---"}/-`}
+                count={`  ${data?.total_income || "0"}`}
               />
             </MDBox>
           </Grid>
@@ -82,7 +82,7 @@ function Dashboard() {
                 color="dark"
                 icon="confirmation_number"
                 title="Available Pins"
-                count={data?.available_pins || "---"}
+                count={data?.available_pins || "0"}
               />
             </MDBox>
           </Grid>
