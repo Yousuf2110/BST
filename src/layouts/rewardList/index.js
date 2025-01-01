@@ -73,7 +73,7 @@ const RewardList = () => {
       { team: "12000/12000", rank: "8 Star", reward: "270000", status: getRowStatus("8 Star") },
       { team: "23000/23000", rank: "9 Star", reward: "550000", status: getRowStatus("9 Star") },
       { team: "37000/37000", rank: "10 Star", reward: "1250000", status: getRowStatus("10 Star") },
-      { team: "59000/50000", rank: "11 Star", reward: "1600000", status: getRowStatus("11 Star") },
+      { team: "50000/50000", rank: "11 Star", reward: "1600000", status: getRowStatus("11 Star") },
     ],
   };
 
