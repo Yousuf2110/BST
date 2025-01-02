@@ -77,6 +77,17 @@ function TreeView() {
 
   const { user, left, right } = treeData;
 
+  const renderRightUsers = () => {
+    if (right) {
+      return (
+        <Grid item xs={6} sm={4} md={3} textAlign="center">
+          {renderNode(right.user, "purple")}
+        </Grid>
+      );
+    }
+    return null;
+  };
+
   return (
     <Box sx={{ textAlign: "center", padding: "20px" }}>
       {/* Main User */}
@@ -89,7 +100,7 @@ function TreeView() {
         variant="body1"
         sx={{ marginTop: "20px", fontSize: { xs: "0.8rem", sm: "1rem" } }}
       >
-        Left Users: {count.left_count || 0} | Right Users: {1 || 0}
+        Left Users: {count.left_count || 0} | Right Users: {count.right_count || 0}
       </Typography>
 
       {/* Left and Right Users */}
@@ -97,9 +108,7 @@ function TreeView() {
         <Grid item xs={6} sm={4} md={3} textAlign="center">
           {left ? renderNode(left.user, "purple") : <Typography>No Left User</Typography>}
         </Grid>
-        <Grid item xs={6} sm={4} md={3} textAlign="center">
-          {right ? renderNode(right.user, "purple") : <Typography>No Right User</Typography>}
-        </Grid>
+        {renderRightUsers()}
       </Grid>
     </Box>
   );

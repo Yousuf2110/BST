@@ -83,8 +83,9 @@ function Basic() {
         localStorage.setItem("userData", JSON.stringify(response.data));
         toast.success("Login Successful!");
 
-        // Navigate to dashboard
-        navigate("/dashboard");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
       }
     } catch (err) {
       handleApiError(err);
@@ -201,6 +202,10 @@ function Basic() {
                   اہم نوٹ : یاد رکھیں جس اکاؤنٹ کا پاسورڈ ریسیٹ کرنا ہے اس ہی اکاؤنٹ نمبر سے 30 روپے
                   کمپنی کے نمبر پر بھیج کر ریکوسٹ لگائیں جعلی ریکوسٹ لگانے پر آپ کی پاسورڈ ریسیٹ کی
                   سروس معطل ہو جائے گی
+                </MDTypography>
+                <MDTypography variant="body2" color="textSecondary">
+                  اگر آپ جعلی ٹرانزیکشن آئی ڈی استعمال کرتے ہیں تو کمپنی آپ کا اکاؤنٹ معطل کر سکتی
+                  ہے۔
                 </MDTypography>
               </MDBox>
               <form onSubmit={handleResetPassword}>
