@@ -16,6 +16,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import BadgeIcon from "@mui/icons-material/Badge";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -138,7 +141,7 @@ function CreateAccount() {
                   value={formData.pinToken}
                   onChange={handleChange}
                   InputProps={{
-                    startAdornment: <LockIcon sx={{ mr: 1 }} />,
+                    startAdornment: <VpnKeyIcon sx={{ mr: 1 }} />,
                   }}
                 />
               </Grid>
@@ -183,7 +186,7 @@ function CreateAccount() {
                   value={formData.number}
                   onChange={handleChange}
                   InputProps={{
-                    startAdornment: <PhoneIcon sx={{ mr: 1 }} />,
+                    startAdornment: <AccountBalanceIcon sx={{ mr: 1 }} />,
                   }}
                 />
               </Grid>
@@ -226,7 +229,7 @@ function CreateAccount() {
                   value={formData.accountTitle}
                   onChange={handleChange}
                   InputProps={{
-                    startAdornment: <PersonIcon sx={{ mr: 1 }} />,
+                    startAdornment: <BadgeIcon sx={{ mr: 1 }} />,
                   }}
                 />
               </Grid>

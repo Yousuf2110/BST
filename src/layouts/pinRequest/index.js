@@ -4,9 +4,10 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import PersonIcon from "@mui/icons-material/Person";
-import LockIcon from "@mui/icons-material/Lock";
-import EmailIcon from "@mui/icons-material/Email";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -34,7 +35,7 @@ function PinRequest() {
 
   const columns = [
     { Header: "Id", accessor: "id", align: "center" },
-    { Header: "Account #", accessor: "accountNumber", align: "left" },
+    { Header: "Account number", accessor: "accountNumber", align: "left" },
     { Header: "Trx Id", accessor: "transactionId", align: "left" },
     { Header: "User Email", accessor: "userEmail", align: "center" },
     { Header: "Amount", accessor: "amount", align: "center" },
@@ -119,7 +120,7 @@ function PinRequest() {
                 textTransform: "capitalize",
               }}
             >
-              {item.status}
+              {item.status?.toUpperCase()}
             </span>
           ),
         }));
@@ -268,14 +269,14 @@ function PinRequest() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  label="Account #"
+                  label="Account number"
                   name="accountNumber"
                   type="number"
                   variant="outlined"
                   value={formData.accountNumber}
                   onChange={handleChange}
                   InputProps={{
-                    startAdornment: <PersonIcon sx={{ mr: 1 }} />,
+                    startAdornment: <AccountCircleIcon sx={{ mr: 1 }} />,
                   }}
                 />
               </Grid>
@@ -289,7 +290,7 @@ function PinRequest() {
                   value={formData.trxId}
                   onChange={handleChange}
                   InputProps={{
-                    startAdornment: <LockIcon sx={{ mr: 1 }} />,
+                    startAdornment: <ReceiptIcon sx={{ mr: 1 }} />,
                   }}
                 />
               </Grid>
@@ -303,7 +304,7 @@ function PinRequest() {
                   value={formData.amount}
                   onChange={handleChange}
                   InputProps={{
-                    startAdornment: <EmailIcon sx={{ mr: 1 }} />,
+                    startAdornment: <AttachMoneyIcon sx={{ mr: 1 }} />,
                   }}
                 />
               </Grid>
@@ -315,6 +316,9 @@ function PinRequest() {
                   type="file"
                   variant="outlined"
                   onChange={handleChange}
+                  InputProps={{
+                    startAdornment: <UploadFileIcon sx={{ mr: 1 }} />,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
