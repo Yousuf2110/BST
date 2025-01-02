@@ -9,12 +9,11 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import LockIcon from "@mui/icons-material/Lock";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { useNavigate } from "react-router-dom";
 
 import BasicLayout from "layouts/authentication/components/BasicLayout";
-
 import logo from "assets/images/logo-2.png";
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import { useAuth } from "context/AuthContext";
@@ -36,16 +35,12 @@ function Basic() {
     payment_screenshot: null,
   });
   const { login } = useAuth();
+  const navigate = useNavigate();
 
-  // Array of available Material-UI colors
   const availableColors = ["info", "success", "warning", "error", "primary", "secondary"];
 
-  // Function to get random color from available colors
-  const getRandomColor = () => {
-    return availableColors[Math.floor(Math.random() * availableColors.length)];
-  };
+  const getRandomColor = () => availableColors[Math.floor(Math.random() * availableColors.length)];
 
-  // Effect for changing colors every 2 seconds
   useEffect(() => {
     const colorInterval = setInterval(() => {
       setBgColors({
@@ -54,12 +49,12 @@ function Basic() {
       });
     }, 2000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(colorInterval);
   }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     if (!username || !password) {
       toast.error("Please enter both email and password.");
       return;
@@ -87,6 +82,9 @@ function Basic() {
 
         localStorage.setItem("userData", JSON.stringify(response.data));
         toast.success("Login Successful!");
+
+        // Navigate to dashboard
+        navigate("/dashboard");
       }
     } catch (err) {
       handleApiError(err);
@@ -108,18 +106,14 @@ function Basic() {
     }
 
     const formData = new FormData();
-    Object.keys(resetFormData).forEach((key) => {
-      formData.append(key, resetFormData[key]);
-    });
+    Object.keys(resetFormData).forEach((key) => formData.append(key, resetFormData[key]));
 
     try {
       const response = await axios.post(
         "https://ecosphere-pakistan-backend.co-m.pk/api/reset-password",
         formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
@@ -134,14 +128,11 @@ function Basic() {
 
         toast.success("Password reset request submitted successfully!");
 
+        // Reset the file input value
         const fileInput = document.querySelector('input[type="file"]');
-        if (fileInput) {
-          fileInput.value = "";
-        }
+        if (fileInput) fileInput.value = "";
 
-        setTimeout(() => {
-          setIsResetPassword(false);
-        }, 1500);
+        setTimeout(() => setIsResetPassword(false), 1500);
       }
     } catch (err) {
       handleApiError(err);
@@ -149,15 +140,9 @@ function Basic() {
   };
 
   const handleApiError = (err) => {
-    if (err.response) {
-      const errorMessage =
-        err.response.data?.message || "An error occurred while processing your request.";
-      toast.error(errorMessage);
-    } else if (err.request) {
-      toast.error("No response from server. Please check your internet connection.");
-    } else {
-      toast.error("Something went wrong. Please try again.");
-    }
+    const errorMessage =
+      err.response?.data?.message || "An error occurred while processing your request.";
+    toast.error(errorMessage);
     console.error("Reset password error:", err);
   };
 
@@ -191,9 +176,7 @@ function Basic() {
             p={2}
             mb={1}
             textAlign="center"
-            sx={{
-              transition: "all 0.5s ease",
-            }}
+            sx={{ transition: "all 0.5s ease" }}
           >
             <MDBox
               component="img"
@@ -285,9 +268,7 @@ function Basic() {
                       color={bgColors.button}
                       fullWidth
                       type="submit"
-                      sx={{
-                        transition: "all 0.5s ease",
-                      }}
+                      sx={{ transition: "all 0.5s ease" }}
                     >
                       Submit Reset Request
                     </MDButton>
@@ -321,9 +302,7 @@ function Basic() {
                   color={bgColors.button}
                   fullWidth
                   type="submit"
-                  sx={{
-                    transition: "all 0.5s ease",
-                  }}
+                  sx={{ transition: "all 0.5s ease" }}
                 >
                   Login
                 </MDButton>
@@ -334,9 +313,7 @@ function Basic() {
             <Button
               onClick={() => setIsResetPassword(!isResetPassword)}
               color={bgColors.button}
-              sx={{
-                transition: "all 0.5s ease",
-              }}
+              sx={{ transition: "all 0.5s ease" }}
             >
               {isResetPassword ? "" : "Reset Password"}
             </Button>

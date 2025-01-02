@@ -43,7 +43,7 @@ function ComingSoon() {
             Coming Soon 🚀
           </Typography>
           <Typography variant="body1" sx={{ mb: 4 }}>
-            We are working hard to bring you something amazing! Stay tuned for updates.
+            ہم آپ کے لیے کچھ شاندار لانے کے لیے محنت کر رہے ہیں! اپڈیٹس کے لیے ہمارے ساتھ رہیں۔
           </Typography>
           <Box
             sx={{

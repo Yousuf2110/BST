@@ -17,7 +17,6 @@ function WithDrawHistory() {
       { Header: "Email", accessor: "user_email", align: "center" },
       { Header: "Amount", accessor: "amount", align: "center" },
       { Header: "Status", accessor: "status", align: "center" },
-      { Header: "Created At", accessor: "created_at", align: "center" },
       { Header: "Updated At", accessor: "updated_at", align: "center" },
     ],
     rows: [],
@@ -58,7 +57,7 @@ function WithDrawHistory() {
               color={item.status === "approved" ? "success" : "info"}
               fontWeight="medium"
             >
-              {item.status?.toUpperCase() || "N/A"}
+              {item.status === "approved" ? "SUCCESS" : item.status?.toUpperCase() || "N/A"}
             </MDTypography>
           ),
           created_at: formatDate(item.created_at),
