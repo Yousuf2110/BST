@@ -20,21 +20,18 @@ import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import BadgeIcon from "@mui/icons-material/Badge";
 
-// Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-
 // Material-UI icons
 import EmailIcon from "@mui/icons-material/Email";
-import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
-import PhoneIcon from "@mui/icons-material/Phone";
 
 // Layout and Footer
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
 
 function CreateAccount() {
+  const token = localStorage.getItem("authToken");
   const [formData, setFormData] = useState({
     username: "",
     pinToken: "",
@@ -77,10 +74,13 @@ function CreateAccount() {
 
     try {
       const response = await axios.post(
-        "https://ecosphere-pakistan-backend.co-m.pk/api/register",
+        "https://ecosphere-pakistan-backend.co-m.pk/api/create-user",
         payload,
         {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -101,7 +101,13 @@ function CreateAccount() {
         toast.error(response.data.message || "Failed to create the account.");
       }
     } catch (error) {
-      toast.error("Error connecting to the server. Please try again.");
+      if (error.response && error.response.data) {
+        toast.error(
+          error.response.data.message || "Error connecting to the server. Please try again."
+        );
+      } else {
+        toast.error("Error connecting to the server. Please try again.");
+      }
     }
   };
 
