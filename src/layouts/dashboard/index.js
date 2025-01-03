@@ -6,9 +6,8 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import MDTypography from "components/MDTypography";
+import WalletIcon from "@mui/icons-material/Wallet";
 
 function Dashboard() {
   const [data, setData] = useState({
@@ -70,7 +69,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="primary"
-                icon={<MonetizationOnIcon />}
+                icon={<WalletIcon />}
                 title="Total Income"
                 count={`  ${data?.total_income || "0"}`}
               />

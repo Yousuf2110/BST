@@ -4,9 +4,11 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import axios from "axios";
-import PersonIcon from "@mui/icons-material/Person";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+import ManIcon from "@mui/icons-material/Man";
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 // Material Dashboard 2 React components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -62,30 +64,32 @@ function TreeView() {
           <Avatar
             sx={{
               margin: "0 auto",
-              bgcolor: "purple",
-              width: { xs: 60, sm: 70 },
-              height: { xs: 60, sm: 70 },
-              fontSize: { xs: "0.8rem", sm: "1rem" },
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              bgcolor: "purple", // Always purple for the main user
+              width: { xs: 50, sm: 60 },
+              height: { xs: 50, sm: 60 },
+              fontSize: { xs: "1.5rem", sm: "2rem" },
             }}
           >
-            {node.user.name?.charAt(0) || <PersonIcon />}
-            {node.user.email?.charAt(0)}
+            <ManIcon sx={{ fontSize: "2.5rem", color: "white" }} />{" "}
+            {/* Display ManIcon for main user */}
           </Avatar>
 
           <Typography
             variant="body2"
-            sx={{ marginTop: "10px", fontSize: { xs: "0.75rem", sm: "1rem" } }}
+            sx={{ marginTop: "10px", fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight: "bold" }}
           >
             {node.user.name || "Unknown User"}
           </Typography>
           <Typography
             variant="caption"
-            sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "gray",
+            }}
           >
-            <MailOutlineIcon sx={{ fontSize: "1rem", marginRight: "5px" }} />
+            <EmailRoundedIcon sx={{ fontSize: "1rem", marginRight: "5px" }} />
             {node.user.email || "No Email"}
           </Typography>
         </Box>
@@ -101,7 +105,13 @@ function TreeView() {
           {/* Left User */}
           {node.left ? (
             <Box
-              sx={{ textAlign: "center", cursor: "pointer", padding: "10px", borderRadius: "8px" }}
+              sx={{
+                textAlign: "center",
+                cursor: "pointer",
+                padding: "10px",
+                borderRadius: "8px",
+                "&:hover": { backgroundColor: "#f0f0f0" },
+              }}
               onClick={() => handleNodeClick(node.left)}
             >
               <Avatar
@@ -110,10 +120,10 @@ function TreeView() {
                   bgcolor: "green",
                   width: { xs: 50, sm: 60 },
                   height: { xs: 50, sm: 60 },
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                  fontSize: "1.25rem",
                 }}
               >
-                {node.left.user.email?.charAt(0) || <PersonIcon />}
+                <ManIcon sx={{ fontSize: "5rem", color: "white" }} />
               </Avatar>
               <Typography variant="body2" sx={{ marginTop: "10px", fontSize: "0.9rem" }}>
                 {node.left.user.email || "No User"}
@@ -129,7 +139,7 @@ function TreeView() {
                   height: { xs: 50, sm: 60 },
                 }}
               >
-                <ErrorOutlineIcon />
+                <WarningAmberIcon sx={{ fontSize: "1.5rem", color: "white" }} />
               </Avatar>
               <Typography variant="body2" sx={{ marginTop: "10px", fontSize: "0.9rem" }}>
                 {"No User"}
@@ -140,7 +150,13 @@ function TreeView() {
           {/* Right User */}
           {node.right ? (
             <Box
-              sx={{ textAlign: "center", cursor: "pointer", padding: "10px", borderRadius: "8px" }}
+              sx={{
+                textAlign: "center",
+                cursor: "pointer",
+                padding: "10px",
+                borderRadius: "8px",
+                "&:hover": { backgroundColor: "#f0f0f0" },
+              }}
               onClick={() => handleNodeClick(node.right)}
             >
               <Avatar
@@ -149,10 +165,10 @@ function TreeView() {
                   bgcolor: "blue",
                   width: { xs: 50, sm: 60 },
                   height: { xs: 50, sm: 60 },
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                  fontSize: "1.25rem",
                 }}
               >
-                {node.right.user.email?.charAt(0) || <PersonIcon />}
+                <ManIcon sx={{ fontSize: "1.5rem", color: "white" }} />
               </Avatar>
               <Typography variant="body2" sx={{ marginTop: "10px", fontSize: "0.9rem" }}>
                 {node.right.user.email || "No User"}
@@ -168,7 +184,7 @@ function TreeView() {
                   height: { xs: 50, sm: 60 },
                 }}
               >
-                <ErrorOutlineIcon />
+                <WarningAmberIcon sx={{ fontSize: "1.5rem", color: "white" }} />
               </Avatar>
               <Typography variant="body2" sx={{ marginTop: "10px", fontSize: "0.9rem" }}>
                 {"No User"}
@@ -179,7 +195,6 @@ function TreeView() {
       </div>
     );
   };
-
   if (loading) {
     return <Typography>Loading...</Typography>;
   }
