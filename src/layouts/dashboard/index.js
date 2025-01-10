@@ -47,10 +47,17 @@ function Dashboard() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDTypography variant="h4" fontWeight="bold" color="textPrimary" gutterBottom>
-        {user?.info.name}
-      </MDTypography>
-      <MDBox py={3}>
+      <MDBox py={0}>
+        <MDTypography variant="h5" color="textSecondary" fontFamily="'Arial', sans-serif">
+          <span style={{ paddingLeft: "20px" }}>Welcome</span>
+          <br />
+          <span style={{ paddingLeft: "50px" }}>
+            {"    "}
+            {user?.info.name}
+          </span>
+        </MDTypography>
+      </MDBox>
+      <MDBox py={1.5}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
