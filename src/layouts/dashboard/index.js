@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
-import CircularProgress from "@mui/material/CircularProgress";
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import WalletIcon from "@mui/icons-material/Wallet";
+import MDTypography from "components/MDTypography";
 
 function Dashboard() {
   const [data, setData] = useState({
@@ -16,6 +16,9 @@ function Dashboard() {
     total_income: 0,
     available_pins: 0,
   });
+
+  const userData = localStorage.getItem("userData");
+  const user = userData ? JSON.parse(userData) : null;
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -44,6 +47,9 @@ function Dashboard() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <MDTypography variant="h4" fontWeight="bold" color="textPrimary" gutterBottom>
+        {user?.info.name}
+      </MDTypography>
       <MDBox py={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
