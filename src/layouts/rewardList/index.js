@@ -77,8 +77,6 @@ const RewardList = () => {
     ],
   };
 
-  console.log("user rank_star", userRankStar);
-
   return (
     <DashboardLayout>
       <DashboardNavbar />
