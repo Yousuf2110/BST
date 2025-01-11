@@ -48,9 +48,9 @@ function WithDrawHistory() {
         );
 
         const mappedRows = response.data?.withdraws.map((item) => ({
-          id: item.id || "N/A",
+          id: index + 1,
           user_email: item.user_email || "N/A",
-          amount: parseFloat(item.amount).toFixed(2) || "0.00",
+          total_amount: parseFloat(item.amount).toFixed(2) || "0.00",
           status: (
             <MDTypography
               variant="caption"
@@ -60,7 +60,6 @@ function WithDrawHistory() {
               {item.status === "approved" ? "SUCCESS" : item.status?.toUpperCase() || "N/A"}
             </MDTypography>
           ),
-          created_at: formatDate(item.created_at),
           updated_at: formatDate(item.updated_at),
         }));
 
