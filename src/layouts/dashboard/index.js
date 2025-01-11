@@ -76,8 +76,13 @@ function Dashboard() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox py={0}>
-        <MDTypography variant="h5" color="textSecondary" fontFamily="'Arial', sans-serif">
+      <MDBox pt={-2} pb={0}>
+        <MDTypography
+          variant="h5"
+          color="textSecondary"
+          fontFamily="'Arial', sans-serif"
+          style={{ marginTop: "-10px" }}
+        >
           <span style={{ paddingLeft: "20px" }}>Welcome</span>
           <br />
           <span style={{ paddingLeft: "50px" }}>
@@ -86,7 +91,7 @@ function Dashboard() {
           </span>
         </MDTypography>
       </MDBox>
-      <MDBox py={1.5}>
+      <MDBox py={0}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
@@ -148,9 +153,14 @@ function Dashboard() {
           onClick={() =>
             handleOpenModal({
               title: "Contact Us",
-              body:
-                "03135178113 WhatsApp Helpline Number.\nاسلام و علیکم کیسی بھی قسم کی انفارمیشن کے لیے اور " +
-                "کوئی ٹیکنیکل ایشو ہونے پر ہم سے اس نمبر پہ رابطہ کر سکتے ہیں۔ ہماری ٹیم 1 گنٹھے میں آپکو جواب دے گی۔",
+              body: `
+        Helpline Number: 03135178113 (WhatsApp)
+        
+        السلام علیکم،
+        کسی بھی قسم کی معلومات یا ٹیکنیکل مسائل کے حل کے لیے آپ اس نمبر پر ہم سے رابطہ کر سکتے ہیں۔
+        ہماری ٹیم آپ کی رہنمائی کے لیے دستیاب ہے اور آپ کو ایک گھنٹے کے اندر جواب فراہم کردے گی! 
+        شکریہ۔
+      `,
             })
           }
         >
