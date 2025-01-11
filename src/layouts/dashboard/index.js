@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
@@ -9,6 +14,18 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import WalletIcon from "@mui/icons-material/Wallet";
 import MDTypography from "components/MDTypography";
 
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "8px",
+};
+
 function Dashboard() {
   const [data, setData] = useState({
     current_income: "0.00",
@@ -16,6 +33,18 @@ function Dashboard() {
     total_income: 0,
     available_pins: 0,
   });
+
+  const [openModal, setOpenModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+
+  const handleOpenModal = (content) => {
+    setModalContent(content);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const userData = localStorage.getItem("userData");
   const user = userData ? JSON.parse(userData) : null;
@@ -100,6 +129,48 @@ function Dashboard() {
           </Grid>
         </Grid>
       </MDBox>
+      <MDBox mt={3} p={2} bgcolor="gray" display="flex" justifyContent="center" gap={2}>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "white", color: "black" }}
+          onClick={() =>
+            handleOpenModal({
+              title: "Privacy Policy",
+              // body: "This is the Privacy Policy content. Replace this with the actual policy details.",
+            })
+          }
+        >
+          Privacy Policy
+        </Button>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "white", color: "black" }}
+          onClick={() =>
+            handleOpenModal({
+              title: "Contact Us",
+              body:
+                "03135178113 WhatsApp Helpline Number.\nاسلام و علیکم کیسی بھی قسم کی انفارمیشن کے لیے اور " +
+                "کوئی ٹیکنیکل ایشو ہونے پر ہم سے اس نمبر پہ رابطہ کر سکتے ہیں۔ ہماری ٹیم 1 گنٹھے میں آپکو جواب دے گی۔",
+            })
+          }
+        >
+          Contact Us
+        </Button>
+      </MDBox>
+
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box sx={modalStyle}>
+          <IconButton style={{ position: "absolute", top: 8, right: 8 }} onClick={handleCloseModal}>
+            <CloseIcon />
+          </IconButton>
+          <MDTypography variant="h6" color="textPrimary" mb={2}>
+            {modalContent.title}
+          </MDTypography>
+          <MDTypography variant="body1" color="textSecondary" whiteSpace="pre-line">
+            {modalContent.body}
+          </MDTypography>
+        </Box>
+      </Modal>
     </DashboardLayout>
   );
 }
