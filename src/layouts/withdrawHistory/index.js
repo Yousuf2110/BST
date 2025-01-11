@@ -15,7 +15,7 @@ function WithDrawHistory() {
     columns: [
       { Header: "ID", accessor: "id", align: "left" },
       { Header: "Email", accessor: "user_email", align: "center" },
-      { Header: "Amount", accessor: "amount", align: "center" },
+      { Header: "Amount", accessor: "total_amount", align: "center" },
       { Header: "Status", accessor: "status", align: "center" },
       { Header: "Updated At", accessor: "updated_at", align: "center" },
     ],
@@ -47,21 +47,23 @@ function WithDrawHistory() {
           }
         );
 
-        const mappedRows = response.data?.withdraws.map((item) => ({
-          id: index + 1,
-          user_email: item.user_email || "N/A",
-          total_amount: parseFloat(item.amount).toFixed(2) || "0.00",
-          status: (
-            <MDTypography
-              variant="caption"
-              color={item.status === "approved" ? "success" : "info"}
-              fontWeight="medium"
-            >
-              {item.status === "approved" ? "SUCCESS" : item.status?.toUpperCase() || "N/A"}
-            </MDTypography>
-          ),
-          updated_at: formatDate(item.updated_at),
-        }));
+        const mappedRows = response.data?.withdraws?.map((item, index) => {
+          return {
+            id: index + 1,
+            user_email: item.user_email || "N/A",
+            total_amount: item.total_amount,
+            status: (
+              <MDTypography
+                variant="caption"
+                color={item.status === "approved" ? "success" : "info"}
+                fontWeight="medium"
+              >
+                {item.status === "approved" ? "SUCCESS" : item.status?.toUpperCase() || "N/A"}
+              </MDTypography>
+            ),
+            updated_at: formatDate(item.updated_at),
+          };
+        });
 
         if (mappedRows.length === 0) {
           setNoData(true);
