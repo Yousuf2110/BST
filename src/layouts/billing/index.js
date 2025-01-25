@@ -5,27 +5,25 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
 import ManIcon from "@mui/icons-material/Man";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-
-// Material Dashboard 2 React components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function TreeView() {
   const [treeData, setTreeData] = useState(null);
+  const [history, setHistory] = useState([]);
   const [currentNode, setCurrentNode] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [memberCounts, setMemberCounts] = useState({});
+  const [memberCounts, setMemberCounts] = useState({ left_count: 0, right_count: 0 });
   const [error, setError] = useState(null);
   const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     const fetchTreeData = async () => {
       try {
-        const response = await axios.get("https://ecosphere-pakistan-backend.co-m.pk/api/my-tree", {
+        const response = await axios.get("https://backend.salespronetworks.com/api/my-tree", {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             Authorization: `Bearer ${token}`,
@@ -33,10 +31,8 @@ function TreeView() {
         });
 
         setTreeData(response.data.tree);
-        setMemberCounts({
-          left_count: response.data.left_count,
-          right_count: response.data.right_count,
-        });
+        const counts = countMembers(response.data.tree);
+        setMemberCounts(counts);
         setCurrentNode(response.data.tree);
       } catch (err) {
         setError("Failed to load tree data. Please try again.");
@@ -49,9 +45,30 @@ function TreeView() {
     fetchTreeData();
   }, [token]);
 
+  const countMembers = (node) => {
+    let leftCount = 0;
+    let rightCount = 0;
+
+    const traverse = (node, side) => {
+      if (!node) return;
+      if (side === "left") leftCount++;
+      if (side === "right") rightCount++;
+      traverse(node.left, side);
+      traverse(node.right, side);
+    };
+
+    traverse(node.left, "left");
+    traverse(node.right, "right");
+
+    return { left_count: leftCount, right_count: rightCount };
+  };
+
   const handleNodeClick = (node) => {
     if (node) {
+      setHistory((prevHistory) => [...prevHistory, currentNode]);
       setCurrentNode(node);
+      const counts = countMembers(node);
+      setMemberCounts(counts);
     }
   };
 
@@ -64,14 +81,13 @@ function TreeView() {
           <Avatar
             sx={{
               margin: "0 auto",
-              bgcolor: "purple", // Always purple for the main user
+              bgcolor: "purple",
               width: { xs: 50, sm: 60 },
               height: { xs: 50, sm: 60 },
               fontSize: { xs: "1.5rem", sm: "2rem" },
             }}
           >
-            <ManIcon sx={{ fontSize: "2.5rem", color: "white" }} />{" "}
-            {/* Display ManIcon for main user */}
+            <ManIcon sx={{ fontSize: "2.5rem", color: "white" }} />
           </Avatar>
 
           <Typography
@@ -195,6 +211,7 @@ function TreeView() {
       </div>
     );
   };
+
   if (loading) {
     return <Typography>Loading...</Typography>;
   }
@@ -206,6 +223,16 @@ function TreeView() {
   if (!treeData) {
     return <Typography>Error loading tree data. Tree data is empty.</Typography>;
   }
+
+  const handleGoBack = () => {
+    if (history.length > 0) {
+      const previousNode = history[history.length - 1];
+      setHistory((prevHistory) => prevHistory.slice(0, -1));
+      setCurrentNode(previousNode);
+      const counts = countMembers(previousNode);
+      setMemberCounts(counts);
+    }
+  };
 
   return (
     <div>
@@ -220,7 +247,7 @@ function TreeView() {
       {currentNode !== treeData && (
         <Box sx={{ textAlign: "center", marginTop: "20px" }}>
           <button
-            onClick={() => setCurrentNode(treeData)}
+            onClick={handleGoBack}
             style={{
               padding: "10px 20px",
               backgroundColor: "#1976d2",
@@ -230,7 +257,7 @@ function TreeView() {
               cursor: "pointer",
             }}
           >
-            Back to Main Tree
+            Go Back
           </button>
         </Box>
       )}

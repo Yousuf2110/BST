@@ -26,7 +26,7 @@ function ViewUserPins() {
 
   useEffect(() => {
     axios
-      .get("https://ecosphere-pakistan-backend.co-m.pk/api/view-pins", {
+      .get("https://backend.salespronetworks.com/api/view-pins", {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,

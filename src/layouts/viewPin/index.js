@@ -29,7 +29,7 @@ function ViewPin() {
 
   useEffect(() => {
     axios
-      .get("https://ecosphere-pakistan-backend.co-m.pk/api/user-pins", {
+      .get("https://backend.salespronetworks.com/api/user-pins", {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
@@ -58,10 +58,10 @@ function ViewPin() {
                   item.status.toLowerCase() === "approve"
                     ? "green"
                     : item.status.toLowerCase() === "reject"
-                    ? "red"
-                    : item.status.toLowerCase() === "pending"
-                    ? "orange"
-                    : "black",
+                      ? "red"
+                      : item.status.toLowerCase() === "pending"
+                        ? "orange"
+                        : "black",
                 fontWeight: "bold",
                 textTransform: "capitalize",
               }}

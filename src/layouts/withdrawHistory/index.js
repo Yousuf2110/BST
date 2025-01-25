@@ -38,7 +38,7 @@ function WithDrawHistory() {
       try {
         setLoading(true);
         const response = await axios.get(
-          "https://ecosphere-pakistan-backend.co-m.pk/api/user-withdraws",
+          "https://backend.salespronetworks.com/api/user-withdraws",
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",

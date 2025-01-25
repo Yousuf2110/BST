@@ -38,15 +38,15 @@ const RewardList = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "Active":
-        return "success";
+        return "green";
       case "Achieved":
-        return "info";
+        return "yellow";
       case "Upcoming":
-        return "warning";
+        return "blue";
       case "Non-active":
-        return "error";
+        return "#A9A9A9";
       default:
-        return "default";
+        return "#A9A9A9";
     }
   };
 
@@ -55,7 +55,20 @@ const RewardList = () => {
       { Header: "Team", accessor: "team" },
       { Header: "Rank", accessor: "rank" },
       { Header: "Reward", accessor: "reward" },
-      { Header: "Status", accessor: "status" },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: ({ value }) => (
+          <MDTypography variant="caption" color={'white'} fontWeight="medium" sx={{
+            backgroundColor: getStatusColor(value),
+            borderRadius: '12px',
+            padding: '4px 8px',
+            display: 'inline-block'
+          }}>
+            {value}
+          </MDTypography>
+        ),
+      },
     ],
     rows: [
       { team: "30/30", rank: "1 Star", reward: "E-Files", status: getRowStatus("1 Star") },

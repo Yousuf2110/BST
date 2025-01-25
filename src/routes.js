@@ -49,6 +49,7 @@ import ChangePassword from "layouts/changePassword";
 import WithdrawHistory from "layouts/withdrawHistory";
 import ViewUserPins from "layouts/viewUserPins";
 import RewardList from "layouts/rewardList";
+import ProductRequest from "layouts/productRequest";
 
 const routes = [
   {
@@ -94,6 +95,14 @@ const routes = [
     icon: <Icon fontSize="small">inventory</Icon>,
     route: "/product-list",
     component: <Notifications />,
+  },
+  {
+    type: "collapse",
+    name: "Product Requests",
+    key: "product-requests",
+    icon: <Icon fontSize="small">add_shopping_cart</Icon>,
+    route: "/product-requests",
+    component: <ProductRequest />,
   },
   // Create Account
   {

@@ -55,7 +55,7 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://ecosphere-pakistan-backend.co-m.pk/api/user-dashboard",
+          "https://backend.salespronetworks.com/api/user-dashboard",
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",

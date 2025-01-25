@@ -43,13 +43,6 @@ function PinRequest() {
       Header: "Screenshot",
       accessor: "screenshot",
       align: "center",
-      Cell: ({ row }) => (
-        <img
-          src={row.original.screenshot}
-          alt="Screenshot"
-          style={{ maxWidth: "100px", height: "auto" }}
-        />
-      ),
     },
     { Header: "Status", accessor: "status", align: "center" },
   ];
@@ -58,7 +51,7 @@ function PinRequest() {
     const fetchPaymentMethod = async () => {
       try {
         const response = await axios.get(
-          "https://ecosphere-pakistan-backend.co-m.pk/api/payment-method",
+          "https://backend.salespronetworks.com/api/payment-method",
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
@@ -83,7 +76,7 @@ function PinRequest() {
     const fetchPins = async () => {
       try {
         const response = await axios.get(
-          "https://ecosphere-pakistan-backend.co-m.pk/api/user-pins",
+          "https://backend.salespronetworks.com/api/user-pins",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -98,12 +91,7 @@ function PinRequest() {
           userEmail: item.user_email,
           amount: item.amount,
           screenshot: (
-            <img
-              src={item.screenshot_url}
-              alt="screenshot"
-              style={{ width: "100px", height: "auto", cursor: "pointer" }}
-              onClick={() => setSelectedImage(item.screenshot_url)}
-            />
+            <a href={item?.payment_screenshot} target="_blank">View Screenshot</a>
           ),
           status: (
             <span
@@ -112,10 +100,10 @@ function PinRequest() {
                   item.status.toLowerCase() === "approve"
                     ? "green"
                     : item.status.toLowerCase() === "reject"
-                    ? "red"
-                    : item.status.toLowerCase() === "pending"
-                    ? "orange"
-                    : "black",
+                      ? "red"
+                      : item.status.toLowerCase() === "pending"
+                        ? "orange"
+                        : "black",
                 fontWeight: "bold",
                 textTransform: "capitalize",
               }}
@@ -160,7 +148,7 @@ function PinRequest() {
 
     try {
       const response = await axios.post(
-        "https://ecosphere-pakistan-backend.co-m.pk/api/pin-request",
+        "https://backend.salespronetworks.com/api/pin-request",
         formPayload,
         {
           headers: {
@@ -259,8 +247,7 @@ function PinRequest() {
               PIN Request
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              یاد رکھیں جعلی ٹرانزیکشن آئ ڈی یا جعلی پن ریکوسٹ لگانے سے آپ کا اکاؤنٹ بلاک ہوسکتا ہے
-              تسلی سے درست معلومات درج کریں تاکہ دشواری کا سامنا نہ کرنا پڑے
+              یاد رکھیں جعلی ٹرانزیکشن آئ ڈی یا جعلی پن ریکوسٹ لگانے سے اپکی سروس معطل ہو جائے گے تسلی سے درست معلومات درج کریں تاکہ دشواری کا سامنا نہ کرنا پڑے
             </MDTypography>
           </MDBox>
 

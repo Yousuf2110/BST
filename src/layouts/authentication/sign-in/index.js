@@ -61,7 +61,7 @@ function Basic() {
     }
 
     try {
-      const response = await axios.post("https://ecosphere-pakistan-backend.co-m.pk/api/login", {
+      const response = await axios.post("https://backend.salespronetworks.com/api/login", {
         email: username,
         password: password,
       });
@@ -111,7 +111,7 @@ function Basic() {
 
     try {
       const response = await axios.post(
-        "https://ecosphere-pakistan-backend.co-m.pk/api/reset-password",
+        "https://backend.salespronetworks.com/api/reset-password",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -198,10 +198,7 @@ function Basic() {
                 <MDTypography variant="h4" fontWeight="bold" color="textPrimary" gutterBottom>
                   Reset Password
                 </MDTypography>
-                <MDTypography variant="body2" color="textSecondary">
-                  اہم نوٹ : یاد رکھیں جس اکاؤنٹ کا پاسورڈ ریسیٹ کرنا ہے اس ہی اکاؤنٹ نمبر سے 30 روپے
-                  کمپنی کے نمبر پر بھیج کر ریکوسٹ لگائیں جعلی ریکوسٹ لگانے پر آپ کی پاسورڈ ریسیٹ کی
-                  سروس معطل ہو جائے گی
+                <MDTypography variant="body2" color="textSecondary">اہم نوٹ : یاد رکھیں جس اکاؤنٹ کا پاسورڈ ریسیٹ کرنا ہے اس ہی اکاؤنٹ نمبر سے 30 روپے کمپنی کے نمبر  (03135178113 M.Shoaib ) (Easypaisa) پر بھیج کر ریکوسٹ لگائیں جعلی ریکوسٹ لگانے پر آپ کی پاسورڈ ریسیٹ کی سروس معطل ہو جائے گی
                 </MDTypography>
                 <MDTypography variant="body2" color="textSecondary">
                   اگر آپ جعلی ٹرانزیکشن آئی ڈی استعمال کرتے ہیں تو کمپنی آپ کا اکاؤنٹ معطل کر سکتی
