@@ -17,7 +17,7 @@ function ViewUserPins() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [showTermsModal, setShowTermsModal] = useState(true);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const token = localStorage.getItem("authToken");
 
   const columns = [

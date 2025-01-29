@@ -69,6 +69,7 @@ function Basic() {
       if (response.status === 200) {
         const token = response.data.token;
         const userRole = response.data?.info?.role;
+        const alertMessages = response.data?.alertMessages;
 
         if (userRole !== "user") {
           toast.error("You do not have permission to log in.");
@@ -78,6 +79,24 @@ function Basic() {
         if (token) {
           localStorage.setItem("authToken", token);
           login(token);
+        }
+
+        if (alertMessages.length > 0) {
+          const pinMessage = alertMessages.find(msg => msg?.type === "pin");
+          const productMessage = alertMessages.find(msg => msg?.type === "product");
+          if (pinMessage) {
+            localStorage.setItem("pinMessage", pinMessage?.message);
+          } else {
+            localStorage.removeItem("pinMessage");
+          }
+          if (productMessage) {
+            localStorage.setItem("productMessage", productMessage?.message);
+          } else {
+            localStorage.removeItem("productMessage");
+          }
+        } else {
+          localStorage.removeItem("pinMessage");
+          localStorage.removeItem("productMessage");
         }
 
         localStorage.setItem("userData", JSON.stringify(response.data));

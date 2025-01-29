@@ -16,11 +16,16 @@ import axios from "axios";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
 import { CircularProgress } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
+
 
 function PinRequest() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("authToken");
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [formData, setFormData] = useState({
     accountNumber: "",
     trxId: "",
@@ -170,6 +175,17 @@ function PinRequest() {
     } catch (error) {
       toast.error("Error submitting request: " + error.message);
     }
+  };
+
+  const modalMessage = localStorage.getItem('pinMessage');
+  useEffect(() => {
+    if (modalMessage) {
+      setShowTermsModal(true)
+    }
+  }, [])
+
+  const handleTermsModalClose = () => {
+    setShowTermsModal(false);
   };
 
   return (
@@ -349,6 +365,47 @@ function PinRequest() {
           />
         )}
       </MDBox>
+      <Modal open={showTermsModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: {
+              xs: "90%", // 90% width on extra small screens (mobile)
+              sm: "80%", // 80% width on small screens
+              md: "500px", // Fixed width on medium and larger screens
+            },
+            maxWidth: "500px", // Maximum width to avoid overly wide modals
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: {
+              xs: 2, // Smaller padding on mobile
+              sm: 3, // Medium padding on small screens
+              md: 4, // Larger padding on medium and larger screens
+            },
+            borderRadius: 2,
+            maxHeight: "90vh", // Limit height to 90% of the viewport height
+            overflowY: "auto", // Enable scrolling if content overflows
+          }}
+        >
+          <Typography variant="h6" mb={2}>
+            Terms and Conditions
+          </Typography>
+          <MDTypography variant="body1" paragraph>{modalMessage}
+          </MDTypography>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleTermsModalClose}
+            sx={{ mt: 2, color: "#fff" }}
+          >
+            OK
+          </Button>
+        </Box>
+      </Modal>
     </DashboardLayout>
   );
 }

@@ -38,7 +38,7 @@ function ProductList() {
     "3 Accounts": [],
     "7 Accounts": [],
   });
-  const [showTermsModal, setShowTermsModal] = useState(true); // State to control terms modal
+  const [showTermsModal, setShowTermsModal] = useState(false); // State to control terms modal
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -151,6 +151,12 @@ function ProductList() {
   const handleTermsModalClose = () => {
     setShowTermsModal(false);
   };
+  const modalMessage = localStorage.getItem('productMessage');
+  useEffect(() => {
+    if (modalMessage) {
+      setShowTermsModal(true)
+    }
+  }, [])
 
   return (
     <DashboardLayout>
@@ -197,16 +203,7 @@ function ProductList() {
             Terms and Conditions
           </Typography>
           <MDTypography variant="body1" paragraph>
-            پروڈکٹ کی درخواست کرنے سے پہلے آپ کے لیے یہ انتہائی ضروری ہے کہ آپ تمام شرائط کو اچھی طرح
-            سمجھ لیں اور فیصلہ کر لیں کہ آپ پروڈکٹ صرف ایک بار حاصل کر سکیں گے۔ اس بات کو یقینی بنائیں
-            کہ آپ اپنی ضروریات کے مطابق تین یا سات اکاؤنٹس بنانے کے لیے تیار ہیں، کیونکہ پروڈکٹ صرف
-            ایک بار دستیاب ہوگی۔
-          </MDTypography>
-          <MDTypography variant="body1" paragraph>
-            اگر آپ کسی بڑی پروڈکٹ کا انتخاب کرنا چاہتے ہیں تو آپ کو پہلے سے مناسب منصوبہ بندی کرتے
-            ہوئے تین یا سات اکاؤنٹس کا بندوبست کرنا ہوگا۔ دوبارہ درخواست دینے یا کوئی اور پروڈکٹ حاصل
-            کرنے کی اجازت نہیں دی جائے گی، اس لیے درخواست سے پہلے اپنی حکمت عملی واضح کریں اور مکمل
-            تیاری کے ساتھ آگے بڑھیں۔
+            {modalMessage}
           </MDTypography>
           <Button
             variant="contained"
