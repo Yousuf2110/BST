@@ -9,7 +9,15 @@ import DataTable from "examples/Tables/DataTable";
 
 const RewardList = () => {
   const userData = localStorage.getItem("userData");
-  const user = userData ? JSON.parse(userData) : null;
+  let user = null;
+
+  if (userData) {
+    try {
+      user = JSON.parse(userData);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }
 
   const userRankStar = user?.info?.rank_star;
 
@@ -59,12 +67,17 @@ const RewardList = () => {
         Header: "Status",
         accessor: "status",
         Cell: ({ value }) => (
-          <MDTypography variant="caption" color={'white'} fontWeight="medium" sx={{
-            backgroundColor: getStatusColor(value),
-            borderRadius: '12px',
-            padding: '4px 8px',
-            display: 'inline-block'
-          }}>
+          <MDTypography
+            variant="caption"
+            color={"white"}
+            fontWeight="medium"
+            sx={{
+              backgroundColor: getStatusColor(value),
+              borderRadius: "12px",
+              padding: "4px 8px",
+              display: "inline-block",
+            }}
+          >
             {value}
           </MDTypography>
         ),

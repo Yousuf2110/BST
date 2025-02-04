@@ -13,6 +13,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import WalletIcon from "@mui/icons-material/Wallet";
 import MDTypography from "components/MDTypography";
+import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 
 const modalStyle = {
   position: "absolute",
@@ -36,6 +37,7 @@ function Dashboard() {
 
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   const handleOpenModal = (content) => {
     setModalContent(content);
@@ -46,8 +48,23 @@ function Dashboard() {
     setOpenModal(false);
   };
 
+  const modalMessage = localStorage.getItem("pinMessage");
+  useEffect(() => {
+    if (modalMessage) {
+      alert(modalMessage);
+    }
+  }, []);
+
   const userData = localStorage.getItem("userData");
-  const user = userData ? JSON.parse(userData) : null;
+  let user = null;
+
+  if (userData) {
+    try {
+      user = JSON.parse(userData);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -141,7 +158,6 @@ function Dashboard() {
           onClick={() =>
             handleOpenModal({
               title: "Privacy Policy",
-              // body: "This is the Privacy Policy content. Replace this with the actual policy details.",
             })
           }
         >

@@ -38,7 +38,15 @@ export default function App() {
   const { pathname } = useLocation();
 
   const userData = localStorage.getItem("userData");
-  const user = userData ? JSON.parse(userData) : null;
+  let user = null;
+
+  if (userData) {
+    try {
+      user = JSON.parse(userData);
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }
 
   useMemo(() => {
     const cacheRtl = createCache({

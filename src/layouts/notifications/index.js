@@ -38,20 +38,17 @@ function ProductList() {
     "3 Accounts": [],
     "7 Accounts": [],
   });
-  const [showTermsModal, setShowTermsModal] = useState(false); // State to control terms modal
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          "https://backend.salespronetworks.com/api/user-products",
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get("https://backend.salespronetworks.com/api/user-products", {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         console.log("products", response?.data);
 
@@ -124,16 +121,12 @@ function ProductList() {
       formPayload.append("address", formData.address);
       formPayload.append("payment_screenshot", formData.paymentScreenshot);
 
-      await axios.post(
-        "https://backend.salespronetworks.com/api/buy-product",
-        formPayload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.post("https://backend.salespronetworks.com/api/buy-product", formPayload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       toast.success("Purchase successful!");
       handleClose();
       setIsLoading(false);
@@ -151,12 +144,12 @@ function ProductList() {
   const handleTermsModalClose = () => {
     setShowTermsModal(false);
   };
-  const modalMessage = localStorage.getItem('productMessage');
+  const modalMessage = localStorage.getItem("productMessage");
   useEffect(() => {
     if (modalMessage) {
-      setShowTermsModal(true)
+      alert(modalMessage);
     }
-  }, [])
+  }, []);
 
   return (
     <DashboardLayout>
@@ -172,50 +165,6 @@ function ProductList() {
         draggable
         pauseOnHover
       />
-
-      {/* Terms and Conditions Modal */}
-      <Modal open={showTermsModal}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: {
-              xs: "90%", // 90% width on extra small screens (mobile)
-              sm: "80%", // 80% width on small screens
-              md: "500px", // Fixed width on medium and larger screens
-            },
-            maxWidth: "500px", // Maximum width to avoid overly wide modals
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: {
-              xs: 2, // Smaller padding on mobile
-              sm: 3, // Medium padding on small screens
-              md: 4, // Larger padding on medium and larger screens
-            },
-            borderRadius: 2,
-            maxHeight: "90vh", // Limit height to 90% of the viewport height
-            overflowY: "auto", // Enable scrolling if content overflows
-          }}
-        >
-          <Typography variant="h6" mb={2}>
-            Terms and Conditions
-          </Typography>
-          <MDTypography variant="body1" paragraph>
-            {modalMessage}
-          </MDTypography>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handleTermsModalClose}
-            sx={{ mt: 2, color: '#fff' }}
-          >
-            OK
-          </Button>
-        </Box>
-      </Modal>
 
       {/* Product List */}
       {!showTermsModal && (

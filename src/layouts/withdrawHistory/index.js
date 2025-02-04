@@ -48,10 +48,12 @@ function WithDrawHistory() {
         );
 
         const mappedRows = response.data?.withdraws?.map((item, index) => {
+          const formattedAmount =
+            item.total_amount % 1 === 0 ? item.total_amount : item.total_amount.toFixed(2);
           return {
             id: index + 1,
             user_email: item.user_email || "N/A",
-            total_amount: item.total_amount,
+            total_amount: formattedAmount,
             status: (
               <MDTypography
                 variant="caption"

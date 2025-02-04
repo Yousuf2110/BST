@@ -20,12 +20,10 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 
-
 function PinRequest() {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("authToken");
-  const [showTermsModal, setShowTermsModal] = useState(false);
   const [formData, setFormData] = useState({
     accountNumber: "",
     trxId: "",
@@ -80,14 +78,11 @@ function PinRequest() {
   useEffect(() => {
     const fetchPins = async () => {
       try {
-        const response = await axios.get(
-          "https://backend.salespronetworks.com/api/user-pins",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get("https://backend.salespronetworks.com/api/user-pins", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const fetchedData = response.data.pins;
         const formattedRows = fetchedData.map((item) => ({
           id: item.id,
@@ -96,7 +91,9 @@ function PinRequest() {
           userEmail: item.user_email,
           amount: item.amount,
           screenshot: (
-            <a href={item?.payment_screenshot} target="_blank">View Screenshot</a>
+            <a href={item?.payment_screenshot} target="_blank">
+              View Screenshot
+            </a>
           ),
           status: (
             <span
@@ -105,10 +102,10 @@ function PinRequest() {
                   item.status.toLowerCase() === "approve"
                     ? "green"
                     : item.status.toLowerCase() === "reject"
-                      ? "red"
-                      : item.status.toLowerCase() === "pending"
-                        ? "orange"
-                        : "black",
+                    ? "red"
+                    : item.status.toLowerCase() === "pending"
+                    ? "orange"
+                    : "black",
                 fontWeight: "bold",
                 textTransform: "capitalize",
               }}
@@ -177,16 +174,12 @@ function PinRequest() {
     }
   };
 
-  const modalMessage = localStorage.getItem('pinMessage');
+  const modalMessage = localStorage.getItem("pinMessage");
   useEffect(() => {
     if (modalMessage) {
-      setShowTermsModal(true)
+      alert(modalMessage);
     }
-  }, [])
-
-  const handleTermsModalClose = () => {
-    setShowTermsModal(false);
-  };
+  }, []);
 
   return (
     <DashboardLayout>
@@ -263,7 +256,8 @@ function PinRequest() {
               PIN Request
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              یاد رکھیں جعلی ٹرانزیکشن آئ ڈی یا جعلی پن ریکوسٹ لگانے سے اپکی سروس معطل ہو جائے گے تسلی سے درست معلومات درج کریں تاکہ دشواری کا سامنا نہ کرنا پڑے
+              یاد رکھیں جعلی ٹرانزیکشن آئ ڈی یا جعلی پن ریکوسٹ لگانے سے اپکی سروس معطل ہو جائے گے
+              تسلی سے درست معلومات درج کریں تاکہ دشواری کا سامنا نہ کرنا پڑے
             </MDTypography>
           </MDBox>
 
@@ -365,47 +359,6 @@ function PinRequest() {
           />
         )}
       </MDBox>
-      <Modal open={showTermsModal}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: {
-              xs: "90%", // 90% width on extra small screens (mobile)
-              sm: "80%", // 80% width on small screens
-              md: "500px", // Fixed width on medium and larger screens
-            },
-            maxWidth: "500px", // Maximum width to avoid overly wide modals
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: {
-              xs: 2, // Smaller padding on mobile
-              sm: 3, // Medium padding on small screens
-              md: 4, // Larger padding on medium and larger screens
-            },
-            borderRadius: 2,
-            maxHeight: "90vh", // Limit height to 90% of the viewport height
-            overflowY: "auto", // Enable scrolling if content overflows
-          }}
-        >
-          <Typography variant="h6" mb={2}>
-            Terms and Conditions
-          </Typography>
-          <MDTypography variant="body1" paragraph>{modalMessage}
-          </MDTypography>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handleTermsModalClose}
-            sx={{ mt: 2, color: "#fff" }}
-          >
-            OK
-          </Button>
-        </Box>
-      </Modal>
     </DashboardLayout>
   );
 }
