@@ -48,13 +48,6 @@ function Dashboard() {
     setOpenModal(false);
   };
 
-  const modalMessage = localStorage.getItem("pinMessage");
-  useEffect(() => {
-    if (modalMessage) {
-      alert(modalMessage);
-    }
-  }, []);
-
   const userData = localStorage.getItem("userData");
   let user = null;
 

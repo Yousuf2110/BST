@@ -82,8 +82,9 @@ function Basic() {
         }
 
         if (alertMessages.length > 0) {
-          const pinMessage = alertMessages.find(msg => msg?.type === "pin");
-          const productMessage = alertMessages.find(msg => msg?.type === "product");
+          const pinMessage = alertMessages.find((msg) => msg?.type === "pin");
+          const productMessage = alertMessages.find((msg) => msg?.type === "product");
+          const loginMessage = alertMessages.find((msg) => msg?.type === "login");
           if (pinMessage) {
             localStorage.setItem("pinMessage", pinMessage?.message);
           } else {
@@ -94,9 +95,19 @@ function Basic() {
           } else {
             localStorage.removeItem("productMessage");
           }
+          if (loginMessage) {
+            const message = loginMessage?.message;
+            localStorage.setItem("loginMessage", message);
+            if (message) {
+              alert(message);
+            }
+          } else {
+            localStorage.removeItem("loginMessage");
+          }
         } else {
           localStorage.removeItem("pinMessage");
           localStorage.removeItem("productMessage");
+          localStorage.removeItem("loginMessage");
         }
 
         localStorage.setItem("userData", JSON.stringify(response.data));
@@ -147,8 +158,6 @@ function Basic() {
         });
 
         toast.success("Password reset request submitted successfully!");
-
-        // Reset the file input value
         const fileInput = document.querySelector('input[type="file"]');
         if (fileInput) fileInput.value = "";
 
@@ -217,7 +226,10 @@ function Basic() {
                 <MDTypography variant="h4" fontWeight="bold" color="textPrimary" gutterBottom>
                   Reset Password
                 </MDTypography>
-                <MDTypography variant="body2" color="textSecondary">اہم نوٹ : یاد رکھیں جس اکاؤنٹ کا پاسورڈ ریسیٹ کرنا ہے اس ہی اکاؤنٹ نمبر سے 30 روپے کمپنی کے نمبر  (03135178113 M.Shoaib ) (Easypaisa) پر بھیج کر ریکوسٹ لگائیں جعلی ریکوسٹ لگانے پر آپ کی پاسورڈ ریسیٹ کی سروس معطل ہو جائے گی
+                <MDTypography variant="body2" color="textSecondary">
+                  اہم نوٹ : یاد رکھیں جس اکاؤنٹ کا پاسورڈ ریسیٹ کرنا ہے اس ہی اکاؤنٹ نمبر سے 30 روپے
+                  کمپنی کے نمبر (03135178113 M.Shoaib ) (Easypaisa) پر بھیج کر ریکوسٹ لگائیں جعلی
+                  ریکوسٹ لگانے پر آپ کی پاسورڈ ریسیٹ کی سروس معطل ہو جائے گی
                 </MDTypography>
                 <MDTypography variant="body2" color="textSecondary">
                   اگر آپ جعلی ٹرانزیکشن آئی ڈی استعمال کرتے ہیں تو کمپنی آپ کا اکاؤنٹ معطل کر سکتی

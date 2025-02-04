@@ -141,9 +141,6 @@ function ProductList() {
     }
   };
 
-  const handleTermsModalClose = () => {
-    setShowTermsModal(false);
-  };
   const modalMessage = localStorage.getItem("productMessage");
   useEffect(() => {
     if (modalMessage) {
