@@ -52,6 +52,7 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
+import { Avatar } from "@mui/material";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -158,6 +159,29 @@ function DashboardNavbar({ absolute, light, isMini }) {
         <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
           <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
         </MDBox>
+        {isMini ? null : (
+          <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
+            <MDBox color={light ? "white" : "inherit"}>
+              <Avatar
+                src={require("../../../assets/images/web-logo.jpeg")}
+                alt="Profile"
+                sx={{ width: 50, height: 50, marginLeft: miniSidenav ? 38 : 0 }}
+              />
+              <IconButton
+                size="small"
+                disableRipple
+                color="inherit"
+                sx={navbarMobileMenu}
+                onClick={handleMiniSidenav}
+              >
+                <Icon sx={iconsStyle} fontSize="medium">
+                  {miniSidenav ? "menu_open" : "menu"}
+                </Icon>
+              </IconButton>
+              {renderMenu()}
+            </MDBox>
+          </MDBox>
+        )}
       </Toolbar>
     </AppBar>
   );
