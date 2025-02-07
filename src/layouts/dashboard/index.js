@@ -138,7 +138,7 @@ function Dashboard() {
                 color="dark"
                 icon="confirmation_number"
                 title="Available Pins"
-                count={`${parseFloat(data?.total_income || "0").toFixed(0)}`}
+                count={`${parseFloat(data?.available_pins || "0").toFixed(0)}`}
               />
             </MDBox>
           </Grid>
