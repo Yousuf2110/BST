@@ -47,11 +47,7 @@ function WithDrawHistory() {
           }
         );
 
-        const filteredWithdraws = response.data?.withdraws?.filter(
-          (item) => item?.status === "pending"
-        );
-
-        const mappedRows = filteredWithdraws.map((item, index) => {
+        const mappedRows = response.data?.withdraws?.map((item, index) => {
           const formattedAmount =
             item.total_amount % 1 === 0 ? item.total_amount : item.total_amount.toFixed(2);
           return {
@@ -59,8 +55,12 @@ function WithDrawHistory() {
             user_email: item.user_email || "N/A",
             total_amount: formattedAmount,
             status: (
-              <MDTypography variant="caption" color="info" fontWeight="medium">
-                {item.status.toUpperCase()}
+              <MDTypography
+                variant="caption"
+                color={item.status === "approved" ? "success" : "info"}
+                fontWeight="medium"
+              >
+                {item.status === "approved" ? "SUCCESS" : item.status?.toUpperCase() || "N/A"}
               </MDTypography>
             ),
             updated_at: formatDate(item.updated_at),
