@@ -88,7 +88,7 @@ const RewardList = () => {
       {
         team: "100/100",
         rank: "2 Star",
-        reward: "Trainer certificate",
+        reward: "2000",
         status: getRowStatus("2 Star"),
       },
       { team: "200/200", rank: "3 Star", reward: "5000", status: getRowStatus("3 Star") },

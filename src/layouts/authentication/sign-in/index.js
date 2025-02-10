@@ -111,7 +111,6 @@ function Basic() {
         }
 
         localStorage.setItem("userData", JSON.stringify(response.data));
-        toast.success("Login Successful!");
 
         setTimeout(() => {
           navigate("/dashboard");

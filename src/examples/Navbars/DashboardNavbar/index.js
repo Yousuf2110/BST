@@ -159,7 +159,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
         <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
           <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
         </MDBox>
-        <div
+        {/* <div
           style={{
             display: "flex",
             width: "98%",
@@ -173,7 +173,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
             alt="Profile"
             sx={{ width: isMini ? 50 : 70, height: isMini ? 50 : 70 }}
           />
-        </div>
+        </div> */}
       </Toolbar>
     </AppBar>
   );
