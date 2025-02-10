@@ -29,7 +29,7 @@ const modalStyle = {
 
 function Dashboard() {
   const [data, setData] = useState({
-    current_income: "0.00",
+    current_income: "0",
     reward_income: 0,
     total_income: 0,
     available_pins: 0,
@@ -108,7 +108,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon="leaderboard"
                 title="Current Income"
-                count={`${data?.current_income || "0"}`}
+                count={`${parseFloat(data?.current_income || "0").toFixed(0)}`}
               />
             </MDBox>
           </Grid>
@@ -118,7 +118,7 @@ function Dashboard() {
                 color="success"
                 icon={<EmojiEventsIcon />}
                 title="Reward Income"
-                count={`${data?.reward_income || "0"}`}
+                count={`${parseFloat(data?.reward_income || "0").toFixed(0)}`}
               />
             </MDBox>
           </Grid>
@@ -128,7 +128,7 @@ function Dashboard() {
                 color="primary"
                 icon={<WalletIcon />}
                 title="Total Income"
-                count={`  ${data?.total_income || "0"}`}
+                count={`${parseFloat(data?.total_income || "0").toFixed(0)}`}
               />
             </MDBox>
           </Grid>
@@ -138,7 +138,7 @@ function Dashboard() {
                 color="dark"
                 icon="confirmation_number"
                 title="Available Pins"
-                count={data?.available_pins || "0"}
+                count={`${parseFloat(data?.available_pins || "0").toFixed(0)}`}
               />
             </MDBox>
           </Grid>
