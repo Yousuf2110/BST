@@ -111,17 +111,17 @@ function Dashboard() {
               <div class="dashboard-item">
                 <div class="dashboard-item-header">
                   <div class="header-left">
-                    <h6 style={{ fontSize: 30 }} class="title">
+                    <h6 style={{ fontSize: 22 }} class="title">
                       Current Income
                     </h6>
                     <h3 class="ammount">
-                      <span style={{ fontSize: 30, marginBottom: 20 }}>{`${parseFloat(
+                      <span style={{ fontSize: 22 }}>{`${parseFloat(
                         data?.current_income || "0"
                       ).toFixed(0)}`}</span>
                     </h3>
                   </div>
                   <div class="right-content">
-                    <LeaderboardIcon sx={{ height: 50, width: 50 }} color="inherit" />
+                    <LeaderboardIcon sx={{ height: 40, width: 40 }} color="inherit" />
                   </div>
                 </div>
                 <div class="dashboard-item-body"></div>
@@ -133,17 +133,17 @@ function Dashboard() {
               <div class="dashboard-item">
                 <div class="dashboard-item-header">
                   <div class="header-left">
-                    <h6 style={{ fontSize: 30 }} class="title">
+                    <h6 style={{ fontSize: 22 }} class="title">
                       Reward Income
                     </h6>
                     <h3 class="ammount">
-                      <span style={{ fontSize: 30 }}>{`${parseFloat(
+                      <span style={{ fontSize: 22 }}>{`${parseFloat(
                         data?.reward_income || "0"
                       ).toFixed(0)}`}</span>
                     </h3>
                   </div>
                   <div class="right-content">
-                    <EmojiEventsIcon sx={{ height: 50, width: 50 }} />
+                    <EmojiEventsIcon sx={{ height: 40, width: 40 }} />
                   </div>
                 </div>
                 <div class="dashboard-item-body"></div>
@@ -155,17 +155,17 @@ function Dashboard() {
               <div class="dashboard-item">
                 <div class="dashboard-item-header">
                   <div class="header-left">
-                    <h6 style={{ fontSize: 30 }} class="title">
+                    <h6 style={{ fontSize: 22 }} class="title">
                       Total Income
                     </h6>
                     <h3 class="ammount">
-                      <span style={{ fontSize: 30 }}>{`${parseFloat(
+                      <span style={{ fontSize: 22 }}>{`${parseFloat(
                         data?.total_income || "0"
                       ).toFixed(0)}`}</span>
                     </h3>
                   </div>
                   <div class="right-content">
-                    <WalletIcon sx={{ height: 50, width: 50 }} />
+                    <WalletIcon sx={{ height: 40, width: 40 }} />
                   </div>
                 </div>
                 <div class="dashboard-item-body"></div>
@@ -177,17 +177,17 @@ function Dashboard() {
               <div class="dashboard-item">
                 <div class="dashboard-item-header">
                   <div class="header-left">
-                    <h6 style={{ fontSize: 30 }} class="title">
+                    <h6 style={{ fontSize: 22 }} class="title">
                       Available Pins
                     </h6>
                     <h3 class="ammount">
-                      <span style={{ fontSize: 30 }}>{`${parseFloat(
+                      <span style={{ fontSize: 22 }}>{`${parseFloat(
                         data?.available_pins || "0"
                       ).toFixed(0)}`}</span>
                     </h3>
                   </div>
                   <div class="right-content">
-                    <ConfirmationNumberIcon sx={{ height: 50, width: 50 }} />
+                    <ConfirmationNumberIcon sx={{ height: 40, width: 40 }} />
                   </div>
                 </div>
                 <div class="dashboard-item-body"></div>
