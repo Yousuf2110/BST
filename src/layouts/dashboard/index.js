@@ -13,7 +13,10 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import WalletIcon from "@mui/icons-material/Wallet";
 import MDTypography from "components/MDTypography";
-import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Icon, Typography } from "@mui/material";
+import "./styles.css";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 
 const modalStyle = {
   position: "absolute",
@@ -105,41 +108,90 @@ function Dashboard() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Current Income"
-                count={`${parseFloat(data?.current_income || "0").toFixed(0)}`}
-              />
+              <div class="dashboard-item">
+                <div class="dashboard-item-header">
+                  <div class="header-left">
+                    <h6 style={{ fontSize: 30 }} class="title">
+                      Current Income
+                    </h6>
+                    <h3 class="ammount">
+                      <span style={{ fontSize: 30, marginBottom: 20 }}>{`${parseFloat(
+                        data?.current_income || "0"
+                      ).toFixed(0)}`}</span>
+                    </h3>
+                  </div>
+                  <div class="right-content">
+                    <LeaderboardIcon sx={{ height: 50, width: 50 }} color="inherit" />
+                  </div>
+                </div>
+                <div class="dashboard-item-body"></div>
+              </div>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon={<EmojiEventsIcon />}
-                title="Reward Income"
-                count={`${parseFloat(data?.reward_income || "0").toFixed(0)}`}
-              />
+              <div class="dashboard-item">
+                <div class="dashboard-item-header">
+                  <div class="header-left">
+                    <h6 style={{ fontSize: 30 }} class="title">
+                      Reward Income
+                    </h6>
+                    <h3 class="ammount">
+                      <span style={{ fontSize: 30 }}>{`${parseFloat(
+                        data?.reward_income || "0"
+                      ).toFixed(0)}`}</span>
+                    </h3>
+                  </div>
+                  <div class="right-content">
+                    <EmojiEventsIcon sx={{ height: 50, width: 50 }} />
+                  </div>
+                </div>
+                <div class="dashboard-item-body"></div>
+              </div>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon={<WalletIcon />}
-                title="Total Income"
-                count={`${parseFloat(data?.total_income || "0").toFixed(0)}`}
-              />
+              <div class="dashboard-item">
+                <div class="dashboard-item-header">
+                  <div class="header-left">
+                    <h6 style={{ fontSize: 30 }} class="title">
+                      Total Income
+                    </h6>
+                    <h3 class="ammount">
+                      <span style={{ fontSize: 30 }}>{`${parseFloat(
+                        data?.total_income || "0"
+                      ).toFixed(0)}`}</span>
+                    </h3>
+                  </div>
+                  <div class="right-content">
+                    <WalletIcon sx={{ height: 50, width: 50 }} />
+                  </div>
+                </div>
+                <div class="dashboard-item-body"></div>
+              </div>
             </MDBox>
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="confirmation_number"
-                title="Available Pins"
-                count={`${parseFloat(data?.available_pins || "0").toFixed(0)}`}
-              />
+              <div class="dashboard-item">
+                <div class="dashboard-item-header">
+                  <div class="header-left">
+                    <h6 style={{ fontSize: 30 }} class="title">
+                      Available Pins
+                    </h6>
+                    <h3 class="ammount">
+                      <span style={{ fontSize: 30 }}>{`${parseFloat(
+                        data?.available_pins || "0"
+                      ).toFixed(0)}`}</span>
+                    </h3>
+                  </div>
+                  <div class="right-content">
+                    <ConfirmationNumberIcon sx={{ height: 50, width: 50 }} />
+                  </div>
+                </div>
+                <div class="dashboard-item-body"></div>
+              </div>
             </MDBox>
           </Grid>
         </Grid>
