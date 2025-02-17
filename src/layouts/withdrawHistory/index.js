@@ -47,7 +47,9 @@ function WithDrawHistory() {
           }
         );
 
-        const mappedRows = response.data?.withdraws?.map((item, index) => {
+        const filteredRows = response.data?.withdraws?.filter((item) => item.status === "approved");
+
+        const mappedRows = filteredRows?.map((item, index) => {
           const formattedAmount =
             item.total_amount % 1 === 0 ? item.total_amount : item.total_amount.toFixed(2);
           return {
