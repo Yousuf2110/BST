@@ -312,14 +312,18 @@ function ProductList() {
         </Box>
       </Modal>
       {/* Product Details Modal */}
-      <Modal open={openDetailsModal} onClose={handleCloseDetailsModal}>
+      <Modal
+        open={openDetailsModal}
+        onClose={handleCloseDetailsModal}
+        aria-labelledby="product-details-modal"
+      >
         <Box
           sx={{
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: 600,
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
@@ -327,21 +331,41 @@ function ProductList() {
         >
           {selectedProduct && (
             <>
-              <Typography variant="h6">{selectedProduct.name}</Typography>
-              <CardMedia
-                component="img"
-                height="200"
-                image={selectedProduct.image}
-                alt={selectedProduct.name}
-                sx={{ marginBottom: 2 }}
-              />
-              <Typography variant="body1">{selectedProduct.description}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Price: ${selectedProduct.price}
+              {/* Product Name and Description */}
+              <Typography variant="h5" gutterBottom>
+                {selectedProduct.name}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body1" gutterBottom>
+                {selectedProduct.description}
+              </Typography>
+              <Typography variant="h6">Price: ${selectedProduct.price}</Typography>
+              <Typography variant="body2">
                 Category: {selectedProduct.category} Account(s)
               </Typography>
+
+              {/* Multi-Image Display */}
+              <MDBox mt={2}>
+                <Typography variant="subtitle1">Product Images:</Typography>
+                <Grid container spacing={2}>
+                  {selectedProduct.images && selectedProduct.images.length > 0 ? (
+                    selectedProduct.images.map((image, index) => (
+                      <Grid item key={index} xs={4}>
+                        <Card>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image={image}
+                            alt={`Product Image ${index + 1}`}
+                            style={{ objectFit: "cover" }}
+                          />
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <Typography>No images available for this product.</Typography>
+                  )}
+                </Grid>
+              </MDBox>
             </>
           )}
         </Box>
