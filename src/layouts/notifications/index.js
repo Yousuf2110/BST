@@ -12,8 +12,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import IconButton from "@mui/icons-material/PhotoCamera";
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -22,11 +21,13 @@ import MDTypography from "components/MDTypography";
 
 function ProductList() {
   const token = localStorage.getItem("authToken");
-
-  const [open, setOpen] = useState(false);
+  const [openPurchaseModal, setOpenPurchaseModal] = useState(false);
+  const [openDetailsModal, setOpenDetailsModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [userCount, setUserCount] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("1 Account");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -38,7 +39,7 @@ function ProductList() {
     "3 Accounts": [],
     "7 Accounts": [],
   });
-  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,9 +50,7 @@ function ProductList() {
             Authorization: `Bearer ${token}`,
           },
         });
-
         console.log("products", response?.data);
-
         const categorizedProducts = {
           "1 Account": response?.data?.products?.filter(
             (product) => parseInt(product.category) === 1
@@ -63,33 +62,32 @@ function ProductList() {
             (product) => parseInt(product.category) === 7
           ),
         };
-
         setProductsByCategory(categorizedProducts);
+        setFilteredProducts(categorizedProducts["1 Account"]);
         setUserCount(response?.data?.userCount || 0);
       } catch (error) {
         console.error("Error fetching products:", error);
         toast.error("Error fetching products. Please try again.");
       }
     };
-
     fetchProducts();
   }, [token]);
 
-  const handleOpen = (productId, category) => {
+  const handleOpenPurchaseModal = (productId, category) => {
     if (
       (category === "1" && userCount >= 1) ||
       (category === "3" && userCount >= 3) ||
       (category === "7" && userCount >= 7)
     ) {
       setSelectedProductId(productId);
-      setOpen(true);
+      setOpenPurchaseModal(true);
     } else {
       toast.error(`You need at least ${category.split(" ")[0]} users to purchase this product.`);
     }
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClosePurchaseModal = () => {
+    setOpenPurchaseModal(false);
     setSelectedProductId(null);
     setFormData({
       name: "",
@@ -97,6 +95,16 @@ function ProductList() {
       address: "",
       paymentScreenshot: null,
     });
+  };
+
+  const handleOpenDetailsModal = (product) => {
+    setSelectedProduct(product); // Set the selected product
+    setOpenDetailsModal(true); // Open the details modal
+  };
+
+  const handleCloseDetailsModal = () => {
+    setOpenDetailsModal(false); // Close the details modal
+    setSelectedProduct(null); // Clear the selected product
   };
 
   const handleInputChange = (e) => {
@@ -120,7 +128,6 @@ function ProductList() {
       formPayload.append("phone", formData.phone);
       formPayload.append("address", formData.address);
       formPayload.append("payment_screenshot", formData.paymentScreenshot);
-
       await axios.post("https://backend.salespronetworks.com/api/buy-product", formPayload, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -128,7 +135,7 @@ function ProductList() {
         },
       });
       toast.success("Purchase successful!");
-      handleClose();
+      handleClosePurchaseModal();
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -141,89 +148,98 @@ function ProductList() {
     }
   };
 
-  const modalMessage = localStorage.getItem("productMessage");
-  useEffect(() => {
-    if (modalMessage) {
-      alert(modalMessage);
-    }
-  }, []);
+  const handleCategoryClick = (category) => {
+    setFilteredProducts(productsByCategory[category]);
+    setSelectedCategory(category);
+  };
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-
+      {/* Category Buttons */}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => handleCategoryClick("1 Account")}
+        style={{ margin: "10px", color: "white" }}
+      >
+        1 Account
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => handleCategoryClick("3 Accounts")}
+        style={{ margin: "10px", color: "white" }}
+      >
+        3 Accounts
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => handleCategoryClick("7 Accounts")}
+        style={{ margin: "10px", color: "white" }}
+      >
+        7 Accounts
+      </Button>
       {/* Product List */}
-      {!showTermsModal && (
-        <MDBox mt={6} mb={3}>
-          {Object.entries(productsByCategory).map(([category, products]) => (
-            <MDBox key={category} mb={4}>
-              <Typography variant="h5" fontWeight="bold" mb={2}>
-                {category}
-              </Typography>
-              <Grid container spacing={3}>
-                {products.map((product) => (
-                  <Grid item xs={12} sm={6} md={4} key={product.id}>
-                    <Card>
-                      <CardMedia
-                        component="img"
-                        height="150"
-                        image={product.image}
-                        alt={product.name}
-                      />
-                      <CardContent>
-                        <Typography variant="h6" fontWeight="bold">
-                          {product.name}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {product.description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          style={{ color: "white" }}
-                          variant="contained"
-                          color="primary"
-                          fullWidth
-                          onClick={() => handleOpen(product.id, product.category)}
-                          disabled={
-                            (product.category === "1" && userCount < 1) ||
-                            (product.category === "3" && userCount < 3) ||
-                            (product.category === "7" && userCount < 7)
-                          }
-                        >
-                          Buy Now
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </MDBox>
-          ))}
-        </MDBox>
-      )}
+      <Typography style={{ marginTop: 10, marginBottom: 10 }} variant="h5" fontWeight="bold">
+        {`${selectedCategory} Products`}
+      </Typography>
+      <Grid container spacing={3}>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <Grid item xs={12} sm={6} md={4} key={product.id}>
+              <Card>
+                <CardMedia
+                  component="img"
+                  height="150"
+                  image={product.image}
+                  alt={product.name}
+                  onClick={() => handleOpenDetailsModal(product)} // Open details modal on click
+                  style={{ cursor: "pointer" }} // Add pointer cursor to indicate clickable
+                />
+                <CardContent>
+                  <Typography variant="h6" fontWeight="bold">
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {product.description}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    style={{ color: "white" }}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => handleOpenPurchaseModal(product.id, product.category)}
+                    disabled={
+                      (product.category === "1" && userCount < 1) ||
+                      (product.category === "3" && userCount < 3) ||
+                      (product.category === "7" && userCount < 7)
+                    }
+                  >
+                    Buy Now
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <Typography>No products available in this category.</Typography>
+        )}
+      </Grid>
 
       {/* Purchase Form Modal */}
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={openPurchaseModal} onClose={handleClosePurchaseModal}>
         <Box
           sx={{
             position: "absolute",
@@ -234,82 +250,103 @@ function ProductList() {
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
-            borderRadius: 2,
           }}
         >
-          <Typography variant="h6" mb={2}>
-            Purchase Form
-          </Typography>
+          <Typography variant="h6">Purchase Form</Typography>
           <TextField
-            fullWidth
             label="Name"
             name="name"
             value={formData.name}
             onChange={handleInputChange}
+            fullWidth
             margin="normal"
           />
           <TextField
-            fullWidth
             label="Phone"
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
+            fullWidth
             margin="normal"
           />
           <TextField
-            fullWidth
             label="Address"
             name="address"
-            placeholder="اپنے قریبی ڈاک خانہ کا مکمل پتہ لکھیں"
             value={formData.address}
             onChange={handleInputChange}
+            fullWidth
             margin="normal"
           />
-          <Box sx={{ mt: 2 }}>
-            <TextField
-              fullWidth
-              label="Payment Screenshot"
-              value={formData.paymentScreenshot ? formData.paymentScreenshot.name : ""}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Button component="label" startIcon={<PhotoCamera />} size="small">
-                      Upload
-                      <input type="file" accept="image/*" hidden onChange={handleImageChange} />
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-              disabled
-            />
-            {formData.paymentScreenshot && (
-              <Box
-                sx={{
-                  mt: 2,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <img
-                  src={URL.createObjectURL(formData.paymentScreenshot)}
-                  alt="Payment Screenshot"
-                  style={{ maxWidth: "100%", maxHeight: "150px" }}
-                />
-              </Box>
-            )}
-          </Box>
+          <input
+            accept="image/*"
+            style={{ display: "none" }}
+            id="upload-payment-screenshot"
+            type="file"
+            onChange={handleImageChange}
+          />
+          <label htmlFor="upload-payment-screenshot">
+            <Button
+              variant="contained"
+              color="primary"
+              component="span"
+              style={{ color: "white", marginBottom: 10 }}
+            >
+              Upload Payment Screenshot
+            </Button>
+          </label>
+          {formData.paymentScreenshot && (
+            <Typography variant="body2">
+              File uploaded: {formData.paymentScreenshot.name}
+            </Typography>
+          )}
           <Button
-            style={{ color: "#fff" }}
             variant="contained"
             color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
             onClick={handleSubmit}
+            disabled={isLoading}
+            sx={{ mt: 2 }}
+            style={{ width: "100%", color: "white" }}
           >
             {isLoading ? "Loading..." : "Submit"}
           </Button>
         </Box>
       </Modal>
+      {/* Product Details Modal */}
+      <Modal open={openDetailsModal} onClose={handleCloseDetailsModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          {selectedProduct && (
+            <>
+              <Typography variant="h6">{selectedProduct.name}</Typography>
+              <CardMedia
+                component="img"
+                height="200"
+                image={selectedProduct.image}
+                alt={selectedProduct.name}
+                sx={{ marginBottom: 2 }}
+              />
+              <Typography variant="body1">{selectedProduct.description}</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Price: ${selectedProduct.price}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Category: {selectedProduct.category} Account(s)
+              </Typography>
+            </>
+          )}
+        </Box>
+      </Modal>
+      <ToastContainer />
     </DashboardLayout>
   );
 }
