@@ -234,7 +234,9 @@ function ProductList() {
             </Grid>
           ))
         ) : (
-          <Typography>No products available in this category.</Typography>
+          <Typography style={{
+            marginTop: 15
+          }}>No products available in this category.</Typography>
         )}
       </Grid>
 
@@ -323,46 +325,66 @@ function ProductList() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 600,
+            width: {
+              xs: "90%", // 90% width on extra-small screens (mobile)
+              sm: "80%", // 80% width on small screens
+              md: 600,   // Fixed 600px width on medium and larger screens
+            },
+            maxWidth: "100%", // Ensures it doesn't overflow on small screens
             bgcolor: "background.paper",
             boxShadow: 24,
-            p: 4,
+            p: {
+              xs: 2,    // Smaller padding on mobile
+              sm: 3,    // Medium padding on small screens
+              md: 4,    // Full padding on medium and larger screens
+            },
+            maxHeight: "90vh", // Limits height to 90% of viewport height
+            overflowY: "auto", // Adds scroll if content overflows
           }}
         >
           {selectedProduct && (
             <>
               {/* Product Name and Description */}
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: "1.25rem", md: "1.5rem" } }}>
                 {selectedProduct.name}
               </Typography>
-              <Typography variant="body1" gutterBottom>
+              <Typography variant="body1" gutterBottom sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}>
                 {selectedProduct.description}
               </Typography>
-              <Typography variant="h6">Price: ${selectedProduct.price}</Typography>
-              <Typography variant="body2">
+              <Typography variant="h6" sx={{ fontSize: { xs: "1rem", md: "1.25rem" } }}>
+                Price: ${selectedProduct.price}
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: "0.75rem", md: "0.875rem" } }}>
                 Category: {selectedProduct.category} Account(s)
               </Typography>
 
               {/* Multi-Image Display */}
               <MDBox mt={2}>
-                <Typography variant="subtitle1">Product Images:</Typography>
+                <Typography variant="subtitle1" sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}>
+                  Product Images:
+                </Typography>
                 <Grid container spacing={2}>
-                  {selectedProduct.images && selectedProduct.images.length > 0 ? (
-                    selectedProduct.images.map((image, index) => (
-                      <Grid item key={index} xs={4}>
+                  {selectedProduct.image && selectedProduct.image.length > 0 ? (
+                    selectedProduct.image.map((image, index) => (
+                      <Grid item key={index} xs={6} sm={4}> {/* 2 columns on mobile, 3 on larger screens */}
                         <Card>
                           <CardMedia
                             component="img"
                             height="140"
                             image={image}
                             alt={`Product Image ${index + 1}`}
-                            style={{ objectFit: "cover" }}
+                            sx={{
+                              objectFit: "cover",
+                              height: { xs: 100, md: 140 }, // Smaller images on mobile
+                            }}
                           />
                         </Card>
                       </Grid>
                     ))
                   ) : (
-                    <Typography>No images available for this product.</Typography>
+                    <Typography sx={{ fontSize: { xs: "0.75rem", md: "0.875rem" } }}>
+                      No images available for this product.
+                    </Typography>
                   )}
                 </Grid>
               </MDBox>
