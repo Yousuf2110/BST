@@ -193,7 +193,7 @@ function ProductList() {
                 <CardMedia
                   component="img"
                   height="150"
-                  image={product.image}
+                  image={product?.image?.[0]}
                   alt={product.name}
                   onClick={() => handleOpenDetailsModal(product)} // Open details modal on click
                   style={{ cursor: "pointer" }} // Add pointer cursor to indicate clickable
