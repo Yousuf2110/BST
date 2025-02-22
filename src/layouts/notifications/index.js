@@ -39,6 +39,13 @@ function ProductList() {
   });
   const [filteredProducts, setFilteredProducts] = useState([]);
 
+  const modalMessage = localStorage.getItem("productMessage");
+  useEffect(() => {
+    if (modalMessage) {
+      alert(modalMessage);
+    }
+  }, []);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
