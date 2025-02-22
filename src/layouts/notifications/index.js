@@ -12,11 +12,9 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/icons-material/PhotoCamera";
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import { InputAdornment } from "@mui/material";
 import MDTypography from "components/MDTypography";
 
 function ProductList() {
@@ -27,7 +25,7 @@ function ProductList() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [userCount, setUserCount] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState("1 Account");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -50,7 +48,6 @@ function ProductList() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("products", response?.data);
         const categorizedProducts = {
           "1 Account": response?.data?.products?.filter(
             (product) => parseInt(product.category) === 1
@@ -63,7 +60,6 @@ function ProductList() {
           ),
         };
         setProductsByCategory(categorizedProducts);
-        setFilteredProducts(categorizedProducts["1 Account"]);
         setUserCount(response?.data?.userCount || 0);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -74,16 +70,8 @@ function ProductList() {
   }, [token]);
 
   const handleOpenPurchaseModal = (productId, category) => {
-    if (
-      (category === "1" && userCount >= 1) ||
-      (category === "3" && userCount >= 3) ||
-      (category === "7" && userCount >= 7)
-    ) {
-      setSelectedProductId(productId);
-      setOpenPurchaseModal(true);
-    } else {
-      toast.error(`You need at least ${category.split(" ")[0]} users to purchase this product.`);
-    }
+    setSelectedProductId(productId);
+    setOpenPurchaseModal(true);
   };
 
   const handleClosePurchaseModal = () => {
@@ -98,13 +86,13 @@ function ProductList() {
   };
 
   const handleOpenDetailsModal = (product) => {
-    setSelectedProduct(product); // Set the selected product
-    setOpenDetailsModal(true); // Open the details modal
+    setSelectedProduct(product);
+    setOpenDetailsModal(true);
   };
 
   const handleCloseDetailsModal = () => {
-    setOpenDetailsModal(false); // Close the details modal
-    setSelectedProduct(null); // Clear the selected product
+    setOpenDetailsModal(false);
+    setSelectedProduct(null);
   };
 
   const handleInputChange = (e) => {
@@ -153,6 +141,15 @@ function ProductList() {
     setSelectedCategory(category);
   };
 
+  // Function to determine if "Buy Now" button should be disabled
+  const isBuyButtonDisabled = (category) => {
+    const catNum = parseInt(category);
+    if (userCount <= 2) return catNum !== 1; // Can only buy category 1 if userCount is 1 or 2
+    if (userCount <= 6) return catNum !== 3; // Can only buy category 3 if userCount is 3-6
+    if (userCount >= 7) return catNum !== 7; // Can only buy category 7 if userCount is 7 or more
+    return true; // Default disable if no condition matches
+  };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -182,11 +179,8 @@ function ProductList() {
         7 Accounts
       </Button>
       {/* Product List */}
-      <Typography style={{ marginTop: 10, marginBottom: 10 }} variant="h5" fontWeight="bold">
-        {`${selectedCategory} Products`}
-      </Typography>
       <Grid container spacing={3}>
-        {filteredProducts.length > 0 ? (
+        {filteredProducts.length > 0 && (
           filteredProducts.map((product) => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
               <Card>
@@ -195,8 +189,8 @@ function ProductList() {
                   height="150"
                   image={product?.image?.[0]}
                   alt={product.name}
-                  onClick={() => handleOpenDetailsModal(product)} // Open details modal on click
-                  style={{ cursor: "pointer" }} // Add pointer cursor to indicate clickable
+                  onClick={() => handleOpenDetailsModal(product)}
+                  style={{ cursor: "pointer" }}
                 />
                 <CardContent>
                   <Typography variant="h6" fontWeight="bold">
@@ -221,11 +215,7 @@ function ProductList() {
                     color="primary"
                     fullWidth
                     onClick={() => handleOpenPurchaseModal(product.id, product.category)}
-                    disabled={
-                      (product.category === "1" && userCount < 1) ||
-                      (product.category === "3" && userCount < 3) ||
-                      (product.category === "7" && userCount < 7)
-                    }
+                    disabled={isBuyButtonDisabled(product.category)}
                   >
                     Buy Now
                   </Button>
@@ -233,10 +223,6 @@ function ProductList() {
               </Card>
             </Grid>
           ))
-        ) : (
-          <Typography style={{
-            marginTop: 15
-          }}>No products available in this category.</Typography>
         )}
       </Grid>
 
@@ -325,59 +311,34 @@ function ProductList() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: {
-              xs: "90%", // 90% width on extra-small screens (mobile)
-              sm: "80%", // 80% width on small screens
-              md: 600,   // Fixed 600px width on medium and larger screens
-            },
-            maxWidth: "100%", // Ensures it doesn't overflow on small screens
+            width: { xs: "90%", sm: "80%", md: 600 },
+            maxWidth: "100%",
             bgcolor: "background.paper",
             boxShadow: 24,
-            p: {
-              xs: 2,    // Smaller padding on mobile
-              sm: 3,    // Medium padding on small screens
-              md: 4,    // Full padding on medium and larger screens
-            },
-            maxHeight: "90vh", // Limits height to 90% of viewport height
-            overflowY: "auto", // Adds scroll if content overflows
+            p: { xs: 2, sm: 3, md: 4 },
+            maxHeight: "90vh",
+            overflowY: "auto",
           }}
         >
           {selectedProduct && (
             <>
-              {/* Product Name and Description */}
-              <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: "1.25rem", md: "1.5rem" } }}>
-                {selectedProduct.name}
-              </Typography>
-              <Typography variant="body1" gutterBottom sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}>
-                {selectedProduct.description}
-              </Typography>
-              <Typography variant="h6" sx={{ fontSize: { xs: "1rem", md: "1.25rem" } }}>
-                Price: ${selectedProduct.price}
-              </Typography>
-              <Typography variant="body2" sx={{ fontSize: { xs: "0.75rem", md: "0.875rem" } }}>
-                Category: {selectedProduct.category} Account(s)
-              </Typography>
-
-              {/* Multi-Image Display */}
-              <MDBox mt={2}>
+              <MDBox>
                 <Typography variant="subtitle1" sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}>
                   Product Images:
                 </Typography>
                 <Grid container spacing={2}>
                   {selectedProduct.image && selectedProduct.image.length > 0 ? (
                     selectedProduct.image.map((image, index) => (
-                      <Grid item key={index} xs={6} sm={4}> {/* 2 columns on mobile, 3 on larger screens */}
+                      <Grid item key={index}>
                         <Card>
-                          <CardMedia
-                            component="img"
-                            height="140"
-                            image={image}
-                            alt={`Product Image ${index + 1}`}
-                            sx={{
-                              objectFit: "cover",
-                              height: { xs: 100, md: 140 }, // Smaller images on mobile
-                            }}
-                          />
+                          <a href={image} target="_blank" rel="noopener noreferrer">
+                            <CardMedia
+                              component="img"
+                              image={image}
+                              alt={`Product Image ${index + 1}`}
+                              sx={{ height: 200 }}
+                            />
+                          </a>
                         </Card>
                       </Grid>
                     ))
@@ -388,12 +349,21 @@ function ProductList() {
                   )}
                 </Grid>
               </MDBox>
+              <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: "1.25rem", md: "1.5rem" } }} mt={2}>
+                {selectedProduct.name}
+              </Typography>
+              <Typography variant="body1" gutterBottom sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}>
+                {selectedProduct.description}
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: { xs: "0.75rem", md: "0.875rem" } }}>
+                Category: {selectedProduct.category} Account(s)
+              </Typography>
             </>
           )}
         </Box>
       </Modal>
       <ToastContainer />
-    </DashboardLayout>
+    </DashboardLayout >
   );
 }
 
