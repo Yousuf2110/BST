@@ -161,7 +161,7 @@ function PinRequest() {
       );
 
       if (response.data) {
-        toast.success("PIN request submitted successfully!");
+        alert("Pin Request send Successfully");
         setFormData({
           accountNumber: "",
           trxId: "",

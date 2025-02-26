@@ -85,7 +85,7 @@ function CreateAccount() {
       );
 
       if (response.data) {
-        toast.success("Account created successfully!");
+        alert("User Joined Successfully ✔️");
         setFormData({
           username: "",
           pinToken: "",
