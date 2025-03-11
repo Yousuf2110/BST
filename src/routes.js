@@ -50,6 +50,9 @@ import WithdrawHistory from "layouts/withdrawHistory";
 import ViewUserPins from "layouts/viewUserPins";
 import RewardList from "layouts/rewardList";
 import ProductRequest from "layouts/productRequest";
+import NewProductRequest from "layouts/newProductRequest";
+import AddProduct from "layouts/addProduct";
+import NewProductList from "layouts/newProductList";
 
 const routes = [
   {
@@ -128,6 +131,30 @@ const routes = [
     icon: <Icon fontSize="small">visibility</Icon>,
     route: "/view-pin-code",
     component: <ViewUserPins />,
+  },
+  {
+    type: "collapse",
+    name: "Product List",
+    key: "product-lists",
+    icon: <Icon fontSize="small">admin_panel_settings</Icon>,
+    route: "/product-lists",
+    component: <NewProductList />,
+  },
+  {
+    type: "collapse",
+    name: "Product Requests",
+    key: "product-request",
+    icon: <Icon fontSize="small">admin_panel_settings</Icon>,
+    route: "/product-request",
+    component: <NewProductRequest />,
+  },
+  {
+    type: "collapse",
+    name: "Add Product",
+    key: "add-product",
+    icon: <Icon fontSize="small">admin_panel_settings</Icon>,
+    route: "/add-product",
+    component: <AddProduct />,
   },
   // Change Password
   {

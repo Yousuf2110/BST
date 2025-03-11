@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
@@ -39,7 +38,6 @@ export default function App() {
 
   const userData = localStorage.getItem("userData");
   let user = null;
-
   if (userData) {
     try {
       user = JSON.parse(userData);
@@ -47,6 +45,15 @@ export default function App() {
       console.error("Error parsing user data:", error);
     }
   }
+
+  const filteredRoutes = useMemo(() => {
+    if (!user?.product) {
+      return routes.filter(
+        (route) => !["product-lists", "product-request", "add-product"].includes(route.key)
+      );
+    }
+    return routes;
+  }, [user?.product]);
 
   useMemo(() => {
     const cacheRtl = createCache({
@@ -88,9 +95,6 @@ export default function App() {
       }
 
       if (route.route) {
-        // if (route.key === "sign-in") {
-        // return <Route exact path={route.route} element={route.component} key={route.key} />;
-        // } else {
         return (
           <Route
             exact
@@ -99,77 +103,53 @@ export default function App() {
             key={route.key}
           />
         );
-        // }
       }
-
       return null;
     });
+
+  const renderContent = () => (
+    <>
+      <CssBaseline />
+      {layout === "dashboard" && (
+        <>
+          <Sidenav
+            color={sidenavColor}
+            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+            brandName={
+              <>
+                {user?.info?.name}
+                <br />
+                {user?.info?.email}
+                <br />
+                {user?.info?.mobile}
+              </>
+            }
+            routes={filteredRoutes} // Use filtered routes here
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          />
+          <Configurator />
+        </>
+      )}
+      {layout === "vr" && <Configurator />}
+      <Routes>
+        <Route exact path="/authentication/sign-in" element={<SignIn />} />
+        {getRoutes(filteredRoutes)} // Use filtered routes here
+        <Route exact path="*" element={<Navigate to="/authentication/sign-in" />} />
+      </Routes>
+    </>
+  );
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName={
-                <>
-                  {user?.info?.name}
-                  <br />
-                  {user?.info?.email}
-                  <br />
-                  {user?.info?.mobile}
-                </>
-              }
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            />
-            <Configurator />
-          </>
-        )}
-        {layout === "vr" && <Configurator />}
-        <Routes>
-          <Route exact path="/authentication/sign-in" element={<SignIn />} />
-          {getRoutes(routes)}
-          <Route exact path="*" element={<Navigate to="/authentication/sign-in" />} />
-        </Routes>
+        {renderContent()}
       </ThemeProvider>
     </CacheProvider>
   ) : (
     <AuthProvider>
       <ThemeProvider theme={darkMode ? themeDark : theme}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName={
-                <>
-                  {user?.info?.name}
-                  <br />
-                  {user?.info?.email}
-                  <br />
-                  {user?.info?.mobile}
-                </>
-              }
-              routes={routes}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            />
-            <Configurator />
-            {/* {configsButton} */}
-          </>
-        )}
-        {layout === "vr" && <Configurator />}
-        <Routes>
-          <Route exact path="/authentication/sign-in" element={<SignIn />} />
-          {getRoutes(routes)}
-          <Route exact path="*" element={<Navigate to="/authentication/sign-in" />} />
-        </Routes>
+        {renderContent()}
       </ThemeProvider>
     </AuthProvider>
   );
