@@ -27,6 +27,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
+import Typography from "@mui/material/Typography"; // Added for styled text
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -53,6 +54,7 @@ import {
   setOpenConfigurator,
 } from "context";
 import { Avatar } from "@mui/material";
+import borders from "assets/theme/base/borders";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -74,10 +76,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
 
-    /** 
-     The event listener that's calling the handleTransparentNavbar function when 
-     scrolling the window.
-    */
+    /**
+     * The event listener that's calling the handleTransparentNavbar function when
+     * scrolling the window.
+     */
     window.addEventListener("scroll", handleTransparentNavbar);
 
     // Call the handleTransparentNavbar function to set the state with the initial value.
@@ -156,24 +158,49 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </MDBox>
       )}
       <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
+        <MDBox
+          color="inherit"
+          mb={{ xs: 1, md: 0 }}
+          style={{
+            backgroundColor: "#78767B",
+            height: 60,
+            borderRadius: 5,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          sx={(theme) => navbarRow(theme, { isMini })}
+        >
+          {/* Premium User Text */}
+          <Typography
+            variant="h4"
+            sx={{
+              textDecoration: "underline",
+              color: "#fff",
+              fontWeight: "Bold",
+              ml: 2,
+            }}
+          >
+            Premium User
+          </Typography>
         </MDBox>
-        {/* <div
+        <div
           style={{
             display: "flex",
-            width: "98%",
             alignItems: "center",
             justifyContent: "flex-end",
             position: "absolute",
+            right: 0,
+            marginRight: "16px",
+            marginTop: 5,
           }}
         >
+          {/* Profile Avatar */}
           <Avatar
             src={require("../../../assets/images/web-logo.jpeg")}
             alt="Profile"
-            sx={{ width: isMini ? 50 : 70, height: isMini ? 50 : 70 }}
+            sx={{ width: isMini ? 50 : 50, height: isMini ? 50 : 50 }}
           />
-        </div> */}
+        </div>
       </Toolbar>
     </AppBar>
   );
