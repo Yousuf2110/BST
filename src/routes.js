@@ -53,6 +53,8 @@ import ProductRequest from "layouts/productRequest";
 import NewProductRequest from "layouts/newProductRequest";
 import AddProduct from "layouts/addProduct";
 import NewProductList from "layouts/newProductList";
+import { Leaderboard } from "@mui/icons-material";
+import Courses from "layouts/courses";
 
 const routes = [
   {
@@ -72,6 +74,14 @@ const routes = [
     route: "/withdraw-history",
     component: <WithdrawHistory />,
   },
+  {
+    type: "collapse",
+    name: "Lead Board",
+    key: "lead-board",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/lead-board",
+    component: <Leaderboard />,
+  },
   // My Tree
   {
     type: "collapse",
@@ -89,6 +99,15 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/reward-list",
     component: <RewardList />,
+  },
+  // Courses
+  {
+    type: "collapse",
+    name: "Courses",
+    key: "courses",
+    icon: <Icon fontSize="small">notifications</Icon>,
+    route: "/courses",
+    component: <Courses />,
   },
   // Product List
   {

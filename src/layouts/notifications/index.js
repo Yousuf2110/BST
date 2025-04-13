@@ -187,7 +187,7 @@ function ProductList() {
       </Button>
       {/* Product List */}
       <Grid container spacing={3}>
-        {filteredProducts.length > 0 && (
+        {filteredProducts.length > 0 &&
           filteredProducts.map((product) => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
               <Card>
@@ -229,8 +229,7 @@ function ProductList() {
                 </CardActions>
               </Card>
             </Grid>
-          ))
-        )}
+          ))}
       </Grid>
 
       {/* Purchase Form Modal */}
@@ -356,10 +355,19 @@ function ProductList() {
                   )}
                 </Grid>
               </MDBox>
-              <Typography variant="h5" gutterBottom sx={{ fontSize: { xs: "1.25rem", md: "1.5rem" } }} mt={2}>
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ fontSize: { xs: "1.25rem", md: "1.5rem" } }}
+                mt={2}
+              >
                 {selectedProduct.name}
               </Typography>
-              <Typography variant="body1" gutterBottom sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}>
+              <Typography
+                variant="body1"
+                gutterBottom
+                sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}
+              >
                 {selectedProduct.description}
               </Typography>
               <Typography variant="body2" sx={{ fontSize: { xs: "0.75rem", md: "0.875rem" } }}>
@@ -370,7 +378,7 @@ function ProductList() {
         </Box>
       </Modal>
       <ToastContainer />
-    </DashboardLayout >
+    </DashboardLayout>
   );
 }
 

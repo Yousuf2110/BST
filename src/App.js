@@ -19,6 +19,9 @@ import brandDark from "assets/images/logo-ct-dark.png";
 import { AuthProvider } from "context/AuthContext";
 import ProtectedRoute from "protectedRoutes";
 import SignIn from "layouts/authentication/sign-in";
+import { IconButton, Typography } from "@mui/material"; // For Material-UI components
+import VisibilityIcon from "@mui/icons-material/Visibility"; // Eye icon
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"; // Hidden eye icon
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -36,18 +39,27 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
-  const userData = localStorage.getItem("userData");
+  // Retrieve user data from localStorage
   let user = null;
+  const userData = localStorage.getItem("userData");
   if (userData) {
     try {
       user = JSON.parse(userData);
     } catch (error) {
       console.error("Error parsing user data:", error);
+      localStorage.removeItem("userData"); // Clear invalid data
     }
+  } else {
+    // Redirect to sign-in if no user data is found
+    return <Navigate to="/authentication/sign-in" />;
   }
 
+  // State to toggle visibility of user info
+  const [showUserInfo, setShowUserInfo] = useState(true);
+
+  // Filter routes based on user permissions
   const filteredRoutes = useMemo(() => {
-    if (!user?.product) {
+    if (!user?.product || typeof user.product !== "string") {
       return routes.filter(
         (route) => !["product-lists", "product-request", "add-product"].includes(route.key)
       );
@@ -55,6 +67,7 @@ export default function App() {
     return routes;
   }, [user?.product]);
 
+  // Initialize RTL cache
   useMemo(() => {
     const cacheRtl = createCache({
       key: "rtl",
@@ -63,6 +76,7 @@ export default function App() {
     setRtlCache(cacheRtl);
   }, []);
 
+  // Handle sidenav toggle on mouse enter/leave
   const handleOnMouseEnter = () => {
     if (miniSidenav && !onMouseEnter) {
       setMiniSidenav(dispatch, false);
@@ -77,27 +91,30 @@ export default function App() {
     }
   };
 
+  // Open configurator
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
+  // Update document direction
   useEffect(() => {
     document.body.setAttribute("dir", direction);
   }, [direction]);
 
+  // Reset scroll position on route change
   useEffect(() => {
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
   }, [pathname]);
 
+  // Render routes
   const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
+    allRoutes.flatMap((route) => {
       if (route.collapse) {
         return getRoutes(route.collapse);
       }
 
-      if (route.route) {
+      if (route.route && route.component) {
         return (
           <Route
-            exact
             path={route.route}
             element={<ProtectedRoute>{route.component}</ProtectedRoute>}
             key={route.key}
@@ -107,6 +124,7 @@ export default function App() {
       return null;
     });
 
+  // Render content
   const renderContent = () => (
     <>
       <CssBaseline />
@@ -117,14 +135,31 @@ export default function App() {
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName={
               <>
-                {user?.info?.name}
-                <br />
-                {user?.info?.email}
-                <br />
-                {user?.info?.mobile}
+                {/* Display user info based on showUserInfo state */}
+                {showUserInfo ? (
+                  <>
+                    {user?.info?.name || "Guest"}
+                    <br />
+                    {user?.info?.email || "No Email"}
+                    <br />
+                    {user?.info?.mobile || "No Mobile"}
+                  </>
+                ) : (
+                  <>
+                    <>********</>
+                    <br />
+                    <>********</>
+                    <br />
+                    <>********</>
+                  </>
+                )}
+                {/* Toggle visibility icon */}
+                <IconButton onClick={() => setShowUserInfo(!showUserInfo)}>
+                  {showUserInfo ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
               </>
             }
-            routes={filteredRoutes} // Use filtered routes here
+            routes={filteredRoutes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
@@ -134,23 +169,19 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         <Route exact path="/authentication/sign-in" element={<SignIn />} />
-        {getRoutes(filteredRoutes)} // Use filtered routes here
-        <Route exact path="*" element={<Navigate to="/authentication/sign-in" />} />
+        {getRoutes(filteredRoutes)}
+        <Route exact path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </>
   );
 
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-        {renderContent()}
-      </ThemeProvider>
+      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>{renderContent()}</ThemeProvider>
     </CacheProvider>
   ) : (
     <AuthProvider>
-      <ThemeProvider theme={darkMode ? themeDark : theme}>
-        {renderContent()}
-      </ThemeProvider>
+      <ThemeProvider theme={darkMode ? themeDark : theme}>{renderContent()}</ThemeProvider>
     </AuthProvider>
   );
 }

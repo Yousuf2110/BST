@@ -130,8 +130,8 @@ function CreateAccount() {
               Create Account
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              تمام ڈیٹا تسلی سے لکھ کر چیک کریں اور پھر &quot;اکاؤنٹ کریئیٹ&quot; پر کلک کریں، بعد
-              میں کمپنی ذمہ دار نہیں ہوگی۔
+              تمام ڈیٹا تسلی سے لکھ کر چیک کریں اور پھر "Create Account" پر کلک کریں۔ اکاؤنٹ بننے کے
+              بعد ڈیٹا چینج نہیں ہوتا !
             </MDTypography>
           </MDBox>
 
@@ -188,7 +188,7 @@ function CreateAccount() {
                   name="number"
                   type="number"
                   variant="outlined"
-                  placeholder="نئے کلائنٹ کا ایزی پیسہ یا جیز کیش نمبر درج کریں۔"
+                  placeholder="نئے صارف کا اکاؤنٹ نمبر لکھیں"
                   value={formData.number}
                   onChange={handleChange}
                   InputProps={{

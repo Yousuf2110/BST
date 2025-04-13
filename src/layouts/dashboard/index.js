@@ -13,7 +13,6 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import WalletIcon from "@mui/icons-material/Wallet";
 import MDTypography from "components/MDTypography";
-import { Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 
 const modalStyle = {
   position: "absolute",
@@ -37,7 +36,6 @@ function Dashboard() {
 
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
-  const [showTermsModal, setShowTermsModal] = useState(false);
 
   const handleOpenModal = (content) => {
     setModalContent(content);

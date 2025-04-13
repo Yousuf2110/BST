@@ -1,43 +1,15 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect } from "react";
-
-// react-router components
 import { useLocation, Link } from "react-router-dom";
-
-// prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
-
-// @material-ui core components
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
-import Typography from "@mui/material/Typography"; // Added for styled text
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
-
-// Material Dashboard 2 React example components
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
-
-// Custom styles for DashboardNavbar
 import {
   navbar,
   navbarContainer,
@@ -45,47 +17,36 @@ import {
   navbarIconButton,
   navbarMobileMenu,
 } from "examples/Navbars/DashboardNavbar/styles";
-
-// Material Dashboard 2 React context
 import {
   useMaterialUIController,
   setTransparentNavbar,
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
-import { Avatar } from "@mui/material";
-import borders from "assets/theme/base/borders";
+import { Avatar, Typography } from "@mui/material";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
   const [openMenu, setOpenMenu] = useState(false);
+  const [profileImage, setProfileImage] = useState(null); // State to store the selected image
   const route = useLocation().pathname.split("/").slice(1);
 
   useEffect(() => {
-    // Setting the navbar type
     if (fixedNavbar) {
       setNavbarType("sticky");
     } else {
       setNavbarType("static");
     }
 
-    // A function that sets the transparent state of the navbar.
     function handleTransparentNavbar() {
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
 
-    /**
-     * The event listener that's calling the handleTransparentNavbar function when
-     * scrolling the window.
-     */
     window.addEventListener("scroll", handleTransparentNavbar);
-
-    // Call the handleTransparentNavbar function to set the state with the initial value.
     handleTransparentNavbar();
 
-    // Remove event listener on cleanup
     return () => window.removeEventListener("scroll", handleTransparentNavbar);
   }, [dispatch, fixedNavbar]);
 
@@ -94,7 +55,17 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
 
-  // Render the notifications menu
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result); // Set the image URL in state
+      };
+      reader.readAsDataURL(file); // Convert the file to a data URL
+    }
+  };
+
   const renderMenu = () => (
     <Menu
       anchorEl={openMenu}
@@ -113,7 +84,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
     </Menu>
   );
 
-  // Styles for the navbar icons
   const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
     color: () => {
       let colorValue = light || darkMode ? white.main : dark.main;
@@ -158,48 +128,52 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </MDBox>
       )}
       <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <MDBox
-          color="inherit"
-          mb={{ xs: 1, md: 0 }}
-          style={{
-            backgroundColor: "#78767B",
-            height: 60,
-            borderRadius: 5,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          sx={(theme) => navbarRow(theme, { isMini })}
-        >
-          {/* Premium User Text */}
-          <Typography
-            variant="h4"
-            sx={{
-              textDecoration: "underline",
-              color: "#fff",
-              fontWeight: "Bold",
-              ml: 2,
-            }}
-          >
-            Premium User
-          </Typography>
+        <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+          <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
         </MDBox>
         <div
           style={{
             display: "flex",
+            width: "98%",
             alignItems: "center",
             justifyContent: "flex-end",
             position: "absolute",
-            right: 0,
-            marginRight: "16px",
-            marginTop: 5,
           }}
         >
-          {/* Profile Avatar */}
-          <Avatar
-            src={require("../../../assets/images/web-logo.jpeg")}
-            alt="Profile"
-            sx={{ width: isMini ? 50 : 50, height: isMini ? 50 : 50 }}
+          {/* Hidden file input for image upload */}
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            id="profile-image-upload"
+            onChange={handleImageUpload}
           />
+          {/* Container for Profile Pic and Text */}
+          <label htmlFor="profile-image-upload" style={{ textAlign: "center" }}>
+            <Avatar
+              src={profileImage || require("../../../assets/images/web-logo.jpeg")}
+              alt="Profile"
+              sx={{
+                width: isMini ? 50 : 70,
+                height: isMini ? 50 : 70,
+                cursor: "pointer",
+              }}
+            />
+            <Typography
+              variant="caption"
+              sx={{
+                display: "block",
+                marginTop: "4px",
+                color: light ? "white" : "text.primary",
+                fontWeight: "bold", // Font weight
+                fontFamily: "Arial, sans-serif", // Font family
+                fontSize: "12px", // Font size
+                textDecoration: "underline", // Underline
+              }}
+            >
+              Lite User
+            </Typography>
+          </label>
         </div>
       </Toolbar>
     </AppBar>
