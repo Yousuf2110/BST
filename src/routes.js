@@ -53,8 +53,8 @@ import ProductRequest from "layouts/productRequest";
 import NewProductRequest from "layouts/newProductRequest";
 import AddProduct from "layouts/addProduct";
 import NewProductList from "layouts/newProductList";
-import { Leaderboard } from "@mui/icons-material";
 import Courses from "layouts/courses";
+import LeadBoard from "layouts/leaderboard";
 
 const routes = [
   {
@@ -80,7 +80,7 @@ const routes = [
     key: "lead-board",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/lead-board",
-    component: <Leaderboard />,
+    component: <LeadBoard />,
   },
   // My Tree
   {

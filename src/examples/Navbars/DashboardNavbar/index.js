@@ -7,30 +7,38 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
-import MDInput from "components/MDInput";
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
 import {
   navbar,
   navbarContainer,
   navbarRow,
-  navbarIconButton,
   navbarMobileMenu,
 } from "examples/Navbars/DashboardNavbar/styles";
-import {
-  useMaterialUIController,
-  setTransparentNavbar,
-  setMiniSidenav,
-  setOpenConfigurator,
-} from "context";
+import { useMaterialUIController, setTransparentNavbar, setMiniSidenav } from "context";
 import { Avatar, Typography } from "@mui/material";
+import axios from "axios"; // Import axios for API calls
 
 function DashboardNavbar({ absolute, light, isMini }) {
+  const [userDataString] = useState(localStorage.getItem("userData"));
+  const userData = userDataString ? JSON.parse(userDataString) : null;
+
+  let userType = "Lite User";
+  if (userData?.user_count === 1 || userData?.user_count === 2) {
+    userType = "Lite User";
+  } else if ([3, 4, 5, 6].includes(userData?.user_count)) {
+    userType = "Standard User";
+  } else if (userData?.user_count === 7) {
+    userType = "Premium User";
+  }
+
+  console.log("image", userData?.info?.profile_image);
+
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
   const [openMenu, setOpenMenu] = useState(false);
-  const [profileImage, setProfileImage] = useState(null); // State to store the selected image
+  const [profileImage, setProfileImage] = useState(null);
   const route = useLocation().pathname.split("/").slice(1);
 
   useEffect(() => {
@@ -51,18 +59,43 @@ function DashboardNavbar({ absolute, light, isMini }) {
   }, [dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
-  const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
 
-  const handleImageUpload = (event) => {
+  // Handle image upload
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result); // Set the image URL in state
-      };
-      reader.readAsDataURL(file); // Convert the file to a data URL
+    if (!file) return;
+
+    try {
+      // Create FormData and append the file
+      const formData = new FormData();
+      formData.append("profile_image", file);
+
+      // Make the API request to update the profile picture
+      const token = userData?.token; // Assuming the token is stored in the user object
+      const response = await axios.post(
+        "https://backend.salespronetworks.com/api/update-profile-picture",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setProfileImage(URL.createObjectURL(file) || userData?.info?.profile_image);
+      if (response.data.profile_image) {
+        const updatedUserData = {
+          ...userData,
+          info: { ...userData.info, profile_image: response.data.profile_image },
+        };
+        localStorage.setItem("userData", JSON.stringify(updatedUserData));
+      }
+
+      console.log("Profile picture updated:", response.data);
+    } catch (error) {
+      console.error("Error updating profile picture:", error);
     }
   };
 
@@ -151,7 +184,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
           {/* Container for Profile Pic and Text */}
           <label htmlFor="profile-image-upload" style={{ textAlign: "center" }}>
             <Avatar
-              src={profileImage || require("../../../assets/images/web-logo.jpeg")}
+              src={
+                profileImage ||
+                userData?.info?.profile_image ||
+                require("../../../assets/images/web-logo.jpeg")
+              }
               alt="Profile"
               sx={{
                 width: isMini ? 50 : 70,
@@ -165,13 +202,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 display: "block",
                 marginTop: "4px",
                 color: light ? "white" : "text.primary",
-                fontWeight: "bold", // Font weight
-                fontFamily: "Arial, sans-serif", // Font family
-                fontSize: "12px", // Font size
-                textDecoration: "underline", // Underline
+                fontWeight: "bold",
+                fontFamily: "Arial, sans-serif",
+                fontSize: "12px",
+                textDecoration: "underline",
               }}
             >
-              Lite User
+              {userType}
             </Typography>
           </label>
         </div>
@@ -180,14 +217,12 @@ function DashboardNavbar({ absolute, light, isMini }) {
   );
 }
 
-// Setting default values for the props of DashboardNavbar
 DashboardNavbar.defaultProps = {
   absolute: false,
   light: false,
   isMini: false,
 };
 
-// Typechecking props for the DashboardNavbar
 DashboardNavbar.propTypes = {
   absolute: PropTypes.bool,
   light: PropTypes.bool,
