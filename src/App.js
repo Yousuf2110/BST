@@ -131,29 +131,36 @@ export default function App() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName={
-              <>
-                {/* Display user info based on showUserInfo state */}
-                {showUserInfo ? (
-                  <>
+              // <>
+              //   {/* Display user info based on showUserInfo state */}
+              //   {showUserInfo ? (
+              //     <>
+              //       {user?.info?.name || "Guest"}
+              //       <br />
+              //       {user?.info?.email || "No Email"}
+              //       <br />
+              //       {user?.info?.mobile || "No Mobile"}
+              //     </>
+              //   ) : (
+              //     <>
+              //       <>********</>
+              //       <br />
+              //       <>********</>
+              //       <br />
+              //       <>********</>
+              //     </>
+              //   )}
+              //   {/* Toggle visibility icon */}
+              //   <IconButton onClick={() => setShowUserInfo(!showUserInfo)}>
+              //     {showUserInfo ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              //   </IconButton>
+                <>
                     {user?.info?.name || "Guest"}
                     <br />
                     {user?.info?.email || "No Email"}
                     <br />
                     {user?.info?.mobile || "No Mobile"}
                   </>
-                ) : (
-                  <>
-                    <>********</>
-                    <br />
-                    <>********</>
-                    <br />
-                    <>********</>
-                  </>
-                )}
-                {/* Toggle visibility icon */}
-                <IconButton onClick={() => setShowUserInfo(!showUserInfo)}>
-                  {showUserInfo ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </IconButton>
               </>
             }
             routes={filteredRoutes}

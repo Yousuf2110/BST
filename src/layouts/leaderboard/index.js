@@ -50,18 +50,19 @@ const LeadBoard = () => {
         );
 
         const apiData = response.data?.data;
-        const mappedRows = apiData.map((item) => ({
+
+        const filteredData = apiData.filter((item) => parseInt(item.earning) > 2000);
+
+        const mappedRows = filteredData.map((item) => ({
           name: item.name || "N/A",
-          email: item.email || "N/A",
-          rank: item.rank || "N/A",
-          earning: `$${parseFloat(item.earning).toFixed(2)}` || "N/A", // Format earnings as currency
+          rank: item.rank || 0,
+          earning: `${parseInt(item.earning).toLocaleString()}` || "0",
         }));
 
         // Set the table data
         setTableData({
           columns: [
             { Header: "Name", accessor: "name" },
-            { Header: "Email", accessor: "email" },
             { Header: "Rank", accessor: "rank" },
             { Header: "Earning", accessor: "earning" },
           ],
