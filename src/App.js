@@ -154,13 +154,12 @@ export default function App() {
               //   <IconButton onClick={() => setShowUserInfo(!showUserInfo)}>
               //     {showUserInfo ? <VisibilityOffIcon /> : <VisibilityIcon />}
               //   </IconButton>
-                <>
-                    {user?.info?.name || "Guest"}
-                    <br />
-                    {user?.info?.email || "No Email"}
-                    <br />
-                    {user?.info?.mobile || "No Mobile"}
-                  </>
+              <>
+                {user?.info?.name || "Guest"}
+                <br />
+                {user?.info?.email || "No Email"}
+                <br />
+                {user?.info?.mobile || "No Mobile"}
               </>
             }
             routes={filteredRoutes}
