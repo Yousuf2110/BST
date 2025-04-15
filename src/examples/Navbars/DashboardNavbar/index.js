@@ -18,6 +18,7 @@ import {
 import { useMaterialUIController, setTransparentNavbar, setMiniSidenav } from "context";
 import { Avatar, Typography } from "@mui/material";
 import axios from "axios"; // Import axios for API calls
+import { useAuth } from "context/AuthContext";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [userDataString] = useState(localStorage.getItem("userData"));
@@ -38,7 +39,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
   const [openMenu, setOpenMenu] = useState(false);
-  const [profileImage, setProfileImage] = useState(null);
+  const { profileImage, setProfileImage } = useAuth();
   const route = useLocation().pathname.split("/").slice(1);
 
   useEffect(() => {
@@ -186,7 +187,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
             <Avatar
               src={
                 profileImage ||
-                userData?.info?.profile_image ||
                 require("../../../assets/images/web-logo.jpeg")
               }
               alt="Profile"

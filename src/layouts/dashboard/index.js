@@ -13,6 +13,7 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import WalletIcon from "@mui/icons-material/Wallet";
 import MDTypography from "components/MDTypography";
+import { useAuth } from "context/AuthContext";
 
 const modalStyle = {
   position: "absolute",
@@ -36,6 +37,8 @@ function Dashboard() {
 
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
+  const { setProfileImage } = useAuth();
+
 
   const handleOpenModal = (content) => {
     setModalContent(content);
@@ -71,7 +74,7 @@ function Dashboard() {
             },
           }
         );
-
+        setProfileImage(response.data?.profile_image)
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
