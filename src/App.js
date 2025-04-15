@@ -47,11 +47,7 @@ export default function App() {
       user = JSON.parse(userData);
     } catch (error) {
       console.error("Error parsing user data:", error);
-      localStorage.removeItem("userData"); // Clear invalid data
     }
-  } else {
-    // Redirect to sign-in if no user data is found
-    return <Navigate to="/authentication/sign-in" />;
   }
 
   // State to toggle visibility of user info
@@ -59,7 +55,7 @@ export default function App() {
 
   // Filter routes based on user permissions
   const filteredRoutes = useMemo(() => {
-    if (!user?.product || typeof user.product !== "string") {
+    if (!user?.product) {
       return routes.filter(
         (route) => !["product-lists", "product-request", "add-product"].includes(route.key)
       );
@@ -107,14 +103,15 @@ export default function App() {
 
   // Render routes
   const getRoutes = (allRoutes) =>
-    allRoutes.flatMap((route) => {
+    allRoutes.map((route) => {
       if (route.collapse) {
         return getRoutes(route.collapse);
       }
 
-      if (route.route && route.component) {
+      if (route.route) {
         return (
           <Route
+            exact
             path={route.route}
             element={<ProtectedRoute>{route.component}</ProtectedRoute>}
             key={route.key}
@@ -170,7 +167,7 @@ export default function App() {
       <Routes>
         <Route exact path="/authentication/sign-in" element={<SignIn />} />
         {getRoutes(filteredRoutes)}
-        <Route exact path="*" element={<Navigate to="/dashboard" />} />
+        <Route exact path="*" element={<Navigate to="/authentication/sign-in" />} />
       </Routes>
     </>
   );
