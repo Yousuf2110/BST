@@ -7,39 +7,34 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DataTable from "examples/Tables/DataTable";
+import CircularProgress from "@mui/material/CircularProgress"; // For loader
 
 const LeadBoard = () => {
   const [tableData, setTableData] = useState({ columns: [], rows: [] });
+  const [loading, setLoading] = useState(true); // State to track loading
+  const [error, setError] = useState(null); // State to track errors
   const userData = localStorage.getItem("userData");
-  let user = null;
 
-  if (userData) {
-    try {
-      user = JSON.parse(userData);
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-    }
+  // Parse user data once
+  let user = null;
+  try {
+    user = userData ? JSON.parse(userData) : null;
+  } catch (err) {
+    console.error("Error parsing user data:", err);
+    setError("Failed to parse user data.");
   }
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Active":
-        return "green";
-      case "Achieved":
-        return "yellow";
-      case "Upcoming":
-        return "blue";
-      case "Non-active":
-        return "#A9A9A9";
-      default:
-        return "#A9A9A9";
-    }
-  };
-
   useEffect(() => {
+    // Ensure this function runs only once
     const fetchData = async () => {
       try {
+        // Validate token
         const token = user?.token;
+        if (!token) {
+          throw new Error("No token available.");
+        }
+
+        console.log("Fetching leaderboard data...");
         const response = await axios.get(
           "https://backend.salespronetworks.com/api/leaderboard/top-earners",
           {
@@ -49,23 +44,32 @@ const LeadBoard = () => {
           }
         );
 
-        const apiData = response.data?.data;
+        // Log API response for debugging
+        console.log("API Response:", response.data);
 
+        // Process API data
+        const apiData = response.data?.data;
+        if (!apiData || !Array.isArray(apiData)) {
+          throw new Error("Invalid API data format.");
+        }
+
+        // Filter and map the data
         const filteredData = apiData.filter((item) => parseInt(item.earning) > 2000);
 
-        // Add an index+1 column and handle profile images
         const mappedRows = filteredData.map((item, index) => ({
-          index: index + 1, // Add 1 to the zero-based index
-          profileImage: item.profile_image || "/path/to/default/image.png", // Use a default image if profile_image is null
+          index: index + 1,
+          profileImage: item.profile_image
+            ? item.profile_image.replace(/\\/g, "/")
+            : "/default-image.png",
           name: item.name || "N/A",
           rank: item.rank || 0,
-          earning: `${parseInt(item.earning).toLocaleString()}` || 0,
+          earning: `${parseInt(item.earning).toLocaleString()}` || "0",
         }));
 
-        // Set the table data with an additional "Index" and "Profile Image" column
+        // Update table data
         setTableData({
           columns: [
-            { Header: "#", accessor: "index" }, // Index column
+            { Header: "#", accessor: "index" },
             {
               Header: "Profile Image",
               accessor: "profileImage",
@@ -73,10 +77,13 @@ const LeadBoard = () => {
                 <img
                   src={value}
                   alt="Profile"
+                  onError={(e) => {
+                    e.target.src = "/default-image.png";
+                  }}
                   style={{ width: "50px", height: "50px", borderRadius: "50%" }}
                 />
               ),
-            }, // Profile image column
+            },
             { Header: "Name", accessor: "name" },
             { Header: "Rank", accessor: "rank" },
             { Header: "Earning", accessor: "earning" },
@@ -85,11 +92,15 @@ const LeadBoard = () => {
         });
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
+        setError("Failed to load leaderboard data.");
+      } finally {
+        setLoading(false); // Stop loading regardless of success or failure
       }
     };
 
+    // Call the API only once
     fetchData();
-  }, [user]);
+  }, []); // Empty dependency array ensures this runs only once
 
   return (
     <DashboardLayout>
@@ -113,7 +124,22 @@ const LeadBoard = () => {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                {tableData.rows.length === 0 ? (
+                {/* Show loader while data is loading */}
+                {loading && (
+                  <MDBox display="flex" justifyContent="center" alignItems="center" height="200px">
+                    <CircularProgress />
+                  </MDBox>
+                )}
+
+                {/* Show error message if there's an error */}
+                {error && (
+                  <MDTypography variant="body2" textAlign="center" color="error">
+                    {error}
+                  </MDTypography>
+                )}
+
+                {/* Show table if data is loaded and no error */}
+                {!loading && !error && tableData.rows.length === 0 ? (
                   <MDTypography variant="body2" textAlign="center">
                     No data available.
                   </MDTypography>

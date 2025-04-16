@@ -136,18 +136,18 @@ function Dashboard() {
 
   // Determine userType based on user_count
   const determineUserType = (userCount) => {
-    if (userCount === 1) {
+    if ([1, 2].includes(userCount)) {
       return "Lite User";
-    } else if ([3].includes(userCount)) {
-      return "Standard User";
+    } else if ([3, 4, 5, 6].includes(userCount)) {
+      return "Medium User";
     } else if (userCount === 7) {
       return "Premium User";
     } else {
-      return "Lite User"; // Default to Lite User if no match
+      return "Lite User";
     }
   };
 
-  const userType = determineUserType(user?.info?.user_count || 0);
+  const userType = determineUserType(user?.user_count || 1);
 
   return (
     <DashboardLayout>
