@@ -131,35 +131,28 @@ export default function App() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName={
-              // <>
-              //   {/* Display user info based on showUserInfo state */}
-              //   {showUserInfo ? (
-              //     <>
-              //       {user?.info?.name || "Guest"}
-              //       <br />
-              //       {user?.info?.email || "No Email"}
-              //       <br />
-              //       {user?.info?.mobile || "No Mobile"}
-              //     </>
-              //   ) : (
-              //     <>
-              //       <>********</>
-              //       <br />
-              //       <>********</>
-              //       <br />
-              //       <>********</>
-              //     </>
-              //   )}
-              //   {/* Toggle visibility icon */}
-              //   <IconButton onClick={() => setShowUserInfo(!showUserInfo)}>
-              //     {showUserInfo ? <VisibilityOffIcon /> : <VisibilityIcon />}
-              //   </IconButton>
               <>
-                {user?.info?.name || "Guest"}
-                <br />
-                {user?.info?.email || "No Email"}
-                <br />
-                {user?.info?.mobile || "No Mobile"}
+                {showUserInfo ? (
+                  <>
+                    {user?.info?.name || "Guest"}
+                    <br />
+                    {user?.info?.email || "No Email"}
+                    <br />
+                    {user?.info?.mobile || "No Mobile"}
+                  </>
+                ) : (
+                  <>
+                    <>********</>
+                    <br />
+                    <>********</>
+                    <br />
+                    <>********</>
+                  </>
+                )}
+                {/* Toggle visibility icon */}
+                <IconButton onClick={() => setShowUserInfo(!showUserInfo)}>
+                  {showUserInfo ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
               </>
             }
             routes={filteredRoutes}
@@ -173,7 +166,7 @@ export default function App() {
       <Routes>
         <Route exact path="/authentication/sign-in" element={<SignIn />} />
         {getRoutes(filteredRoutes)}
-        <Route exact path="*" element={<Navigate to="/authentication/sign-in" />} />
+        <Route exact path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </>
   );

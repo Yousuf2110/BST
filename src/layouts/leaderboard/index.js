@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios"; // Install axios if not already installed: npm install axios
+import axios from "axios";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
@@ -53,15 +53,30 @@ const LeadBoard = () => {
 
         const filteredData = apiData.filter((item) => parseInt(item.earning) > 2000);
 
-        const mappedRows = filteredData.map((item) => ({
+        // Add an index+1 column and handle profile images
+        const mappedRows = filteredData.map((item, index) => ({
+          index: index + 1, // Add 1 to the zero-based index
+          profileImage: item.profile_image || "/path/to/default/image.png", // Use a default image if profile_image is null
           name: item.name || "N/A",
           rank: item.rank || 0,
-          earning: `${parseInt(item.earning).toLocaleString()}` || "0",
+          earning: `${parseInt(item.earning).toLocaleString()}` || 0,
         }));
 
-        // Set the table data
+        // Set the table data with an additional "Index" and "Profile Image" column
         setTableData({
           columns: [
+            { Header: "#", accessor: "index" }, // Index column
+            {
+              Header: "Profile Image",
+              accessor: "profileImage",
+              Cell: ({ value }) => (
+                <img
+                  src={value}
+                  alt="Profile"
+                  style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                />
+              ),
+            }, // Profile image column
             { Header: "Name", accessor: "name" },
             { Header: "Rank", accessor: "rank" },
             { Header: "Earning", accessor: "earning" },
@@ -109,25 +124,6 @@ const LeadBoard = () => {
                     entriesPerPage={false}
                     showTotalEntries={false}
                     noEndBorder
-                    columns={tableData.columns.map((column) => ({
-                      Header: column.Header,
-                      accessor: column.accessor,
-                      Cell: (props) => {
-                        const { value } = props;
-                        if (column.accessor === "status") {
-                          return (
-                            <MDTypography
-                              variant="caption"
-                              color={getStatusColor(value)}
-                              fontWeight="medium"
-                            >
-                              {value}
-                            </MDTypography>
-                          );
-                        }
-                        return value;
-                      },
-                    }))}
                     sx={{
                       overflowX: "auto",
                       tableLayout: "auto",

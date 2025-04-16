@@ -184,11 +184,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
           />
           {/* Container for Profile Pic and Text */}
           <label htmlFor="profile-image-upload" style={{ textAlign: "center" }}>
-            <Avatar
-              src={
-                profileImage ||
-                require("../../../assets/images/web-logo.jpeg")
-              }
+            {/* <Avatar
+              src={profileImage || require("../../../assets/images/web-logo.jpeg")}
               alt="Profile"
               sx={{
                 width: isMini ? 50 : 70,
@@ -209,7 +206,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               }}
             >
               {userType}
-            </Typography>
+            </Typography> */}
           </label>
         </div>
       </Toolbar>

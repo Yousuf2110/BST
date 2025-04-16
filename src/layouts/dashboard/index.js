@@ -14,6 +14,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import WalletIcon from "@mui/icons-material/Wallet";
 import MDTypography from "components/MDTypography";
 import { useAuth } from "context/AuthContext";
+import { Avatar, CircularProgress, Toolbar, Typography } from "@mui/material";
 
 const modalStyle = {
   position: "absolute",
@@ -37,8 +38,9 @@ function Dashboard() {
 
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
-  const { setProfileImage } = useAuth();
-
+  const [profileImage, setProfileImage] = useState(null); // State for profile image
+  const [isLoading, setIsLoading] = useState(false); // State for loading indicator
+  const { setProfileImage: setGlobalProfileImage } = useAuth();
 
   const handleOpenModal = (content) => {
     setModalContent(content);
@@ -74,7 +76,7 @@ function Dashboard() {
             },
           }
         );
-        setProfileImage(response.data?.profile_image)
+        setProfileImage(response.data?.profile_image); // Set initial profile image
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -84,9 +86,130 @@ function Dashboard() {
     fetchData();
   }, []);
 
+  // Handle image upload
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setIsLoading(true); // Show loader
+
+    try {
+      // Create FormData and append the file
+      const formData = new FormData();
+      formData.append("profile_image", file);
+
+      // Make the API request to update the profile picture
+      const token = user?.info?.token; // Assuming the token is stored in the user object
+      const response = await axios.post(
+        "https://backend.salespronetworks.com/api/update-profile-picture",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      // Update local state with the uploaded image
+      setProfileImage(URL.createObjectURL(file) || userData?.info?.profile_image);
+
+      // Update global state if needed
+      setGlobalProfileImage(URL.createObjectURL(file) || userData?.info?.profile_image);
+
+      // Update user data in localStorage
+      if (response.data.profile_image) {
+        const updatedUserData = {
+          ...user,
+          info: { ...user.info, profile_image: response.data.profile_image },
+        };
+        localStorage.setItem("userData", JSON.stringify(updatedUserData));
+      }
+
+      console.log("Profile picture updated:", response.data);
+    } catch (error) {
+      console.error("Error updating profile picture:", error);
+    } finally {
+      setIsLoading(false); // Hide loader
+    }
+  };
+
+  // Determine userType based on user_count
+  const determineUserType = (userCount) => {
+    if (userCount === 1) {
+      return "Lite User";
+    } else if ([3].includes(userCount)) {
+      return "Standard User";
+    } else if (userCount === 7) {
+      return "Premium User";
+    } else {
+      return "Lite User"; // Default to Lite User if no match
+    }
+  };
+
+  const userType = determineUserType(user?.info?.user_count || 0);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <Toolbar>
+        <div
+          style={{
+            display: "flex",
+            width: "98%",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            position: "absolute",
+          }}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            id="profile-image-upload"
+            onChange={handleImageUpload} // Handle image upload
+          />
+          <label
+            htmlFor="profile-image-upload"
+            style={{
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {isLoading ? (
+              <CircularProgress size={70} />
+            ) : (
+              <Avatar
+                src={profileImage || undefined}
+                alt="Profile"
+                sx={{
+                  width: 70,
+                  height: 70,
+                  cursor: "pointer",
+                  border: "4px solid orange",
+                  borderRadius: "50%",
+                }}
+              />
+            )}
+            <Typography
+              variant="caption"
+              sx={{
+                display: "block",
+                marginTop: "8px", // Adjust spacing as needed
+                color: "#000",
+                fontWeight: "bold",
+                fontFamily: "Arial, sans-serif",
+                fontSize: "20px",
+                textDecoration: "underline",
+              }}
+            >
+              {userType || "Lite User"}
+            </Typography>
+          </label>
+        </div>
+      </Toolbar>
       <MDBox pt={-2} pb={0}>
         <MDTypography
           variant="h5"

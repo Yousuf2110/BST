@@ -130,8 +130,8 @@ function CreateAccount() {
               Create Account
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              تمام ڈیٹا تسلی سے لکھ کر چیک کریں اور پھر "Create Account" پر کلک کریں۔ اکاؤنٹ بننے کے
-              بعد ڈیٹا چینج نہیں ہوتا !
+              تمام ڈیٹا تسلی سے لکھ کر چیک کریں اور پھر "اکاؤنٹ بنائیں" پر کلک کریں۔ اکاؤنٹ بننے کے
+              بعد ڈیٹا تبدیل نہیں ہوتا!
             </MDTypography>
           </MDBox>
 
