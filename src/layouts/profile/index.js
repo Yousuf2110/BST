@@ -130,7 +130,7 @@ function CreateAccount() {
               Create Account
             </MDTypography>
             <MDTypography variant="body2" color="textSecondary">
-              تمام ڈیٹا تسلی سے لکھ کر چیک کریں اور پھر "اکاؤنٹ بنائیں" پر کلک کریں۔ اکاؤنٹ بننے کے
+              تمام ڈیٹا تسلی سے لکھ کر چیک کریں اور پھر کریئیٹ اکاؤنٹ پر کلک کریں۔ اکاؤنٹ بننے کے
               بعد ڈیٹا تبدیل نہیں ہوتا!
             </MDTypography>
           </MDBox>
@@ -261,8 +261,8 @@ function CreateAccount() {
                     onChange={handleChange}
                     row
                   >
-                    <FormControlLabel value="right" control={<Radio />} label="Right" />
                     <FormControlLabel value="left" control={<Radio />} label="Left" />
+                    <FormControlLabel value="right" control={<Radio />} label="Right" />
                   </RadioGroup>
                 </MDBox>
               </Grid>

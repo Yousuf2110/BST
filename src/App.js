@@ -166,7 +166,7 @@ export default function App() {
       <Routes>
         <Route exact path="/authentication/sign-in" element={<SignIn />} />
         {getRoutes(filteredRoutes)}
-        <Route exact path="*" element={<Navigate to="/dashboard" />} />
+        <Route exact path="*" element={<Navigate to="/authentication/sign-in" />} />
       </Routes>
     </>
   );
