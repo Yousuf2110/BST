@@ -54,7 +54,7 @@ const LeadBoard = () => {
         }
 
         // Filter and map the data
-        const filteredData = apiData.filter((item) => parseInt(item.earning) > 2000);
+        const filteredData = apiData.filter((item) => parseInt(item.earning) > 1000);
 
         const mappedRows = filteredData.map((item, index) => ({
           index: index + 1,

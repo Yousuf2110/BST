@@ -140,7 +140,7 @@ function Dashboard() {
       return "Lite User";
     } else if ([3, 4, 5, 6].includes(userCount)) {
       return "Medium User";
-    } else if (userCount >= 7) {
+    } else if (userCount === 7) {
       return "Premium User";
     } else {
       return "Lite User";
