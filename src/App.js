@@ -57,7 +57,7 @@ export default function App() {
   const filteredRoutes = useMemo(() => {
     if (!user?.product) {
       return routes.filter(
-        (route) => !["product-lists", "product-request", "add-product"].includes(route.key)
+        (route) => !["product-lists/", "product-request", "add-product"].includes(route.key)
       );
     }
     return routes;
