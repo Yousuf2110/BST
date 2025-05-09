@@ -54,7 +54,7 @@ const LeadBoard = () => {
         }
 
         // Filter and map the data
-        const filteredData = apiData.filter((item) => parseInt(item.earning) > 1000);
+        const filteredData = apiData.filter((item) => parseInt(item.earning) >= 1000);
 
         const mappedRows = filteredData.map((item, index) => ({
           index: index + 1,
@@ -65,24 +65,23 @@ const LeadBoard = () => {
           rank: item.rank || 0,
           earning: `${parseInt(item.earning).toLocaleString()}` || "0",
         }));
-
-        // Update table data
         setTableData({
           columns: [
             { Header: "#", accessor: "index" },
             {
               Header: "Profile Image",
               accessor: "profileImage",
-              Cell: ({ value }) => (
-                <img
-                  src={value}
-                  alt="Profile"
-                  onError={(e) => {
-                    e.target.src = "/default-image.png";
-                  }}
-                  style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                />
-              ),
+              Cell: ({ value }) => {
+                const src = value ? value : "../../assets/images/logo-2.png";
+
+                return (
+                  <img
+                    src={src}
+                    alt="Profile"
+                    style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                  />
+                );
+              },
             },
             { Header: "Name", accessor: "name" },
             { Header: "Rank", accessor: "rank" },
