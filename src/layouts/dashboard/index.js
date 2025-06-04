@@ -287,7 +287,7 @@ function Dashboard() {
             handleOpenModal({
               title: "Contact Us",
               body: `
-        Helpline Number: 03135178113 (WhatsApp)
+        Helpline Number: 03100880592 (WhatsApp)
         
         السلام علیکم،
         کسی بھی قسم کی معلومات یا ٹیکنیکل مسائل کے حل کے لیے آپ اس نمبر پر ہم سے رابطہ کر سکتے ہیں۔
