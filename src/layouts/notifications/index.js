@@ -256,7 +256,7 @@ function ProductList() {
             margin="normal"
           />
           <TextField
-            label="واٹس ایپ نمبر لکھیں  Active اپنا"
+            label="اپنا Active SIM والا نمبر لکھیں"
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
@@ -264,7 +264,7 @@ function ProductList() {
             margin="normal"
           />
           <TextField
-            label="یہاں پر شناختی کارڈ پہ موجود ایڈریس اور پوسٹل کوڈ لکھیں"
+            label="اپنا قریبی TCS آفس کا ایڈریس لکھیں"
             name="address"
             value={formData.address}
             onChange={handleInputChange}
