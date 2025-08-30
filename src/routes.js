@@ -14,6 +14,8 @@ import AddProduct from "layouts/addProduct";
 import NewProductList from "layouts/newProductList";
 import Courses from "layouts/courses";
 import LeadBoard from "layouts/leaderboard";
+import ProductCard from "layouts/ecommerceproducts";
+import ECommerceProductRequest from "layouts/ecommerceproductsRequest";
 
 const routes = [
   {
@@ -142,6 +144,22 @@ const routes = [
     icon: <Icon fontSize="small">password</Icon>,
     route: "/change-password",
     component: <ChangePassword />,
+  },
+  {
+    type: "collapse",
+    name: "E-Commerce",
+    key: "e-commerce",
+    icon: <Icon fontSize="small">shopping_cart</Icon>,
+    route: "/e-commerce",
+    component: <ProductCard />,
+  },
+  {
+    type: "collapse",
+    name: "Request E-Commerce",
+    key: "request-e-commerce",
+    icon: <Icon fontSize="small">shopping_cart</Icon>,
+    route: "/request-e-commerce",
+    component: <ECommerceProductRequest />,
   },
 ];
 
