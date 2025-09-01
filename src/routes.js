@@ -114,14 +114,6 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Product List",
-    key: "product-lists",
-    icon: <Icon fontSize="small">list_alt</Icon>,
-    route: "/product-lists",
-    component: <NewProductList />,
-  },
-  {
-    type: "collapse",
     name: "Product Requests",
     key: "product-request",
     icon: <Icon fontSize="small">request_quote</Icon>,
@@ -136,7 +128,6 @@ const routes = [
     route: "/add-product",
     component: <AddProduct />,
   },
-  // Change Password
   {
     type: "collapse",
     name: "Change Password",
