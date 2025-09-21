@@ -64,9 +64,9 @@ function CreateAccount() {
     const payload = {
       token: formData?.pinToken,
       name: formData.username,
-      email: formData.email,
+      email: formData.email.toLowerCase(),
       mobile: formData.number,
-      sponsor: formData.underUserId,
+      sponsor: formData.underUserId.toLowerCase(),
       position: formData.direction,
       bank: formData.bank,
       account_title: formData.accountTitle,
